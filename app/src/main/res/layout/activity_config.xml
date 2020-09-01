@@ -9,50 +9,58 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MotoristaActivity">
+    tools:context=".ConfigActivity">
 
     <TextView
-        android:id="@+id/txtTituloPassageiro"
-        style="@style/TextViewTituloLista"
-        android:text="@string/texto_motorista" />
-
-    <TextView
-        android:id="@+id/txtRetPassageiro"
+        android:id="@+id/textViewEquipConfig"
         style="@style/TextView"
-        android:text="@string/texto_func_matric" />
-
-    <Button
-        android:id="@+id/buttonAcionarCamera"
-        style="@style/BotaoAvulso"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/texto_pega_matric" />
+        android:text="@string/texto_equip" />
+
+    <EditText
+        android:id="@+id/editTextEquipConfig"
+        style="@style/EditView"
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/textViewSenhaConfig"
+        style="@style/TextView"
+        android:text="@string/texto_senha" />
+
+    <EditText
+        android:id="@+id/editTextSenhaConfig"
+        style="@style/EditView"
+        android:inputType="text" >
+        <requestFocus />
+    </EditText>
 
     <LinearLayout
         android:id="@+id/rightRelativeLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/buttonOkPassageiro"
-            style="@style/BotaoAvulso"
-            android:layout_weight="1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/texto_padrao_ok" />
-
-        <Button
-            android:id="@+id/buttonCancPassageiro"
+            android:id="@+id/buttonCancConfig"
             style="@style/BotaoAvulso"
             android:layout_weight="1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/texto_padrao_cancelar" />
 
+        <Button
+            android:id="@+id/buttonSalvarConfig"
+            style="@style/BotaoAvulso"
+            android:layout_weight="1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/texto_padrao_salvar" />
+
     </LinearLayout>
 
     <Button
-        android:id="@+id/buttonAtualPadrao"
+        android:id="@+id/buttonAtualizarBD"
         style="@style/BotaoAvulso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

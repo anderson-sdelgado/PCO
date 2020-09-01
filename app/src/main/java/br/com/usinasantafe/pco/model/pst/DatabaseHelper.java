@@ -9,11 +9,12 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
 import br.com.usinasantafe.pco.model.bean.estaticas.ColabBean;
+import br.com.usinasantafe.pco.model.bean.estaticas.MotoristaBean;
 import br.com.usinasantafe.pco.model.bean.estaticas.TurnoBean;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
-	public static final String FORCA_DB_NAME = "pru_db";
+	public static final String FORCA_DB_NAME = "pco_db";
 	public static final int FORCA_BD_VERSION = 1;
 
 	private static DatabaseHelper instance;
@@ -43,6 +44,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		try{
 
 			TableUtils.createTable(cs, ColabBean.class);
+			TableUtils.createTable(cs, MotoristaBean.class);
 			TableUtils.createTable(cs, TurnoBean.class);
 
 		}

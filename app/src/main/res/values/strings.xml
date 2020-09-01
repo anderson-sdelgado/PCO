@@ -105,7 +105,7 @@
     <string name="preferences_remember_duplicates_summary">Store multiple scans of the same barcode in History</string>
     <string name="preferences_remember_duplicates_title">Remember duplicates</string>
     <string name="preferences_result_title">Result settings</string>
-    <string name="preferences_scanning_title">When scanning for barcodes, decode\u2026</string>
+    <string name="preferences_scanning_title">When scanning for barcodes, decode</string>
     <string name="preferences_search_country">Search country</string>
     <string name="preferences_supplemental_summary">Try to retrieve more information about the barcode contents</string>
     <string name="preferences_supplemental_title">Retrieve more info</string>
@@ -122,7 +122,7 @@
     <string name="result_uri">Found URL</string>
     <string name="result_wifi">Found WLAN Configuration</string>
     <string name="sbc_name">Google Book Search</string>
-    <string name="wifi_changing_network">Requesting connection to network\u2026</string>
+    <string name="wifi_changing_network">Requesting connection to network</string>
     <string name="wifi_ssid_label">Network Name</string>
     <string name="wifi_type_label">Type</string>
     <string name="texto_colab">MATRIC. COLABORADOR:</string>
@@ -142,4 +142,14 @@
     <string name="texto_padrao_ok">OK</string>
     <string name="texto_func_matric">19759</string>
     <string name="texto_pega_matric">CAPTURAR MATRICULA</string>
+    <string name="texto_padrao_cancelar">CANC.</string>
+    <string name="texto_senha">SENHA:</string>
+    <string name="texto_equip">EQUIPAMENTO:</string>
+    <string name="texto_padrao_salvar">SALVAR</string>
+    <string name="texto_atualizar_bd">ATUALIZAR DADOS</string>
+    <string name="texto_item_list">TESTE</string>
+    <string name="texto_menu_principal">PRINCIPAL - V 2.12</string>
+    <string name="texto_motorista">MATRIC. MOTORISTA:</string>
+    <string name="texto_padrao_retornar">RETORNAR</string>
+    <string name="texto_turno">TURNO</string>
 </resources>
