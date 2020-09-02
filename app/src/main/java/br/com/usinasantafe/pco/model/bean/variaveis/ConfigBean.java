@@ -5,7 +5,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import br.com.usinasantafe.pco.model.pst.Entidade;
 
-@DatabaseTable(tableName="tbconifgvar")
+@DatabaseTable(tableName="tbconfigvar")
 public class ConfigBean extends Entidade {
 
     private static final long serialVersionUID = 1L;
@@ -20,6 +20,8 @@ public class ConfigBean extends Entidade {
     private Long matricMotoConfig;
     @DatabaseField
     private Long idTurnoConfig;
+    @DatabaseField
+    private String dtrhViagemConfig;
 
     public ConfigBean() {
     }
@@ -62,5 +64,13 @@ public class ConfigBean extends Entidade {
 
     public void setIdTurnoConfig(Long idTurnoConfig) {
         this.idTurnoConfig = idTurnoConfig;
+    }
+
+    public String getDtrhViagemConfig() {
+        return dtrhViagemConfig;
+    }
+
+    public void setDtrhViagemConfig(String dtrhViagemConfig) {
+        this.dtrhViagemConfig = dtrhViagemConfig;
     }
 }

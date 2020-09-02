@@ -152,4 +152,10 @@
     <string name="texto_motorista">MATRIC. MOTORISTA:</string>
     <string name="texto_padrao_retornar">RETORNAR</string>
     <string name="texto_turno">TURNO</string>
+    <string name="texto_menu_titulo_motorista">MOTORISTA</string>
+    <string name="texto_menu_motorista">1 - FUNCIONARIO FICTICIO</string>
+    <string name="texto_menu_turno">TURNO 1</string>
+    <string name="texto_inserir_passageiro">INSERIR PASSAGEIRO</string>
+    <string name="texto_fechar_viagem">FECHAR VIAGEM</string>
+    <string name="texto_titulo_passageiro">PASSAGEIRO(S)</string>
 </resources>

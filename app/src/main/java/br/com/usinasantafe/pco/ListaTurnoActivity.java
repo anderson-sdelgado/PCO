@@ -1,7 +1,5 @@
 package br.com.usinasantafe.pco;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -99,7 +97,7 @@ public class ListaTurnoActivity extends ActivityGeneric {
 
         for(int i = 0; i < turnoList.size(); i++){
             TurnoBean turnoBean = (TurnoBean) turnoList.get(i);
-            itens.add(turnoBean.getDescrTurno());
+            itens.add(turnoBean.getDescTurno());
         }
 
         AdapterList adapterList = new AdapterList(this, itens);
@@ -117,7 +115,7 @@ public class ListaTurnoActivity extends ActivityGeneric {
 
                 pcoContext.getConfigCTR().setTurnoConfig(turnoBean);
 
-                Intent it = new Intent(ListaTurnoActivity.this, ListaViagemActivity.class);
+                Intent it = new Intent(ListaTurnoActivity.this, ListaPassageiroActivity.class);
                 startActivity(it);
                 finish();
 

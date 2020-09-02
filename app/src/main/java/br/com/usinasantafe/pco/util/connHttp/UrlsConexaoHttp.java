@@ -16,6 +16,7 @@ public class UrlsConexaoHttp {
 
     public static String ColabBean = urlPrincipal + "colab.php" + put;
     public static String MotoristaBean = urlPrincipal + "moto.php" + put;
+    public static String TurnoBean = urlPrincipal + "turno.php" + put;
 
     public UrlsConexaoHttp() {
     }

@@ -13,7 +13,11 @@ public class TurnoBean extends Entidade {
     @DatabaseField(id=true)
     private Long idTurno;
     @DatabaseField
-    private String descrTurno;
+    private Long codTurno;
+    @DatabaseField
+    private Long nroTurno;
+    @DatabaseField
+    private String descTurno;
 
     public TurnoBean() {
     }
@@ -26,11 +30,27 @@ public class TurnoBean extends Entidade {
         this.idTurno = idTurno;
     }
 
-    public String getDescrTurno() {
-        return descrTurno;
+    public Long getCodTurno() {
+        return codTurno;
     }
 
-    public void setDescrTurno(String descrTurno) {
-        this.descrTurno = descrTurno;
+    public void setCodTurno(Long codTurno) {
+        this.codTurno = codTurno;
+    }
+
+    public Long getNroTurno() {
+        return nroTurno;
+    }
+
+    public void setNroTurno(Long nroTurno) {
+        this.nroTurno = nroTurno;
+    }
+
+    public String getDescTurno() {
+        return descTurno;
+    }
+
+    public void setDescTurno(String descTurno) {
+        this.descTurno = descTurno;
     }
 }

@@ -12,12 +12,12 @@ import java.util.ArrayList;
 /**
  * Created by anderson on 19/10/2015.
  */
-public class AdapterList extends BaseAdapter {
+public class AdapterListPassageiro extends BaseAdapter {
 
     private ArrayList<String> itens;
     private LayoutInflater layoutInflater;
 
-    public AdapterList(Context context, ArrayList<String> itens) {
+    public AdapterListPassageiro(Context context, ArrayList<String> itens) {
         this.itens = itens;
         layoutInflater = LayoutInflater.from(context);
     }
@@ -35,6 +35,11 @@ public class AdapterList extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         return position;
+    }
+
+    public void addItem(String text) {
+        this.itens.add(text);
+        notifyDataSetChanged();
     }
 
     @Override

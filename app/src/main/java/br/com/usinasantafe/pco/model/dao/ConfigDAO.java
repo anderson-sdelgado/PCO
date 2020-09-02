@@ -6,6 +6,7 @@ import br.com.usinasantafe.pco.model.bean.estaticas.EquipBean;
 import br.com.usinasantafe.pco.model.bean.estaticas.MotoristaBean;
 import br.com.usinasantafe.pco.model.bean.estaticas.TurnoBean;
 import br.com.usinasantafe.pco.model.bean.variaveis.ConfigBean;
+import br.com.usinasantafe.pco.util.Tempo;
 
 public class ConfigDAO {
 
@@ -64,7 +65,10 @@ public class ConfigDAO {
     public void setTurnoConfig(TurnoBean turnoBean){
         ConfigBean configBean = getConfig();
         configBean.setIdTurnoConfig(turnoBean.getIdTurno());
+        configBean.setDtrhViagemConfig(Tempo.getInstance().data());
         configBean.update();
     }
+
+
 
 }

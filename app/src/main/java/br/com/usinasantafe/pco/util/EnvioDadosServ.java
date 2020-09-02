@@ -6,6 +6,8 @@ import android.util.Log;
 import java.util.HashMap;
 import java.util.Map;
 
+import br.com.usinasantafe.pco.control.PassageiroCTR;
+import br.com.usinasantafe.pco.model.dao.PassageiroDAO;
 import br.com.usinasantafe.pco.util.connHttp.PostCadGenerico;
 import br.com.usinasantafe.pco.util.connHttp.UrlsConexaoHttp;
 
@@ -29,20 +31,21 @@ public class EnvioDadosServ {
         return instance;
     }
 
-    public void enviarDadosSoqueira() {
+    public void enviarDados(Context context) {
+
+        this.context = context;
 
         ConexaoWeb conexaoWeb = new ConexaoWeb();
-        if (conexaoWeb.verificaConexao(context)) {
+        if (conexaoWeb.verificaConexao(this.context)) {
 
-//            ConfigCTR configCTR = new ConfigCTR();
-//            String dados = configCTR.dadosEnvioSoqueira();
-            String dados = "";
-//
-//            Log.i("PMM", "BOLETIM SOQUEIRA = " + dados);
+            PassageiroCTR passageiroCTR = new PassageiroCTR();
+            String dados = passageiroCTR.dadosEnvio();
+
+            Log.i("PMM", "PASSAGEIRO = " + dados);
 
             UrlsConexaoHttp urlsConexaoHttp = new UrlsConexaoHttp();
 
-            String[] url = {urlsConexaoHttp.getsInserirSoqueira()};
+            String[] url = {urlsConexaoHttp.getsInserirPassageiro()};
             Map<String, Object> parametrosPost = new HashMap<String, Object>();
             parametrosPost.put("dado", dados);
 
@@ -57,25 +60,14 @@ public class EnvioDadosServ {
 
     }
 
-    public boolean verifDados() {
-//        ConfigCTR configCTR = new ConfigCTR();
-//        configCTR.verifDadosRuricola();
-        return false;
+    public boolean verifDadosEnvio() {
+        PassageiroCTR passageiroCTR = new PassageiroCTR();
+        return passageiroCTR.verPassageiroNEnviado();
     }
 
-    public void envioDados(Context context) {
-        this.context = context;
-        if (verifDados()) {
-            posEnvio = 1;
-//            enviarDadosRuricola();
-        }
-        else{
-            posEnvio = 0;
-        }
-    }
 
     public int getStatusEnvio() {
-        if (verifDados()) {
+        if (verifDadosEnvio()) {
             statusEnvio = 1;
         } else {
             statusEnvio = 2;
@@ -86,12 +78,8 @@ public class EnvioDadosServ {
     ////////////////////////////////////MECANISMO RECEBIMENTO/////////////////////////////////////////
 
     public void recDados(String result){
-//        if (result.trim().contains("GRAVOU-SOQUEIRA")) {
-//            SoqueiraCTR soqueiraCTR = new SoqueiraCTR();
-//            soqueiraCTR.updateDados(result);
-//            posEnvio = 5 ;
-//        }
-
+        PassageiroCTR passageiroCTR = new PassageiroCTR();
+        passageiroCTR.updatePassageiro(result);
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
