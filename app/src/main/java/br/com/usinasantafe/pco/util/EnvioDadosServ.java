@@ -55,7 +55,7 @@ public class EnvioDadosServ {
 
         }
         else{
-            posEnvio = -1;
+            statusEnvio = 2;
         }
 
     }
@@ -65,21 +65,17 @@ public class EnvioDadosServ {
         return passageiroCTR.verPassageiroNEnviado();
     }
 
-
     public int getStatusEnvio() {
-        if (verifDadosEnvio()) {
-            statusEnvio = 1;
-        } else {
-            statusEnvio = 2;
-        }
         return statusEnvio;
     }
 
     ////////////////////////////////////MECANISMO RECEBIMENTO/////////////////////////////////////////
 
     public void recDados(String result){
-        PassageiroCTR passageiroCTR = new PassageiroCTR();
-        passageiroCTR.updatePassageiro(result);
+        if(result.trim().startsWith("SALVOU")) {
+            PassageiroCTR passageiroCTR = new PassageiroCTR();
+            passageiroCTR.updatePassageiro(result);
+        }
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////

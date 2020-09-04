@@ -22,6 +22,10 @@ public class ConfigBean extends Entidade {
     private Long idTurnoConfig;
     @DatabaseField
     private String dtrhViagemConfig;
+    @DatabaseField
+    private String dthrServConfig;
+    @DatabaseField
+    private Long difDthrConfig;
 
     public ConfigBean() {
     }
@@ -73,4 +77,21 @@ public class ConfigBean extends Entidade {
     public void setDtrhViagemConfig(String dtrhViagemConfig) {
         this.dtrhViagemConfig = dtrhViagemConfig;
     }
+
+    public String getDthrServConfig() {
+        return dthrServConfig;
+    }
+
+    public void setDthrServConfig(String dthrServConfig) {
+        this.dthrServConfig = dthrServConfig;
+    }
+
+    public Long getDifDthrConfig() {
+        return difDthrConfig;
+    }
+
+    public void setDifDthrConfig(Long difDthrConfig) {
+        this.difDthrConfig = difDthrConfig;
+    }
+
 }

@@ -65,4 +65,9 @@ public class ConfigCTR {
         configDAO.setTurnoConfig(turnoBean);
     }
 
+    public void setDthrServConfig(String dthrServConfig){
+        ConfigDAO configDAO = new ConfigDAO();
+        configDAO.setDthrServConfig(dthrServConfig);
+    }
+
 }

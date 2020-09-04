@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -32,6 +33,7 @@ public class MotoristaActivity extends ActivityGeneric {
         Button buttonCancPassageiro = (Button) findViewById(R.id.buttonCancPassageiro);
         Button buttonAcionarCamera = (Button) findViewById(R.id.buttonAcionarCamera);
 
+        motoristaBean = new MotoristaBean();
         motoristaBean.setMatricMoto(0L);
         motoristaBean.setNomeMoto("");
 
@@ -80,6 +82,7 @@ public class MotoristaActivity extends ActivityGeneric {
             String matricula = data.getStringExtra("SCAN_RESULT");
             if(matricula.length() == 8){
                 matricula = matricula.substring(0,7);
+                Log.i("PCO", "RETORNO = " + matricula);
                 if (pcoContext.getPassageiroCTR().verMotorista(Long.parseLong(matricula))) {
                     motoristaBean = pcoContext.getPassageiroCTR().getMotorista(Long.parseLong(matricula));
                     txtRetPassageiro.setText(motoristaBean.getMatricMoto() + "\n" + motoristaBean.getNomeMoto());

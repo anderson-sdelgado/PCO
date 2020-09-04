@@ -16,7 +16,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import br.com.usinasantafe.pco.MenuInicialActivity;
+import br.com.usinasantafe.pco.control.ConfigCTR;
 import br.com.usinasantafe.pco.model.bean.AtualAplicBean;
+import br.com.usinasantafe.pco.model.dao.EquipDAO;
 import br.com.usinasantafe.pco.model.pst.GenericRecordable;
 import br.com.usinasantafe.pco.util.connHttp.PostVerGenerico;
 import br.com.usinasantafe.pco.util.connHttp.UrlsConexaoHttp;
@@ -54,14 +56,18 @@ public class VerifDadosServ {
 
         if (!result.equals("")) {
             if (this.tipo.equals("Atualiza")) {
+                setVerTerm(true);
                 String verAtual = result.trim();
                 if (verAtual.equals("S")) {
                     AtualizarAplicativo atualizarAplicativo = new AtualizarAplicativo();
                     atualizarAplicativo.setContext(this.menuInicialActivity);
                     atualizarAplicativo.execute();
                 } else {
-//                    this.menuInicialActivity.startTimer(verAtual);
+                    this.menuInicialActivity.startTimer(verAtual);
                 }
+            }else if (this.tipo.equals("Equip")) {
+                EquipDAO equipDAO = new EquipDAO();
+                equipDAO.recDadosEquip(result);
             }
         }
 
@@ -116,8 +122,8 @@ public class VerifDadosServ {
     public void verAtualAplic(String versaoAplic, MenuInicialActivity menuInicialActivity, ProgressDialog progressDialog) {
 
         AtualAplicBean atualAplicBean = new AtualAplicBean();
-//        ConfigCTR configCTR = new ConfigCTR();
-//        atualAplicBean.setIdCelularAtual(configCTR.getConfig().getNumLinhaConfig());
+        ConfigCTR configCTR = new ConfigCTR();
+        atualAplicBean.setNroEquipAtual(configCTR.getEquip().getNroEquip());
         atualAplicBean.setVersaoAtual(versaoAplic);
 
         urlsConexaoHttp = new UrlsConexaoHttp();

@@ -1,10 +1,11 @@
 package br.com.usinasantafe.pco;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -15,8 +16,8 @@ import java.util.List;
 
 import br.com.usinasantafe.pco.model.bean.estaticas.ColabBean;
 import br.com.usinasantafe.pco.model.bean.estaticas.MotoristaBean;
-import br.com.usinasantafe.pco.model.bean.estaticas.TurnoBean;
 import br.com.usinasantafe.pco.model.bean.variaveis.PassageiroBean;
+import br.com.usinasantafe.pco.util.EnvioDadosServ;
 import br.com.usinasantafe.pco.util.Tempo;
 import br.com.usinasantafe.pco.zxing.CaptureActivity;
 
@@ -30,15 +31,23 @@ public class ListaPassageiroActivity extends ActivityGeneric {
     private TextView textViewTurno;
     private AdapterListPassageiro adapterList;
 
+    private TextView textViewProcesso;
+    private Handler customHandler = new Handler();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_passageiro);
 
+        pcoContext = (PCOContext) getApplication();
+        textViewProcesso = (TextView) findViewById(R.id.textViewProcesso);
+
         textViewMotorista = (TextView) findViewById(R.id.textViewMotorista);
         textViewTurno = (TextView) findViewById(R.id.textViewTurno);
         Button buttonInserirPassageiro = (Button) findViewById(R.id.buttonInserirPassageiro);
         Button buttonFecharViagem = (Button) findViewById(R.id.buttonFecharViagem);
+
+        customHandler.postDelayed(updateTimerThread, 0);
 
         MotoristaBean motoristaBean = pcoContext.getPassageiroCTR().getMotorista(pcoContext.getConfigCTR().getConfig().getMatricMotoConfig());
         textViewMotorista.setText(motoristaBean.getMatricMoto() + " - " + motoristaBean.getNomeMoto());
@@ -91,7 +100,7 @@ public class ListaPassageiroActivity extends ActivityGeneric {
                 if (pcoContext.getPassageiroCTR().verColab(Long.parseLong(matricula))) {
                     pcoContext.getPassageiroCTR().salvarPassageiro(Long.parseLong(matricula));
                     ColabBean colabBean = pcoContext.getPassageiroCTR().getColab(Long.parseLong(matricula));
-                    adapterList.addItem(Tempo.getInstance().data() + "\n"
+                    adapterList.addItem(Tempo.getInstance().dataComHora() + "\n"
                             + colabBean.getMatricColab() + " - " + colabBean.getNomeColab());
                 }
                 else{
@@ -112,5 +121,27 @@ public class ListaPassageiroActivity extends ActivityGeneric {
         }
 
     }
+
+    private Runnable updateTimerThread = new Runnable() {
+
+        public void run() {
+            if (pcoContext.getConfigCTR().hasElements()) {
+                if (EnvioDadosServ.getInstance().getStatusEnvio() == 1) {
+                    textViewProcesso.setTextColor(Color.YELLOW);
+                    textViewProcesso.setText("Enviando Dados...");
+                } else if (EnvioDadosServ.getInstance().getStatusEnvio() == 2) {
+                    textViewProcesso.setTextColor(Color.RED);
+                    textViewProcesso.setText("Existem Dados para serem Enviados");
+                } else if (EnvioDadosServ.getInstance().getStatusEnvio() == 3) {
+                    textViewProcesso.setTextColor(Color.GREEN);
+                    textViewProcesso.setText("Todos os Dados já foram Enviados");
+                }
+            } else {
+                textViewProcesso.setTextColor(Color.RED);
+                textViewProcesso.setText("Aparelho sem Equipamento");
+            }
+            customHandler.postDelayed(this, 10000);
+        }
+    };
 
 }

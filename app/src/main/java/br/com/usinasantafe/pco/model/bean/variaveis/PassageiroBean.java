@@ -5,7 +5,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import br.com.usinasantafe.pco.model.pst.Entidade;
 
-@DatabaseTable(tableName="tbconifgvar")
+@DatabaseTable(tableName="tbpassageirovar")
 public class PassageiroBean extends Entidade {
 
     private static final long serialVersionUID = 1L;

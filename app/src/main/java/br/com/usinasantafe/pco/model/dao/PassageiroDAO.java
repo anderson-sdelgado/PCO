@@ -12,6 +12,7 @@ import java.util.List;
 
 import br.com.usinasantafe.pco.model.bean.variaveis.ConfigBean;
 import br.com.usinasantafe.pco.model.bean.variaveis.PassageiroBean;
+import br.com.usinasantafe.pco.util.EnvioDadosServ;
 import br.com.usinasantafe.pco.util.Tempo;
 
 public class PassageiroDAO {
@@ -26,19 +27,31 @@ public class PassageiroDAO {
         return ret;
     }
 
+    public boolean verPassageiroViagemList(String dthr){
+        List passageiroList = passageiroViagemList(dthr);
+        boolean ret = passageiroList.size() > 0;
+        passageiroList.clear();
+        return ret;
+    }
+
+    public List<PassageiroBean> passageiroEnviadoList(){
+        PassageiroBean passageiroBean = new PassageiroBean();
+        return passageiroBean.get("statusPassageiro", 2L);
+    }
+
     public List<PassageiroBean> passageiroNEnviadoList(){
         PassageiroBean passageiroBean = new PassageiroBean();
         return passageiroBean.get("statusPassageiro", 1L);
     }
 
-    public List<PassageiroBean> passageiroNEnviadoList(String dthr){
+    public List<PassageiroBean> passageiroViagemList(String dthr){
         PassageiroBean passageiroBean = new PassageiroBean();
         return passageiroBean.getAndOrderBy("dthrPassageiro", dthr, "idPassageiro", false);
     }
 
     public void salvarPassageiro(ConfigBean configBean, Long matricColab){
         PassageiroBean passageiroBean = new PassageiroBean();
-        passageiroBean.setDthrPassageiro(Tempo.getInstance().data());
+        passageiroBean.setDthrPassageiro(Tempo.getInstance().dataComHora());
         passageiroBean.setDthrViagemPassageiro(configBean.getDtrhViagemConfig());
         passageiroBean.setIdEquipPassageiro(configBean.getIdEquipConfig());
         passageiroBean.setMatricMotoPassageiro(configBean.getMatricMotoConfig());
@@ -46,6 +59,9 @@ public class PassageiroDAO {
         passageiroBean.setMatricColabPassageiro(matricColab);
         passageiroBean.setStatusPassageiro(1L);
         passageiroBean.insert();
+
+        EnvioDadosServ.getInstance().setStatusEnvio(2);
+
     }
 
     public String dadosEnvio(){
@@ -75,7 +91,10 @@ public class PassageiroDAO {
 
         try{
 
-            JSONObject jObjPassageiro = new JSONObject(retorno);
+            int pos1 = retorno.indexOf("_") + 1;
+            String objPrinc = retorno.substring(pos1);
+
+            JSONObject jObjPassageiro = new JSONObject(objPrinc);
             JSONArray jsonArrayPassageiro = jObjPassageiro.getJSONArray("passageiro");
 
             if (jsonArrayPassageiro.length() > 0) {
@@ -107,9 +126,22 @@ public class PassageiroDAO {
 
             }
 
+            EnvioDadosServ.getInstance().setStatusEnvio(3);
+
         }
         catch(Exception e){
-            Tempo.getInstance().setEnvioDado(true);
+        }
+
+    }
+
+    public void delPassageiro(){
+
+        for(PassageiroBean passageiroBean : passageiroEnviadoList()){
+
+            if(Tempo.getInstance().timeDataHora(passageiroBean.getDthrViagemPassageiro()) <= Tempo.getInstance().timeMenos1Mes()){
+                passageiroBean.delete();
+            }
+
         }
 
     }

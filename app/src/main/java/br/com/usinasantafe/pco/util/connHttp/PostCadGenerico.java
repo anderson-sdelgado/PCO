@@ -74,9 +74,9 @@ public class PostCadGenerico extends AsyncTask<String, Void, String> {
 					bufferedReader.close();
 				} catch (Exception er) {
 					Log.i("PMM", "Erro = " + er);
-					EnvioDadosServ.getInstance().setPosEnvio(-1);
+					EnvioDadosServ.getInstance().setPosEnvio(2);
 				}
-				EnvioDadosServ.getInstance().setPosEnvio(-1);
+				EnvioDadosServ.getInstance().setPosEnvio(2);
 			}
 		}
 		finally{
@@ -86,7 +86,7 @@ public class PostCadGenerico extends AsyncTask<String, Void, String> {
 					bufferedReader.close();
 				} catch (Exception e) {
 					Log.i("PMM", "Erro = " + e);
-					EnvioDadosServ.getInstance().setPosEnvio(-1);
+					EnvioDadosServ.getInstance().setPosEnvio(2);
 				}
 				
 			}
@@ -103,7 +103,7 @@ public class PostCadGenerico extends AsyncTask<String, Void, String> {
 			EnvioDadosServ.getInstance().recDados(result);
 		} catch (Exception e) {
 			Log.i("PCO", "FALHA RECEBIMENTO = " + e);
-			EnvioDadosServ.getInstance().setPosEnvio(-1);
+			EnvioDadosServ.getInstance().setPosEnvio(2);
 		}
 		
     }

@@ -46,6 +46,11 @@ public class ConfigDAO {
         ConfigBean configBean = new ConfigBean();
         configBean.deleteAll();
         configBean.setSenhaConfig(senha);
+        configBean.setMatricMotoConfig(0L);
+        configBean.setIdTurnoConfig(0L);
+        configBean.setDtrhViagemConfig("");
+        configBean.setDthrServConfig("");
+        configBean.setDifDthrConfig(0L);
         configBean.insert();
         configBean.commit();
     }
@@ -65,10 +70,14 @@ public class ConfigDAO {
     public void setTurnoConfig(TurnoBean turnoBean){
         ConfigBean configBean = getConfig();
         configBean.setIdTurnoConfig(turnoBean.getIdTurno());
-        configBean.setDtrhViagemConfig(Tempo.getInstance().data());
+        configBean.setDtrhViagemConfig(Tempo.getInstance().dataComHora());
         configBean.update();
     }
 
-
+    public void setDthrServConfig(String dthrServConfig){
+        ConfigBean configBean = getConfig();
+        configBean.setDthrServConfig(dthrServConfig);
+        configBean.update();
+    }
 
 }

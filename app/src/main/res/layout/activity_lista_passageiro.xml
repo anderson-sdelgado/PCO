@@ -14,16 +14,22 @@
     <TextView
         android:id="@+id/textViewTituloMotorista"
         style="@style/TextViewMenuNegrito"
+        android:paddingLeft="3dp"
+        android:paddingTop="3dp"
         android:text="@string/texto_menu_titulo_motorista" />
 
     <TextView
         android:id="@+id/textViewMotorista"
         style="@style/TextViewMenuNormal"
+        android:paddingLeft="3dp"
         android:text="@string/texto_menu_motorista" />
 
     <TextView
         android:id="@+id/textViewTurno"
         style="@style/TextViewMenuNegrito"
+        android:paddingLeft="3dp"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
         android:text="@string/texto_menu_turno" />
 
     <TextView
@@ -36,6 +42,11 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/textViewProcesso"
+        style="@style/TextViewItemList"
+        android:text="@string/texto_item_list" />
 
     <Button
         android:id="@+id/buttonInserirPassageiro"

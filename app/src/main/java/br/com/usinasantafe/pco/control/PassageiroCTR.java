@@ -59,7 +59,7 @@ public class PassageiroCTR {
 
     public List<PassageiroBean> passageiroList(String dthr){
         PassageiroDAO passageiroDAO = new PassageiroDAO();
-        return passageiroDAO.passageiroNEnviadoList(dthr);
+        return passageiroDAO.passageiroViagemList(dthr);
     }
 
     public void atualDadosTurno(Context telaAtual, Class telaProx, ProgressDialog progressDialog) {
@@ -71,6 +71,11 @@ public class PassageiroCTR {
     public boolean verPassageiroNEnviado(){
         PassageiroDAO passageiroDAO = new PassageiroDAO();
         return passageiroDAO.verPassageiroNEnviado();
+    }
+
+    public boolean verPassageiroViagemList(String dthr){
+        PassageiroDAO passageiroDAO = new PassageiroDAO();
+        return passageiroDAO.verPassageiroViagemList(dthr);
     }
 
     public void salvarPassageiro(Long matricColab){
@@ -87,6 +92,11 @@ public class PassageiroCTR {
     public void updatePassageiro(String retorno) {
         PassageiroDAO passageiroDAO = new PassageiroDAO();
         passageiroDAO.updatePassageiro(retorno);
+    }
+
+    public void delPassageiro(){
+        PassageiroDAO passageiroDAO = new PassageiroDAO();
+        passageiroDAO.delPassageiro();
     }
 
 }

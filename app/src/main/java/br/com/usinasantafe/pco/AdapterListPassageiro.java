@@ -38,7 +38,7 @@ public class AdapterListPassageiro extends BaseAdapter {
     }
 
     public void addItem(String text) {
-        this.itens.add(text);
+        this.itens.add(0, text);
         notifyDataSetChanged();
     }
 

@@ -6,28 +6,19 @@ package br.com.usinasantafe.pco.model.bean;
 
 public class AtualAplicBean {
 
-    private Long idEquipAtualizacao;
-    private Long idCheckList;
+    private Long nroEquipAtual;
     private String versaoAtual;
     private String versaoNova;
 
     public AtualAplicBean() {
     }
 
-    public Long getIdEquipAtualizacao() {
-        return idEquipAtualizacao;
+    public Long getNroEquipAtual() {
+        return nroEquipAtual;
     }
 
-    public void setIdEquipAtualizacao(Long idEquipAtualizacao) {
-        this.idEquipAtualizacao = idEquipAtualizacao;
-    }
-
-    public Long getIdCheckList() {
-        return idCheckList;
-    }
-
-    public void setIdCheckList(Long idCheckList) {
-        this.idCheckList = idCheckList;
+    public void setNroEquipAtual(Long nroEquipAtual) {
+        this.nroEquipAtual = nroEquipAtual;
     }
 
     public String getVersaoAtual() {
