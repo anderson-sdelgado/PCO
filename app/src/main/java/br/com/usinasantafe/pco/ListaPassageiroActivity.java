@@ -98,15 +98,31 @@ public class ListaPassageiroActivity extends ActivityGeneric {
             if(matricula.length() == 8){
                 matricula = matricula.substring(0,7);
                 if (pcoContext.getPassageiroCTR().verColab(Long.parseLong(matricula))) {
-                    pcoContext.getPassageiroCTR().salvarPassageiro(Long.parseLong(matricula));
-                    ColabBean colabBean = pcoContext.getPassageiroCTR().getColab(Long.parseLong(matricula));
-                    adapterList.addItem(Tempo.getInstance().dataComHora() + "\n"
-                            + colabBean.getMatricColab() + " - " + colabBean.getNomeColab());
+                    if(pcoContext.getPassageiroCTR().verMatricColabViagem(Long.parseLong(matricula))){
+                        pcoContext.getPassageiroCTR().salvarPassageiro(Long.parseLong(matricula));
+                        ColabBean colabBean = pcoContext.getPassageiroCTR().getColab(Long.parseLong(matricula));
+                        adapterList.addItem(Tempo.getInstance().dataComHora() + "\n"
+                                + colabBean.getMatricColab() + " - " + colabBean.getNomeColab());
+                    }
+                    else{
+                        AlertDialog.Builder alerta = new AlertDialog.Builder(ListaPassageiroActivity.this);
+                        alerta.setTitle("ATENÇÃO");
+                        alerta.setMessage("FUNCIONÁRIO REPETIDO! FAVOR, INSERIR OUTRO FUNCIONÁRIO.");
+                        alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+
+                        alerta.show();
+                    }
+
                 }
                 else{
                     AlertDialog.Builder alerta = new AlertDialog.Builder(ListaPassageiroActivity.this);
                     alerta.setTitle("ATENÇÃO");
-                    alerta.setMessage("FALHA LEITURA DE CARTÃO OU FUNCIONÁRIO INEXISTENTE. POR FAVOR, ATUALIZE A BASE DE DADOS E TENTE NOVAMENTE.");
+                    alerta.setMessage("FALHA LEITURA DE CARTÃO OU FUNCIONÁRIO INEXISTENTE! POR FAVOR, ATUALIZE A BASE DE DADOS E TENTE NOVAMENTE.");
                     alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

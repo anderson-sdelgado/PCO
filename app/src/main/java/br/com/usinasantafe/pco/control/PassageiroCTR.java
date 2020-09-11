@@ -36,6 +36,11 @@ public class PassageiroCTR {
         return colabDAO.verColab(matricColab);
     }
 
+    public boolean verMatricColabViagem(Long matricColab){
+        PassageiroDAO passageiroDAO = new PassageiroDAO();
+        return passageiroDAO.verMatricColabViagem(matricColab);
+    }
+
     public MotoristaBean getMotorista(Long matricMoto){
         MotoristaDAO motoristaDAO = new MotoristaDAO();
         return motoristaDAO.getMotorista(matricMoto);

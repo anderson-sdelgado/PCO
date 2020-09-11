@@ -19,9 +19,7 @@ import br.com.usinasantafe.pco.util.ConexaoWeb;
 public class ListaTurnoActivity extends ActivityGeneric {
 
     private ListView turnoListView;
-    private List turnoList;
     private PCOContext pcoContext;
-    private ProgressDialog progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,74 +29,12 @@ public class ListaTurnoActivity extends ActivityGeneric {
         pcoContext = (PCOContext) getApplication();
 
         Button buttonRetTurno = (Button) findViewById(R.id.buttonRetTurno);
-        Button buttonAtualTurno = (Button) findViewById(R.id.buttonAtualTurno);
-
-        buttonAtualTurno.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                AlertDialog.Builder alerta = new AlertDialog.Builder(  ListaTurnoActivity.this);
-                alerta.setTitle("ATENÇÃO");
-                alerta.setMessage("DESEJA REALMENTE ATUALIZAR BASE DE DADOS?");
-                alerta.setNegativeButton("SIM", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        ConexaoWeb conexaoWeb = new ConexaoWeb();
-
-                        if (conexaoWeb.verificaConexao(ListaTurnoActivity.this)) {
-
-                            progressBar = new ProgressDialog(ListaTurnoActivity.this);
-                            progressBar.setCancelable(true);
-                            progressBar.setMessage("ATUALIZANDO ...");
-                            progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                            progressBar.setProgress(0);
-                            progressBar.setMax(100);
-                            progressBar.show();
-
-                            pcoContext.getPassageiroCTR().atualDadosTurno(ListaTurnoActivity.this, ListaTurnoActivity.class, progressBar);
-
-                        } else {
-
-                            AlertDialog.Builder alerta = new AlertDialog.Builder( ListaTurnoActivity.this);
-                            alerta.setTitle("ATENÇÃO");
-                            alerta.setMessage("FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.");
-                            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                }
-                            });
-
-                            alerta.show();
-
-                        }
-
-
-                    }
-                });
-
-                alerta.setPositiveButton("NÃO", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-
-                alerta.show();
-
-            }
-
-        });
-
-        turnoList = pcoContext.getPassageiroCTR().getTurnoList();
 
         ArrayList<String> itens = new ArrayList<String>();
 
-        for(int i = 0; i < turnoList.size(); i++){
-            TurnoBean turnoBean = (TurnoBean) turnoList.get(i);
-            itens.add(turnoBean.getDescTurno());
-        }
+        itens.add("TURNO 1: 00:02 - 07:30");
+        itens.add("TURNO 2: 07:31 - 15:54");
+        itens.add("TURNO 3: 15:55 - 00:01");
 
         AdapterList adapterList = new AdapterList(this, itens);
         turnoListView = (ListView) findViewById(R.id.listaTurno);
@@ -110,9 +46,10 @@ public class ListaTurnoActivity extends ActivityGeneric {
             public void onItemClick(AdapterView<?> l, View v, int position,
                                     long id) {
 
-                TurnoBean turnoBean = (TurnoBean) turnoList.get(position);
-                turnoList.clear();
-
+                Long turno = Long.valueOf(position + 1);
+                TurnoBean turnoBean = new TurnoBean();
+                turnoBean.setIdTurno(turno);
+                turnoBean.setCodTurno(turno);
                 pcoContext.getConfigCTR().setTurnoConfig(turnoBean);
 
                 Intent it = new Intent(ListaTurnoActivity.this, ListaPassageiroActivity.class);

@@ -30,11 +30,4 @@
         android:layout_height="wrap_content"
         android:text="@string/texto_padrao_retornar" />
 
-    <Button
-        android:id="@+id/buttonAtualTurno"
-        style="@style/BotaoAvulso"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/texto_atualizar_bd" />
-
 </LinearLayout>

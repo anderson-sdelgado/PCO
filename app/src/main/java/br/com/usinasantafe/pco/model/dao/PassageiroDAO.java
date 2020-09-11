@@ -34,6 +34,18 @@ public class PassageiroDAO {
         return ret;
     }
 
+    public boolean verMatricColabViagem(Long matricColab){
+        List<PassageiroBean> passageiroList = passageiroList();
+        boolean ret = true;
+        if(passageiroList.size() > 0) {
+            PassageiroBean passageiroBean = passageiroList.get(0);
+            if (passageiroBean.getMatricColabPassageiro() == matricColab) {
+                ret = false;
+            }
+        }
+        return ret;
+    }
+
     public List<PassageiroBean> passageiroEnviadoList(){
         PassageiroBean passageiroBean = new PassageiroBean();
         return passageiroBean.get("statusPassageiro", 2L);
@@ -47,6 +59,11 @@ public class PassageiroDAO {
     public List<PassageiroBean> passageiroViagemList(String dthr){
         PassageiroBean passageiroBean = new PassageiroBean();
         return passageiroBean.getAndOrderBy("dthrPassageiro", dthr, "idPassageiro", false);
+    }
+
+    public List<PassageiroBean> passageiroList(){
+        PassageiroBean passageiroBean = new PassageiroBean();
+        return passageiroBean.orderBy("idPassageiro", false);
     }
 
     public void salvarPassageiro(ConfigBean configBean, Long matricColab){
