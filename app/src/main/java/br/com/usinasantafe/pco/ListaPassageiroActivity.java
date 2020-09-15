@@ -51,9 +51,20 @@ public class ListaPassageiroActivity extends ActivityGeneric {
 
         MotoristaBean motoristaBean = pcoContext.getPassageiroCTR().getMotorista(pcoContext.getConfigCTR().getConfig().getMatricMotoConfig());
         textViewMotorista.setText(motoristaBean.getMatricMoto() + " - " + motoristaBean.getNomeMoto());
-        textViewTurno.setText(pcoContext.getPassageiroCTR().getTurno(pcoContext.getConfigCTR().getConfig().getIdTurnoConfig()).getDescTurno());
 
-        passageiroList = pcoContext.getPassageiroCTR().passageiroList(pcoContext.getConfigCTR().getConfig().getDtrhViagemConfig());
+        String turno = "";
+        if(pcoContext.getConfigCTR().getConfig().getIdTurnoConfig() == 1) {
+            turno = "TURNO 1: 00:02 - 07:30";
+        }
+        else if(pcoContext.getConfigCTR().getConfig().getIdTurnoConfig() == 2) {
+            turno = "TURNO 2: 07:31 - 15:54";
+        }
+        else{
+            turno = "TURNO 3: 15:55 - 00:01";
+        }
+        textViewTurno.setText(turno);
+
+        passageiroList = pcoContext.getPassageiroCTR().passageiroList();
 
         ArrayList<String> itens = new ArrayList<>();
 
@@ -81,6 +92,7 @@ public class ListaPassageiroActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
+                pcoContext.getConfigCTR().clearDtrhViagemConfig();
                 Intent it = new Intent(ListaPassageiroActivity.this, MenuInicialActivity.class);
                 startActivity(it);
                 finish();

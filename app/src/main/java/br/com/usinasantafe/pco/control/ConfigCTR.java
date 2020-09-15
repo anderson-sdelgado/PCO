@@ -70,4 +70,9 @@ public class ConfigCTR {
         configDAO.setDthrServConfig(dthrServConfig);
     }
 
+    public void clearDtrhViagemConfig(){
+        ConfigDAO configDAO = new ConfigDAO();
+        configDAO.clearDtrhViagemConfig();
+    }
+
 }

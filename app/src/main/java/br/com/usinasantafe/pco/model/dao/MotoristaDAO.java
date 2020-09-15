@@ -2,7 +2,6 @@ package br.com.usinasantafe.pco.model.dao;
 
 import java.util.List;
 
-import br.com.usinasantafe.pco.model.bean.estaticas.EquipBean;
 import br.com.usinasantafe.pco.model.bean.estaticas.MotoristaBean;
 
 public class MotoristaDAO {

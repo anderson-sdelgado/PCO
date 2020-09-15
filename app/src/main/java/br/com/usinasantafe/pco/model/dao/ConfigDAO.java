@@ -74,6 +74,12 @@ public class ConfigDAO {
         configBean.update();
     }
 
+    public void clearDtrhViagemConfig(){
+        ConfigBean configBean = getConfig();
+        configBean.setDtrhViagemConfig("");
+        configBean.update();
+    }
+
     public void setDthrServConfig(String dthrServConfig){
         ConfigBean configBean = getConfig();
         configBean.setDthrServConfig(dthrServConfig);

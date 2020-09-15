@@ -1,20 +1,13 @@
 package br.com.usinasantafe.pco.control;
 
-import android.app.ProgressDialog;
-import android.content.Context;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pco.model.bean.estaticas.ColabBean;
 import br.com.usinasantafe.pco.model.bean.estaticas.MotoristaBean;
-import br.com.usinasantafe.pco.model.bean.estaticas.TurnoBean;
 import br.com.usinasantafe.pco.model.bean.variaveis.PassageiroBean;
 import br.com.usinasantafe.pco.model.dao.ColabDAO;
 import br.com.usinasantafe.pco.model.dao.MotoristaDAO;
 import br.com.usinasantafe.pco.model.dao.PassageiroDAO;
-import br.com.usinasantafe.pco.model.dao.TurnoDAO;
-import br.com.usinasantafe.pco.util.AtualDadosServ;
 
 public class PassageiroCTR {
 
@@ -38,7 +31,8 @@ public class PassageiroCTR {
 
     public boolean verMatricColabViagem(Long matricColab){
         PassageiroDAO passageiroDAO = new PassageiroDAO();
-        return passageiroDAO.verMatricColabViagem(matricColab);
+        ConfigCTR configCTR = new ConfigCTR();
+        return passageiroDAO.verMatricColabViagem(matricColab, configCTR.getConfig().getDtrhViagemConfig());
     }
 
     public MotoristaBean getMotorista(Long matricMoto){
@@ -46,41 +40,20 @@ public class PassageiroCTR {
         return motoristaDAO.getMotorista(matricMoto);
     }
 
-    public TurnoBean getTurno(Long idTurno){
-        TurnoDAO turnoDAO = new TurnoDAO();
-        return turnoDAO.getTurno(idTurno);
-    }
-
-    public List getTurnoList(){
-        ConfigCTR configCTR = new ConfigCTR();
-        TurnoDAO turnoDAO = new TurnoDAO();
-        return turnoDAO.getTurnoList(configCTR.getEquip().getCodTurno());
-    }
-
     public ColabBean getColab(Long matricColab){
         ColabDAO colabDAO = new ColabDAO();
         return colabDAO.getColab(matricColab);
     }
 
-    public List<PassageiroBean> passageiroList(String dthr){
+    public List<PassageiroBean> passageiroList(){
         PassageiroDAO passageiroDAO = new PassageiroDAO();
-        return passageiroDAO.passageiroViagemList(dthr);
-    }
-
-    public void atualDadosTurno(Context telaAtual, Class telaProx, ProgressDialog progressDialog) {
-        ArrayList turnoArrayList = new ArrayList();
-        turnoArrayList.add("TurnoBean");
-        AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, turnoArrayList);
+        ConfigCTR configCTR = new ConfigCTR();
+        return passageiroDAO.passageiroViagemList(configCTR.getConfig().getDtrhViagemConfig(), configCTR.getConfig().getMatricMotoConfig(), configCTR.getConfig().getIdTurnoConfig());
     }
 
     public boolean verPassageiroNEnviado(){
         PassageiroDAO passageiroDAO = new PassageiroDAO();
         return passageiroDAO.verPassageiroNEnviado();
-    }
-
-    public boolean verPassageiroViagemList(String dthr){
-        PassageiroDAO passageiroDAO = new PassageiroDAO();
-        return passageiroDAO.verPassageiroViagemList(dthr);
     }
 
     public void salvarPassageiro(Long matricColab){

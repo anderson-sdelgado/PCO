@@ -1,5 +1,7 @@
 package br.com.usinasantafe.pco.model.dao;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -12,6 +14,7 @@ import java.util.List;
 
 import br.com.usinasantafe.pco.model.bean.variaveis.ConfigBean;
 import br.com.usinasantafe.pco.model.bean.variaveis.PassageiroBean;
+import br.com.usinasantafe.pco.model.pst.EspecificaPesquisa;
 import br.com.usinasantafe.pco.util.EnvioDadosServ;
 import br.com.usinasantafe.pco.util.Tempo;
 
@@ -27,22 +30,16 @@ public class PassageiroDAO {
         return ret;
     }
 
-    public boolean verPassageiroViagemList(String dthr){
-        List passageiroList = passageiroViagemList(dthr);
-        boolean ret = passageiroList.size() > 0;
-        passageiroList.clear();
-        return ret;
-    }
+    public boolean verMatricColabViagem(Long matricColab, String dthr){
 
-    public boolean verMatricColabViagem(Long matricColab){
-        List<PassageiroBean> passageiroList = passageiroList();
-        boolean ret = true;
-        if(passageiroList.size() > 0) {
-            PassageiroBean passageiroBean = passageiroList.get(0);
-            if (passageiroBean.getMatricColabPassageiro() == matricColab) {
-                ret = false;
-            }
-        }
+        ArrayList pesqArrayList = new ArrayList();
+        pesqArrayList.add(getPesqDthrViagem(dthr));
+        pesqArrayList.add(getPesqMatricColab(matricColab));
+
+        PassageiroBean passageiroBean = new PassageiroBean();
+        List<PassageiroBean> passageiroList = passageiroBean.get(pesqArrayList);
+        boolean ret = (passageiroList.size() == 0);
+        passageiroList.clear();
         return ret;
     }
 
@@ -56,14 +53,25 @@ public class PassageiroDAO {
         return passageiroBean.get("statusPassageiro", 1L);
     }
 
-    public List<PassageiroBean> passageiroViagemList(String dthr){
+    public List<PassageiroBean> passageiroViagemList(String dthr, Long matricMoto, Long idturno){
+
+        ArrayList pesqArrayList = new ArrayList();
+        pesqArrayList.add(getPesqDthrViagem(dthr));
+        pesqArrayList.add(getPesqMatricMoto(matricMoto));
+        pesqArrayList.add(getPesqTurno(idturno));
+
         PassageiroBean passageiroBean = new PassageiroBean();
-        return passageiroBean.getAndOrderBy("dthrPassageiro", dthr, "idPassageiro", false);
+        return passageiroBean.getAndOrderBy(pesqArrayList, "idPassageiro", false);
     }
 
     public List<PassageiroBean> passageiroList(){
         PassageiroBean passageiroBean = new PassageiroBean();
         return passageiroBean.orderBy("idPassageiro", false);
+    }
+
+    public List<PassageiroBean> passageiroViagemList(String dthr){
+        PassageiroBean passageiroBean = new PassageiroBean();
+        return passageiroBean.get("dthrViagemPassageiro", dthr);
     }
 
     public void salvarPassageiro(ConfigBean configBean, Long matricColab){
@@ -161,6 +169,38 @@ public class PassageiroDAO {
 
         }
 
+    }
+
+    private EspecificaPesquisa getPesqDthrViagem(String dthrViagemPassageiro){
+        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
+        pesquisa.setCampo("dthrViagemPassageiro");
+        pesquisa.setValor(dthrViagemPassageiro);
+        pesquisa.setTipo(1);
+        return pesquisa;
+    }
+
+    private EspecificaPesquisa getPesqMatricMoto(Long matricMoto){
+        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
+        pesquisa.setCampo("matricMotoPassageiro");
+        pesquisa.setValor(matricMoto);
+        pesquisa.setTipo(1);
+        return pesquisa;
+    }
+
+    private EspecificaPesquisa getPesqTurno(Long idTurno){
+        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
+        pesquisa.setCampo("idTurnoPassageiro");
+        pesquisa.setValor(idTurno);
+        pesquisa.setTipo(1);
+        return pesquisa;
+    }
+
+    private EspecificaPesquisa getPesqMatricColab(Long matricColab){
+        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
+        pesquisa.setCampo("matricColabPassageiro");
+        pesquisa.setValor(matricColab);
+        pesquisa.setTipo(1);
+        return pesquisa;
     }
 
 }

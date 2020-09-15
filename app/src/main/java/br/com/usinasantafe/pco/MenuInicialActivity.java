@@ -43,6 +43,8 @@ public class MenuInicialActivity extends ActivityGeneric {
         pcoContext = (PCOContext) getApplication();
         textViewProcesso = (TextView) findViewById(R.id.textViewProcesso);
 
+        verifEnvio();
+
         if (!checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             String[] PERMISSIONS = {android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
             ActivityCompat.requestPermissions((Activity) this, PERMISSIONS, 112);
@@ -56,7 +58,7 @@ public class MenuInicialActivity extends ActivityGeneric {
         progressBar = new ProgressDialog(this);
 
         if(pcoContext.getConfigCTR().hasElements()){
-            if(pcoContext.getPassageiroCTR().verPassageiroViagemList(pcoContext.getConfigCTR().getConfig().getDtrhViagemConfig())){
+            if(!pcoContext.getConfigCTR().getConfig().getDtrhViagemConfig().equals("")){
                 startTimer("N_SD");
                 Intent it = new Intent(MenuInicialActivity.this, ListaPassageiroActivity.class);
                 startActivity(it);
@@ -67,7 +69,6 @@ public class MenuInicialActivity extends ActivityGeneric {
             }
         }
 
-        verifEnvio();
         clearBD();
 
         ArrayList<String> itens = new ArrayList<>();
@@ -198,6 +199,9 @@ public class MenuInicialActivity extends ActivityGeneric {
             } else if (EnvioDadosServ.getInstance().getStatusEnvio() == 3) {
                 textViewProcesso.setTextColor(Color.GREEN);
                 textViewProcesso.setText("Todos os Dados já foram Enviados");
+            } else {
+                textViewProcesso.setTextColor(Color.YELLOW);
+                textViewProcesso.setText("Verificando Dados...");
             }
         } else {
             textViewProcesso.setTextColor(Color.RED);
