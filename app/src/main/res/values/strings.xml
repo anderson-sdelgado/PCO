@@ -148,7 +148,7 @@
     <string name="texto_padrao_salvar">SALVAR</string>
     <string name="texto_atualizar_bd">ATUALIZAR DADOS</string>
     <string name="texto_item_list">TESTE</string>
-    <string name="texto_menu_principal">PRINCIPAL - V 1.00</string>
+    <string name="texto_menu_principal">PRINCIPAL - V 1.02</string>
     <string name="texto_motorista">MATRIC. MOTORISTA:</string>
     <string name="texto_padrao_retornar">RETORNAR</string>
     <string name="texto_turno">TURNO</string>
@@ -158,4 +158,5 @@
     <string name="texto_inserir_passageiro">INSERIR PASSAGEIRO</string>
     <string name="texto_fechar_viagem">FECHAR VIAGEM</string>
     <string name="texto_titulo_passageiro">PASSAGEIRO(S)</string>
+    <string name="texto_atual_colab">ATUALIZAR COLABORADORES</string>
 </resources>

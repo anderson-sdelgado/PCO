@@ -19,14 +19,14 @@ public class ConfigDAO {
     }
 
     public ConfigBean getConfig(){
-        List configList = configList();
-        ConfigBean configBean = (ConfigBean) configList.get(0);
+        List<ConfigBean> configList = configList();
+        ConfigBean configBean = configList.get(0);
         configList.clear();
         return configBean;
     }
 
     public boolean getConfig(String senha){
-        List configList = configList(senha);
+        List<ConfigBean> configList = configList(senha);
         boolean ret = configList.size() > 0;
         configList.clear();
         return ret;
@@ -85,5 +85,7 @@ public class ConfigDAO {
         configBean.setDthrServConfig(dthrServConfig);
         configBean.update();
     }
+
+
 
 }

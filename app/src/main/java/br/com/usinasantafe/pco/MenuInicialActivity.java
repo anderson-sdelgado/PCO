@@ -94,9 +94,11 @@ public class MenuInicialActivity extends ActivityGeneric {
                     if (pcoContext.getPassageiroCTR().hasElementsMotorista()
                             && pcoContext.getConfigCTR().hasElements()) {
 
+                        pcoContext.setVerTela(1);
                         Intent it = new Intent(MenuInicialActivity.this, MotoristaActivity.class);
                         startActivity(it);
                         finish();
+
                     }
 
                 } else if (text.equals("RELATÓRIO")) {

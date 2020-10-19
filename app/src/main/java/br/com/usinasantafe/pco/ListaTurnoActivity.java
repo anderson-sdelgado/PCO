@@ -52,6 +52,7 @@ public class ListaTurnoActivity extends ActivityGeneric {
                 turnoBean.setCodTurno(turno);
                 pcoContext.getConfigCTR().setTurnoConfig(turnoBean);
 
+                pcoContext.setVerTela(2);
                 Intent it = new Intent(ListaTurnoActivity.this, ListaPassageiroActivity.class);
                 startActivity(it);
                 finish();

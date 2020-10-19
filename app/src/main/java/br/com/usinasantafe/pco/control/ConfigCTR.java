@@ -3,12 +3,15 @@ package br.com.usinasantafe.pco.control;
 import android.app.ProgressDialog;
 import android.content.Context;
 
+import java.util.List;
+
 import br.com.usinasantafe.pco.model.bean.estaticas.EquipBean;
 import br.com.usinasantafe.pco.model.bean.estaticas.MotoristaBean;
 import br.com.usinasantafe.pco.model.bean.estaticas.TurnoBean;
 import br.com.usinasantafe.pco.model.bean.variaveis.ConfigBean;
 import br.com.usinasantafe.pco.model.dao.ConfigDAO;
 import br.com.usinasantafe.pco.model.dao.EquipDAO;
+import br.com.usinasantafe.pco.model.dao.MotoristaDAO;
 import br.com.usinasantafe.pco.util.AtualDadosServ;
 
 public class ConfigCTR {
@@ -73,6 +76,12 @@ public class ConfigCTR {
     public void clearDtrhViagemConfig(){
         ConfigDAO configDAO = new ConfigDAO();
         configDAO.clearDtrhViagemConfig();
+    }
+
+    public MotoristaBean getMotoConfig(){
+        ConfigDAO configDAO = new ConfigDAO();
+        MotoristaDAO motoristaDAO = new MotoristaDAO();
+        return motoristaDAO.getMotorista(configDAO.getConfig().getMatricMotoConfig());
     }
 
 }

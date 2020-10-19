@@ -1,8 +1,19 @@
 package br.com.usinasantafe.pco.model.dao;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.List;
 
+import br.com.usinasantafe.pco.control.PassageiroCTR;
 import br.com.usinasantafe.pco.model.bean.estaticas.ColabBean;
+import br.com.usinasantafe.pco.util.VerifDadosServ;
+
 public class ColabDAO {
 
     public ColabDAO() {
@@ -25,6 +36,39 @@ public class ColabDAO {
     private List colabList(Long matricColab){
         ColabBean colabBean = new ColabBean();
         return colabBean.get("matricColab", matricColab);
+    }
+
+    public void verColab(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog){
+        VerifDadosServ.getInstance().setVerTerm(true);
+        VerifDadosServ.getInstance().verDados(dado, "Colab", telaAtual, telaProx, progressDialog);
+    }
+
+    public void recDadosColab(String result){
+
+        try {
+
+            JSONObject jObj = new JSONObject(result);
+            JSONArray jsonArray = jObj.getJSONArray("dados");
+
+            if (jsonArray.length() > 0) {
+
+                JSONObject objeto = jsonArray.getJSONObject(0);
+                Gson gson = new Gson();
+                ColabBean colabBean = gson.fromJson(objeto.toString(), ColabBean.class);
+                colabBean.insert();
+
+                PassageiroCTR passageiroCTR = new PassageiroCTR();
+                passageiroCTR.salvarPassageiro(colabBean.getMatricColab());
+
+                VerifDadosServ.getInstance().pulaTelaSemTerm();
+
+            } else {
+                VerifDadosServ.getInstance().msgSemTerm("COLABORADOR INEXISTENTE NA BASE DE DADOS! FAVOR VERIFICA A NUMERAÇÃO.");
+            }
+
+        } catch (Exception e) {
+            VerifDadosServ.getInstance().msgSemTerm("FALHA DE PESQUISA DE COLABORADOR! POR FAVOR, TENTAR NOVAMENTE COM UM SINAL MELHOR.");
+        }
     }
 
 }

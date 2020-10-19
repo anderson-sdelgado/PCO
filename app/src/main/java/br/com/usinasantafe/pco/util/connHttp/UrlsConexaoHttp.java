@@ -4,8 +4,8 @@ import br.com.usinasantafe.pco.PCOContext;
 
 public class UrlsConexaoHttp {
 
-    public static String urlPrincipal = "http://www.usinasantafe.com.br/pco/view/";
-    public static String urlPrincEnvio = "http://www.usinasantafe.com.br/pco/view/";
+    public static String urlPrincipal = "http://www.usinasantafe.com.br/pcoqa/view/";
+    public static String urlPrincEnvio = "http://www.usinasantafe.com.br/pcoqa/view/";
 
     public static String localPSTEstatica = "br.com.usinasantafe.pco.model.bean.estaticas.";
     public static String localUrl = "br.com.usinasantafe.pco.util.connHttp.UrlsConexaoHttp";
@@ -27,8 +27,12 @@ public class UrlsConexaoHttp {
         String retorno = "";
         if (classe.equals("Equip")) {
             retorno = urlPrincipal + "equip.php" + put;
-        }else if (classe.equals("Atualiza")) {
+        } else if (classe.equals("Atualiza")) {
             retorno = urlPrincEnvio + "atualaplic.php" + put;
+        } else if (classe.equals("Moto")) {
+            retorno = urlPrincEnvio + "atualmoto.php" + put;
+        } else if (classe.equals("Colab")) {
+            retorno = urlPrincEnvio + "atualcolab.php" + put;
         }
         return retorno;
     }

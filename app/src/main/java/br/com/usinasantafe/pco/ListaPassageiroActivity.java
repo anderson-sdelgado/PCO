@@ -1,6 +1,7 @@
 package br.com.usinasantafe.pco;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -17,6 +18,7 @@ import java.util.List;
 import br.com.usinasantafe.pco.model.bean.estaticas.ColabBean;
 import br.com.usinasantafe.pco.model.bean.estaticas.MotoristaBean;
 import br.com.usinasantafe.pco.model.bean.variaveis.PassageiroBean;
+import br.com.usinasantafe.pco.util.ConexaoWeb;
 import br.com.usinasantafe.pco.util.EnvioDadosServ;
 import br.com.usinasantafe.pco.util.Tempo;
 import br.com.usinasantafe.pco.zxing.CaptureActivity;
@@ -30,6 +32,7 @@ public class ListaPassageiroActivity extends ActivityGeneric {
     private TextView textViewMotorista;
     private TextView textViewTurno;
     private AdapterListPassageiro adapterList;
+    private ProgressDialog progressBar;
 
     private TextView textViewProcesso;
     private Handler customHandler = new Handler();
@@ -46,6 +49,7 @@ public class ListaPassageiroActivity extends ActivityGeneric {
         textViewTurno = (TextView) findViewById(R.id.textViewTurno);
         Button buttonInserirPassageiro = (Button) findViewById(R.id.buttonInserirPassageiro);
         Button buttonFecharViagem = (Button) findViewById(R.id.buttonFecharViagem);
+        Button buttonAtualPadrao = (Button) findViewById(R.id.buttonAtualPadrao);
 
         customHandler.postDelayed(updateTimerThread, 0);
 
@@ -70,7 +74,7 @@ public class ListaPassageiroActivity extends ActivityGeneric {
 
         for(PassageiroBean passageiroBean : passageiroList){
             ColabBean colabBean = pcoContext.getPassageiroCTR().getColab(passageiroBean.getMatricColabPassageiro());
-            itens.add(passageiroBean.getDthrPassageiro() + "\n"
+            itens.add(Tempo.getInstance().dataComHoraCTZ(passageiroBean.getDthrPassageiro()) + "\n"
                     + colabBean.getMatricColab() + " - " + colabBean.getNomeColab());
         }
 
@@ -100,6 +104,59 @@ public class ListaPassageiroActivity extends ActivityGeneric {
 
         });
 
+        buttonAtualPadrao.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alerta = new AlertDialog.Builder(ListaPassageiroActivity.this);
+                alerta.setTitle("ATENÇÃO");
+                alerta.setMessage("DESEJA REALMENTE ATUALIZAR BASE DE DADOS?");
+                alerta.setNegativeButton("SIM", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        ConexaoWeb conexaoWeb = new ConexaoWeb();
+
+                        if (conexaoWeb.verificaConexao(ListaPassageiroActivity.this)) {
+
+                            progressBar = new ProgressDialog(ListaPassageiroActivity.this);
+                            progressBar.setCancelable(true);
+                            progressBar.setMessage("ATUALIZANDO MOTORISTA...");
+                            progressBar.show();
+
+                            pcoContext.getPassageiroCTR().atualDadosColab(ListaPassageiroActivity.this
+                                    , ListaPassageiroActivity.class, progressBar);
+
+                        } else {
+
+                            AlertDialog.Builder alerta = new AlertDialog.Builder(ListaPassageiroActivity.this);
+                            alerta.setTitle("ATENÇÃO");
+                            alerta.setMessage("FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.");
+                            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+
+                            alerta.show();
+
+                        }
+                    }
+                });
+
+                alerta.setPositiveButton("NÃO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+                alerta.show();
+            }
+
+        });
+
     }
 
     @Override
@@ -113,7 +170,7 @@ public class ListaPassageiroActivity extends ActivityGeneric {
                     if(pcoContext.getPassageiroCTR().verMatricColabViagem(Long.parseLong(matricula))){
                         pcoContext.getPassageiroCTR().salvarPassageiro(Long.parseLong(matricula));
                         ColabBean colabBean = pcoContext.getPassageiroCTR().getColab(Long.parseLong(matricula));
-                        adapterList.addItem(Tempo.getInstance().dataComHora() + "\n"
+                        adapterList.addItem(Tempo.getInstance().dataComHoraCTZ() + "\n"
                                 + colabBean.getMatricColab() + " - " + colabBean.getNomeColab());
                     }
                     else{
@@ -132,17 +189,14 @@ public class ListaPassageiroActivity extends ActivityGeneric {
 
                 }
                 else{
-                    AlertDialog.Builder alerta = new AlertDialog.Builder(ListaPassageiroActivity.this);
-                    alerta.setTitle("ATENÇÃO");
-                    alerta.setMessage("FALHA LEITURA DE CARTÃO OU FUNCIONÁRIO INEXISTENTE! POR FAVOR, ATUALIZE A BASE DE DADOS E TENTE NOVAMENTE.");
-                    alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
 
-                        }
-                    });
+                    progressBar = new ProgressDialog(ListaPassageiroActivity.this);
+                    progressBar.setCancelable(true);
+                    progressBar.setMessage("ATUALIZANDO COLABORADOR...");
+                    progressBar.show();
 
-                    alerta.show();
+                    pcoContext.setVerTela(4);
+                    pcoContext.getPassageiroCTR().verColab(matricula, ListaPassageiroActivity.this, ListaPassageiroActivity.class, progressBar);
 
                 }
             }

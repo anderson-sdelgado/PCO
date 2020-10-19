@@ -62,4 +62,11 @@
         android:layout_height="wrap_content"
         android:text="@string/texto_fechar_viagem" />
 
+    <Button
+        android:id="@+id/buttonAtualPadrao"
+        style="@style/BotaoAvulso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/texto_atual_colab" />
+
 </LinearLayout>

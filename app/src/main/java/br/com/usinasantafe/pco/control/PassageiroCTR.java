@@ -1,13 +1,19 @@
 package br.com.usinasantafe.pco.control;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pco.model.bean.estaticas.ColabBean;
 import br.com.usinasantafe.pco.model.bean.estaticas.MotoristaBean;
 import br.com.usinasantafe.pco.model.bean.variaveis.PassageiroBean;
 import br.com.usinasantafe.pco.model.dao.ColabDAO;
+import br.com.usinasantafe.pco.model.dao.EquipDAO;
 import br.com.usinasantafe.pco.model.dao.MotoristaDAO;
 import br.com.usinasantafe.pco.model.dao.PassageiroDAO;
+import br.com.usinasantafe.pco.util.AtualDadosServ;
 
 public class PassageiroCTR {
 
@@ -75,6 +81,28 @@ public class PassageiroCTR {
     public void delPassageiro(){
         PassageiroDAO passageiroDAO = new PassageiroDAO();
         passageiroDAO.delPassageiro();
+    }
+
+    public void atualDadosMotorista(Context telaAtual, Class telaProx, ProgressDialog progressDialog){
+        ArrayList colabArrayList = new ArrayList();
+        colabArrayList.add("MotoristaBean");
+        AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, colabArrayList);
+    }
+
+    public void atualDadosColab(Context telaAtual, Class telaProx, ProgressDialog progressDialog){
+        ArrayList colabArrayList = new ArrayList();
+        colabArrayList.add("ColabBean");
+        AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, colabArrayList);
+    }
+
+    public void verMotorista(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog){
+        MotoristaDAO motoristaDAO = new MotoristaDAO();
+        motoristaDAO.verMotorista(dado, telaAtual, telaProx, progressDialog);
+    }
+
+    public void verColab(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog){
+        ColabDAO colabDAO = new ColabDAO();
+        colabDAO.verColab(dado, telaAtual, telaProx, progressDialog);
     }
 
 }

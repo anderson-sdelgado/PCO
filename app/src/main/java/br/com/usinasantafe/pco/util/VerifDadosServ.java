@@ -18,7 +18,9 @@ import java.util.Map;
 import br.com.usinasantafe.pco.MenuInicialActivity;
 import br.com.usinasantafe.pco.control.ConfigCTR;
 import br.com.usinasantafe.pco.model.bean.AtualAplicBean;
+import br.com.usinasantafe.pco.model.dao.ColabDAO;
 import br.com.usinasantafe.pco.model.dao.EquipDAO;
+import br.com.usinasantafe.pco.model.dao.MotoristaDAO;
 import br.com.usinasantafe.pco.model.pst.GenericRecordable;
 import br.com.usinasantafe.pco.util.connHttp.PostVerGenerico;
 import br.com.usinasantafe.pco.util.connHttp.UrlsConexaoHttp;
@@ -65,9 +67,18 @@ public class VerifDadosServ {
                 } else {
                     this.menuInicialActivity.startTimer(verAtual);
                 }
-            }else if (this.tipo.equals("Equip")) {
+            }
+            else if (this.tipo.equals("Equip")) {
                 EquipDAO equipDAO = new EquipDAO();
                 equipDAO.recDadosEquip(result);
+            }
+            else if (this.tipo.equals("Moto")) {
+                MotoristaDAO motoristaDAO = new MotoristaDAO();
+                motoristaDAO.recDadosMotorista(result);
+            }
+            else if (this.tipo.equals("Colab")) {
+                ColabDAO colabDAO = new ColabDAO();
+                colabDAO.recDadosColab(result);
             }
         }
 
