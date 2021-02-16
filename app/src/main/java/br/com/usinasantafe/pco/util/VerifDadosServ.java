@@ -15,7 +15,7 @@ import com.google.gson.JsonObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import br.com.usinasantafe.pco.MenuInicialActivity;
+import br.com.usinasantafe.pco.view.MenuInicialActivity;
 import br.com.usinasantafe.pco.control.ConfigCTR;
 import br.com.usinasantafe.pco.model.bean.AtualAplicBean;
 import br.com.usinasantafe.pco.model.dao.ColabDAO;

@@ -1,10 +1,13 @@
-package br.com.usinasantafe.pco;
+package br.com.usinasantafe.pco.view;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import br.com.usinasantafe.pco.PCOContext;
+import br.com.usinasantafe.pco.R;
 
 public class SenhaActivity extends ActivityGeneric {
 
@@ -59,4 +62,8 @@ public class SenhaActivity extends ActivityGeneric {
         });
 
     }
+
+    public void onBackPressed() {
+    }
+
 }

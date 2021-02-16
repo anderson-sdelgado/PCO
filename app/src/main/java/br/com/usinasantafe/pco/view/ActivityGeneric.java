@@ -1,4 +1,4 @@
-package br.com.usinasantafe.pco;
+package br.com.usinasantafe.pco.view;
 
 import android.os.Bundle;
 import android.view.View;
@@ -7,6 +7,7 @@ import android.widget.EditText;
 
 import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
 
+import br.com.usinasantafe.pco.R;
 import br.com.usinasantafe.pco.model.pst.DatabaseHelper;
 
 public class ActivityGeneric extends OrmLiteBaseActivity<DatabaseHelper> {

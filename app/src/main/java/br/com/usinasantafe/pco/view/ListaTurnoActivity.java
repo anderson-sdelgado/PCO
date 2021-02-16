@@ -1,8 +1,5 @@
-package br.com.usinasantafe.pco;
+package br.com.usinasantafe.pco.view;
 
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,10 +8,10 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.List;
 
+import br.com.usinasantafe.pco.PCOContext;
+import br.com.usinasantafe.pco.R;
 import br.com.usinasantafe.pco.model.bean.estaticas.TurnoBean;
-import br.com.usinasantafe.pco.util.ConexaoWeb;
 
 public class ListaTurnoActivity extends ActivityGeneric {
 
@@ -70,5 +67,8 @@ public class ListaTurnoActivity extends ActivityGeneric {
             }
         });
 
+    }
+
+    public void onBackPressed() {
     }
 }

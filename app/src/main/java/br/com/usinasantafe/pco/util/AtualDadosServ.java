@@ -14,7 +14,7 @@ import org.json.JSONObject;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
-import br.com.usinasantafe.pco.MenuInicialActivity;
+import br.com.usinasantafe.pco.view.MenuInicialActivity;
 import br.com.usinasantafe.pco.model.pst.GenericRecordable;
 import br.com.usinasantafe.pco.util.connHttp.GetBDGenerico;
 import br.com.usinasantafe.pco.util.connHttp.UrlsConexaoHttp;

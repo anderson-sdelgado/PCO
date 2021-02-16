@@ -1,4 +1,4 @@
-package br.com.usinasantafe.pco;
+package br.com.usinasantafe.pco.view;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -22,6 +22,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import br.com.usinasantafe.pco.PCOContext;
+import br.com.usinasantafe.pco.R;
+import br.com.usinasantafe.pco.ReceberAlarme;
 import br.com.usinasantafe.pco.util.ConexaoWeb;
 import br.com.usinasantafe.pco.util.EnvioDadosServ;
 import br.com.usinasantafe.pco.util.VerifDadosServ;
@@ -213,6 +216,9 @@ public class MenuInicialActivity extends ActivityGeneric {
 
     public void clearBD() {
         pcoContext.getPassageiroCTR().delPassageiro();
+    }
+
+    public void onBackPressed() {
     }
 
 }

@@ -1,4 +1,4 @@
-package br.com.usinasantafe.pco;
+package br.com.usinasantafe.pco.view;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -15,6 +15,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.usinasantafe.pco.PCOContext;
+import br.com.usinasantafe.pco.R;
 import br.com.usinasantafe.pco.model.bean.estaticas.ColabBean;
 import br.com.usinasantafe.pco.model.bean.estaticas.MotoristaBean;
 import br.com.usinasantafe.pco.model.bean.variaveis.PassageiroBean;
@@ -225,5 +227,9 @@ public class ListaPassageiroActivity extends ActivityGeneric {
             customHandler.postDelayed(this, 10000);
         }
     };
+
+
+    public void onBackPressed() {
+    }
 
 }

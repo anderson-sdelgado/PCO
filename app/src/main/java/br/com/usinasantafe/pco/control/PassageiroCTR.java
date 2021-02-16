@@ -10,7 +10,6 @@ import br.com.usinasantafe.pco.model.bean.estaticas.ColabBean;
 import br.com.usinasantafe.pco.model.bean.estaticas.MotoristaBean;
 import br.com.usinasantafe.pco.model.bean.variaveis.PassageiroBean;
 import br.com.usinasantafe.pco.model.dao.ColabDAO;
-import br.com.usinasantafe.pco.model.dao.EquipDAO;
 import br.com.usinasantafe.pco.model.dao.MotoristaDAO;
 import br.com.usinasantafe.pco.model.dao.PassageiroDAO;
 import br.com.usinasantafe.pco.util.AtualDadosServ;

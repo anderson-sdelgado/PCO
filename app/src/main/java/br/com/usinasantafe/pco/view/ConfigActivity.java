@@ -1,4 +1,4 @@
-package br.com.usinasantafe.pco;
+package br.com.usinasantafe.pco.view;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import br.com.usinasantafe.pco.PCOContext;
+import br.com.usinasantafe.pco.R;
 import br.com.usinasantafe.pco.util.ConexaoWeb;
 
 public class ConfigActivity extends ActivityGeneric {
@@ -102,4 +104,8 @@ public class ConfigActivity extends ActivityGeneric {
         });
 
     }
+
+    public void onBackPressed() {
+    }
+
 }

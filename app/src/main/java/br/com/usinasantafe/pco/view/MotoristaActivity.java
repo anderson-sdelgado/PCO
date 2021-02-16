@@ -1,4 +1,4 @@
-package br.com.usinasantafe.pco;
+package br.com.usinasantafe.pco.view;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import br.com.usinasantafe.pco.PCOContext;
+import br.com.usinasantafe.pco.R;
 import br.com.usinasantafe.pco.model.bean.estaticas.MotoristaBean;
 import br.com.usinasantafe.pco.util.ConexaoWeb;
 import br.com.usinasantafe.pco.util.VerifDadosServ;
@@ -194,5 +196,8 @@ public class MotoristaActivity extends ActivityGeneric {
 
         }
     };
+
+    public void onBackPressed() {
+    }
 
 }
