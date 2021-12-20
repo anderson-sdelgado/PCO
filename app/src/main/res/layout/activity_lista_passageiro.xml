@@ -28,7 +28,12 @@
         android:id="@+id/textViewTurno"
         style="@style/TextViewMenuNegrito"
         android:paddingLeft="3dp"
-        android:paddingTop="3dp"
+        android:text="@string/texto_menu_turno" />
+
+    <TextView
+        android:id="@+id/textViewLotacao"
+        style="@style/TextViewMenuNegrito"
+        android:paddingLeft="3dp"
         android:paddingBottom="3dp"
         android:text="@string/texto_menu_turno" />
 

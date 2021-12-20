@@ -15,6 +15,8 @@ public class PassageiroBean extends Entidade {
     @DatabaseField
     private String dthrViagemPassageiro;
     @DatabaseField
+    private Long dthrLongViagemPassageiro;
+    @DatabaseField
     private Long idEquipPassageiro;
     @DatabaseField
     private Long matricMotoPassageiro;
@@ -24,6 +26,8 @@ public class PassageiroBean extends Entidade {
     private Long matricColabPassageiro;
     @DatabaseField
     private String dthrPassageiro;
+    @DatabaseField
+    private Long dthrLongPassageiro;
     @DatabaseField
     private Long statusPassageiro; // 1 - Sem Envio; 2 - Enviado
 
@@ -92,5 +96,21 @@ public class PassageiroBean extends Entidade {
 
     public void setStatusPassageiro(Long statusPassageiro) {
         this.statusPassageiro = statusPassageiro;
+    }
+
+    public Long getDthrLongViagemPassageiro() {
+        return dthrLongViagemPassageiro;
+    }
+
+    public void setDthrLongViagemPassageiro(Long dthrLongViagemPassageiro) {
+        this.dthrLongViagemPassageiro = dthrLongViagemPassageiro;
+    }
+
+    public Long getDthrLongPassageiro() {
+        return dthrLongPassageiro;
+    }
+
+    public void setDthrLongPassageiro(Long dthrLongPassageiro) {
+        this.dthrLongPassageiro = dthrLongPassageiro;
     }
 }

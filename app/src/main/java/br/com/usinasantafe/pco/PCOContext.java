@@ -10,11 +10,7 @@ public class PCOContext extends Application {
     public static String versaoAplic = "1.02";
     private PassageiroCTR passageiroCTR;
     private ConfigCTR configCTR;
-    private int verTela;
-    // 1 - Tela Inicial
-    // 2 - Tela Passageiro
-    // 3 - Verificando Motorista
-    // 4 - Verificando Colaborador
+    private String matriculaPassageiro;
 
     @Override
     public void onCreate() {
@@ -33,11 +29,12 @@ public class PCOContext extends Application {
         return configCTR;
     }
 
-    public int getVerTela() {
-        return verTela;
+    public String getMatriculaPassageiro() {
+        return matriculaPassageiro;
     }
 
-    public void setVerTela(int verTela) {
-        this.verTela = verTela;
+    public void setMatriculaPassageiro(String matriculaPassageiro) {
+        this.matriculaPassageiro = matriculaPassageiro;
     }
+
 }

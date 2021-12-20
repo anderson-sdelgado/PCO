@@ -11,6 +11,7 @@ import java.net.URL;
 import java.util.Iterator;
 import java.util.Map;
 
+import br.com.usinasantafe.pco.model.dao.LogErroDAO;
 import br.com.usinasantafe.pco.util.EnvioDadosServ;
 import br.com.usinasantafe.pco.util.Tempo;
 
@@ -19,6 +20,7 @@ public class PostCadGenerico extends AsyncTask<String, Void, String> {
 
 	private static PostCadGenerico instance = null;
 	private Map<String, Object> parametrosPost = null;
+	private String activity;
 
 	public PostCadGenerico() {
 	}
@@ -37,6 +39,7 @@ public class PostCadGenerico extends AsyncTask<String, Void, String> {
 		String resultado = null;
 		
 		String url = arg[0];
+		this.activity = arg[1];
 		
 		try {
 
@@ -67,30 +70,25 @@ public class PostCadGenerico extends AsyncTask<String, Void, String> {
 			connection.disconnect();
 			
 		} catch (Exception e) {
-			Log.i("PMM", "Erro = " + e);
-			Tempo.getInstance().setEnvioDado(true);
+			EnvioDadosServ.status = 1;
+			LogErroDAO.getInstance().insertLogErro(e);
 			if(bufferedReader != null){
 				try {
 					bufferedReader.close();
 				} catch (Exception er) {
 					Log.i("PMM", "Erro = " + er);
-					EnvioDadosServ.getInstance().setPosEnvio(2);
+					LogErroDAO.getInstance().insertLogErro(er);
 				}
-				EnvioDadosServ.getInstance().setPosEnvio(2);
 			}
 		}
 		finally{
-			
 			if(bufferedReader != null){
 				try {
 					bufferedReader.close();
 				} catch (Exception e) {
-					Log.i("PMM", "Erro = " + e);
-					EnvioDadosServ.getInstance().setPosEnvio(2);
+					LogErroDAO.getInstance().insertLogErro(e);
 				}
-				
 			}
-			
 		}
 		return resultado;
 		
@@ -100,10 +98,10 @@ public class PostCadGenerico extends AsyncTask<String, Void, String> {
 
 		try {
 			Log.i("PCO", "VALOR RECEBIDO --> " + result);
-			EnvioDadosServ.getInstance().recDados(result);
+			EnvioDadosServ.getInstance().recDados(result, activity);
 		} catch (Exception e) {
-			Log.i("PCO", "FALHA RECEBIMENTO = " + e);
-			EnvioDadosServ.getInstance().setPosEnvio(2);
+			EnvioDadosServ.status = 1;
+			LogErroDAO.getInstance().insertLogErro(e);
 		}
 		
     }

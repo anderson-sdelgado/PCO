@@ -20,9 +20,10 @@ import br.com.usinasantafe.pco.R;
 import br.com.usinasantafe.pco.model.bean.estaticas.ColabBean;
 import br.com.usinasantafe.pco.model.bean.estaticas.MotoristaBean;
 import br.com.usinasantafe.pco.model.bean.variaveis.PassageiroBean;
-import br.com.usinasantafe.pco.util.ConexaoWeb;
+import br.com.usinasantafe.pco.model.dao.LogProcessoDAO;
 import br.com.usinasantafe.pco.util.EnvioDadosServ;
 import br.com.usinasantafe.pco.util.Tempo;
+import br.com.usinasantafe.pco.util.VerifDadosServ;
 import br.com.usinasantafe.pco.zxing.CaptureActivity;
 
 public class ListaPassageiroActivity extends ActivityGeneric {
@@ -53,6 +54,31 @@ public class ListaPassageiroActivity extends ActivityGeneric {
         Button buttonFecharViagem = (Button) findViewById(R.id.buttonFecharViagem);
         Button buttonAtualPadrao = (Button) findViewById(R.id.buttonAtualPadrao);
 
+        LogProcessoDAO.getInstance().insertLogProcesso("customHandler.postDelayed(updateTimerThread, 0);\n" +
+                "        MotoristaBean motoristaBean = pcoContext.getPassageiroCTR().getMotorista(pcoContext.getConfigCTR().getConfig().getMatricMotoConfig());\n" +
+                "        textViewMotorista.setText(motoristaBean.getMatricMoto() + \" - \" + motoristaBean.getNomeMoto());\n" +
+                "        String turno = \"\";\n" +
+                "        if(pcoContext.getConfigCTR().getConfig().getIdTurnoConfig() == 1) {\n" +
+                "            turno = \"TURNO 1: 00:02 - 07:30\";\n" +
+                "        }\n" +
+                "        else if(pcoContext.getConfigCTR().getConfig().getIdTurnoConfig() == 2) {\n" +
+                "            turno = \"TURNO 2: 07:31 - 15:54\";\n" +
+                "        }\n" +
+                "        else{\n" +
+                "            turno = \"TURNO 3: 15:55 - 00:01\";\n" +
+                "        }\n" +
+                "        textViewTurno.setText(turno);\n" +
+                "        passageiroList = pcoContext.getPassageiroCTR().passageiroList();\n" +
+                "        ArrayList<String> itens = new ArrayList<>();\n" +
+                "        for(PassageiroBean passageiroBean : passageiroList){\n" +
+                "            ColabBean colabBean = pcoContext.getPassageiroCTR().getColab(passageiroBean.getMatricColabPassageiro());\n" +
+                "            itens.add(Tempo.getInstance().dthr(passageiroBean.getDthrLongPassageiro()) + \"\\n\"\n" +
+                "                    + colabBean.getMatricColab() + \" - \" + colabBean.getNomeColab());\n" +
+                "        }\n" +
+                "        adapterList = new AdapterListPassageiro(this, itens);\n" +
+                "        passageiroListView = (ListView) findViewById(R.id.passageiroListView);\n" +
+                "        passageiroListView.setAdapter(adapterList);", getLocalClassName());
+
         customHandler.postDelayed(updateTimerThread, 0);
 
         MotoristaBean motoristaBean = pcoContext.getPassageiroCTR().getMotorista(pcoContext.getConfigCTR().getConfig().getMatricMotoConfig());
@@ -76,7 +102,7 @@ public class ListaPassageiroActivity extends ActivityGeneric {
 
         for(PassageiroBean passageiroBean : passageiroList){
             ColabBean colabBean = pcoContext.getPassageiroCTR().getColab(passageiroBean.getMatricColabPassageiro());
-            itens.add(Tempo.getInstance().dataComHoraCTZ(passageiroBean.getDthrPassageiro()) + "\n"
+            itens.add(Tempo.getInstance().dthr(passageiroBean.getDthrLongPassageiro()) + "\n"
                     + colabBean.getMatricColab() + " - " + colabBean.getNomeColab());
         }
 
@@ -85,9 +111,13 @@ public class ListaPassageiroActivity extends ActivityGeneric {
         passageiroListView.setAdapter(adapterList);
 
         buttonInserirPassageiro.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonInserirPassageiro.setOnClickListener(new View.OnClickListener() {\n" +
+                        "            @Override\n" +
+                        "            public void onClick(View v) {\n" +
+                        "                Intent it = new Intent(ListaPassageiroActivity.this, CaptureActivity.class);\n" +
+                        "                startActivityForResult(it, REQUEST_CODE);", getLocalClassName());
                 Intent it = new Intent(ListaPassageiroActivity.this, CaptureActivity.class);
                 startActivityForResult(it, REQUEST_CODE);
             }
@@ -95,9 +125,13 @@ public class ListaPassageiroActivity extends ActivityGeneric {
         });
 
         buttonFecharViagem.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonFecharViagem.setOnClickListener(new View.OnClickListener() {\n" +
+                        "            @Override\n" +
+                        "            public void onClick(View v) {\n" +
+                        "                pcoContext.getConfigCTR().clearDtrhViagemConfig();\n" +
+                        "                Intent it = new Intent(ListaPassageiroActivity.this, MenuInicialActivity.class);", getLocalClassName());
                 pcoContext.getConfigCTR().clearDtrhViagemConfig();
                 Intent it = new Intent(ListaPassageiroActivity.this, MenuInicialActivity.class);
                 startActivity(it);
@@ -110,34 +144,55 @@ public class ListaPassageiroActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonAtualPadrao.setOnClickListener(new View.OnClickListener() {\n" +
+                        "            @Override\n" +
+                        "            public void onClick(View v) {\n" +
+                        "                AlertDialog.Builder alerta = new AlertDialog.Builder(ListaPassageiroActivity.this);\n" +
+                        "                alerta.setTitle(\"ATENÇÃO\");\n" +
+                        "                alerta.setMessage(\"DESEJA REALMENTE ATUALIZAR BASE DE DADOS?\");", getLocalClassName());
                 AlertDialog.Builder alerta = new AlertDialog.Builder(ListaPassageiroActivity.this);
                 alerta.setTitle("ATENÇÃO");
                 alerta.setMessage("DESEJA REALMENTE ATUALIZAR BASE DE DADOS?");
                 alerta.setNegativeButton("SIM", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        LogProcessoDAO.getInstance().insertLogProcesso("alerta.setNegativeButton(\"SIM\", new DialogInterface.OnClickListener() {\n" +
+                                "                    @Override\n" +
+                                "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
+                        if (connectNetwork) {
 
-                        ConexaoWeb conexaoWeb = new ConexaoWeb();
-
-                        if (conexaoWeb.verificaConexao(ListaPassageiroActivity.this)) {
+                            LogProcessoDAO.getInstance().insertLogProcesso("if (connectNetwork) {\n" +
+                                    "                            progressBar = new ProgressDialog(ListaPassageiroActivity.this);\n" +
+                                    "                            progressBar.setCancelable(true);\n" +
+                                    "                            progressBar.setMessage(\"ATUALIZANDO MOTORISTA...\");\n" +
+                                    "                            progressBar.show();\n" +
+                                    "                            pcoContext.getPassageiroCTR().atualDados(ListaPassageiroActivity.this\n" +
+                                    "                                    , ListaPassageiroActivity.class, progressBar, \"Colab\");", getLocalClassName());
 
                             progressBar = new ProgressDialog(ListaPassageiroActivity.this);
                             progressBar.setCancelable(true);
                             progressBar.setMessage("ATUALIZANDO MOTORISTA...");
                             progressBar.show();
 
-                            pcoContext.getPassageiroCTR().atualDadosColab(ListaPassageiroActivity.this
-                                    , ListaPassageiroActivity.class, progressBar);
+                            pcoContext.getPassageiroCTR().atualDados(ListaPassageiroActivity.this
+                                    , ListaPassageiroActivity.class, progressBar, "Colab");
 
                         } else {
 
+                            LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                                    "\n" +
+                                    "                            AlertDialog.Builder alerta = new AlertDialog.Builder(ListaPassageiroActivity.this);\n" +
+                                    "                            alerta.setTitle(\"ATENÇÃO\");\n" +
+                                    "                            alerta.setMessage(\"FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.\");", getLocalClassName());
                             AlertDialog.Builder alerta = new AlertDialog.Builder(ListaPassageiroActivity.this);
                             alerta.setTitle("ATENÇÃO");
                             alerta.setMessage("FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.");
                             alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-
+                                    LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
+                                            "                                @Override\n" +
+                                            "                                public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
                                 }
                             });
 
@@ -150,7 +205,9 @@ public class ListaPassageiroActivity extends ActivityGeneric {
                 alerta.setPositiveButton("NÃO", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"NÃO\", new DialogInterface.OnClickListener() {\n" +
+                                "                    @Override\n" +
+                                "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
                     }
                 });
 
@@ -164,59 +221,36 @@ public class ListaPassageiroActivity extends ActivityGeneric {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
 
-        if(REQUEST_CODE == requestCode && RESULT_OK == resultCode){
-            String matricula = data.getStringExtra("SCAN_RESULT");
-            if(matricula.length() == 8){
-                matricula = matricula.substring(0,7);
-                if (pcoContext.getPassageiroCTR().verColab(Long.parseLong(matricula))) {
-                    if(pcoContext.getPassageiroCTR().verMatricColabViagem(Long.parseLong(matricula))){
-                        pcoContext.getPassageiroCTR().salvarPassageiro(Long.parseLong(matricula));
-                        ColabBean colabBean = pcoContext.getPassageiroCTR().getColab(Long.parseLong(matricula));
-                        adapterList.addItem(Tempo.getInstance().dataComHoraCTZ() + "\n"
-                                + colabBean.getMatricColab() + " - " + colabBean.getNomeColab());
-                    }
-                    else{
-                        AlertDialog.Builder alerta = new AlertDialog.Builder(ListaPassageiroActivity.this);
-                        alerta.setTitle("ATENÇÃO");
-                        alerta.setMessage("FUNCIONÁRIO REPETIDO! FAVOR, INSERIR OUTRO FUNCIONÁRIO.");
-                        alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        });
-
-                        alerta.show();
-                    }
-
-                }
-                else{
-
-                    progressBar = new ProgressDialog(ListaPassageiroActivity.this);
-                    progressBar.setCancelable(true);
-                    progressBar.setMessage("ATUALIZANDO COLABORADOR...");
-                    progressBar.show();
-
-                    pcoContext.setVerTela(4);
-                    pcoContext.getPassageiroCTR().verColab(matricula, ListaPassageiroActivity.this, ListaPassageiroActivity.class, progressBar);
-
-                }
+            if(REQUEST_CODE == requestCode && RESULT_OK == resultCode){
+                LogProcessoDAO.getInstance().insertLogProcesso("public void onActivityResult(int requestCode, int resultCode, Intent data){\n" +
+                        "            if(REQUEST_CODE == requestCode && RESULT_OK == resultCode){\n" +
+                        "                String matriculaPassageiro = data.getStringExtra(\"SCAN_RESULT\");\n" +
+                        "                pcoContext.setMatriculaPassageiro(matriculaPassageiro);\n" +
+                        "                VerifDadosServ.getInstance().setMsgVerifColab(\"\");\n" +
+                        "                Intent it = new Intent(ListaPassageiroActivity.this, MsgAddPassageiroActivity.class);", getLocalClassName());
+                String matriculaPassageiro = data.getStringExtra("SCAN_RESULT");
+                pcoContext.setMatriculaPassageiro(matriculaPassageiro);
+                VerifDadosServ.getInstance().setMsgVerifColab("");
+                Intent it = new Intent(ListaPassageiroActivity.this, MsgAddPassageiroActivity.class);
+                startActivity(it);
+                finish();
             }
-        }
 
     }
 
     private Runnable updateTimerThread = new Runnable() {
 
         public void run() {
-            if (pcoContext.getConfigCTR().hasElements()) {
-                if (EnvioDadosServ.getInstance().getStatusEnvio() == 1) {
-                    textViewProcesso.setTextColor(Color.YELLOW);
-                    textViewProcesso.setText("Enviando Dados...");
-                } else if (EnvioDadosServ.getInstance().getStatusEnvio() == 2) {
+            if (pcoContext.getConfigCTR().hasElemConfig()) {
+                LogProcessoDAO.getInstance().insertLogProcesso("if (pcoContext.getConfigCTR().hasElemConfig()) {\n" +
+                        "EnvioDadosServ.status = " + EnvioDadosServ.status, getLocalClassName());
+                if (EnvioDadosServ.status == 1) {
                     textViewProcesso.setTextColor(Color.RED);
                     textViewProcesso.setText("Existem Dados para serem Enviados");
-                } else if (EnvioDadosServ.getInstance().getStatusEnvio() == 3) {
+                } else if (EnvioDadosServ.status == 2) {
+                    textViewProcesso.setTextColor(Color.YELLOW);
+                    textViewProcesso.setText("Enviando Dados...");
+                } else if (EnvioDadosServ.status == 3) {
                     textViewProcesso.setTextColor(Color.GREEN);
                     textViewProcesso.setText("Todos os Dados já foram Enviados");
                 }
@@ -227,7 +261,6 @@ public class ListaPassageiroActivity extends ActivityGeneric {
             customHandler.postDelayed(this, 10000);
         }
     };
-
 
     public void onBackPressed() {
     }

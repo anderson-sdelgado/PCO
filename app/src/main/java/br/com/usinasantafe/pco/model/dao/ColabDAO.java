@@ -12,6 +12,7 @@ import java.util.List;
 
 import br.com.usinasantafe.pco.control.PassageiroCTR;
 import br.com.usinasantafe.pco.model.bean.estaticas.ColabBean;
+import br.com.usinasantafe.pco.util.Tempo;
 import br.com.usinasantafe.pco.util.VerifDadosServ;
 
 public class ColabDAO {
@@ -20,20 +21,20 @@ public class ColabDAO {
     }
 
     public boolean verColab(Long matricColab){
-        List colabList = colabList(matricColab);
+        List<ColabBean> colabList = colabList(matricColab);
         boolean ret = colabList.size() > 0;
         colabList.clear();
         return ret;
     }
 
     public ColabBean getColab(Long matricColab){
-        List colabList = colabList(matricColab);
+        List<ColabBean> colabList = colabList(matricColab);
         ColabBean colabBean = (ColabBean) colabList.get(0);
         colabList.clear();
         return colabBean;
     }
 
-    private List colabList(Long matricColab){
+    private List<ColabBean> colabList(Long matricColab){
         ColabBean colabBean = new ColabBean();
         return colabBean.get("matricColab", matricColab);
     }
@@ -43,7 +44,7 @@ public class ColabDAO {
         VerifDadosServ.getInstance().verDados(dado, "Colab", telaAtual, telaProx, progressDialog);
     }
 
-    public void recDadosColab(String result){
+    public void recDadosColab(String result, String activity){
 
         try {
 
@@ -58,16 +59,20 @@ public class ColabDAO {
                 colabBean.insert();
 
                 PassageiroCTR passageiroCTR = new PassageiroCTR();
-                passageiroCTR.salvarPassageiro(colabBean.getMatricColab());
+                passageiroCTR.salvarPassageiro(colabBean.getMatricColab(), activity);
 
+                VerifDadosServ.getInstance().setMsgVerifColab(Tempo.getInstance().dthr() + "\n" +
+                        + colabBean.getMatricColab() + " - " + colabBean.getNomeColab());
                 VerifDadosServ.getInstance().pulaTelaSemTerm();
 
             } else {
-                VerifDadosServ.getInstance().msgSemTerm("COLABORADOR INEXISTENTE NA BASE DE DADOS! FAVOR VERIFICA A NUMERAÇÃO.");
+                VerifDadosServ.getInstance().setMsgVerifColab("COLABORADOR INEXISTENTE NA BASE DE DADOS! FAVOR VERIFICA A NUMERAÇÃO.");
+                VerifDadosServ.getInstance().pulaTelaSemTerm();
             }
 
         } catch (Exception e) {
-            VerifDadosServ.getInstance().msgSemTerm("FALHA DE PESQUISA DE COLABORADOR! POR FAVOR, TENTAR NOVAMENTE COM UM SINAL MELHOR.");
+            VerifDadosServ.getInstance().setMsgVerifColab("FALHA DE PESQUISA DE COLABORADOR! POR FAVOR, TENTAR NOVAMENTE COM UM SINAL MELHOR.");
+            VerifDadosServ.getInstance().pulaTelaSemTerm();
         }
     }
 

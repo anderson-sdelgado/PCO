@@ -7,16 +7,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 import br.com.usinasantafe.pco.control.PassageiroCTR;
+import br.com.usinasantafe.pco.model.dao.LogProcessoDAO;
 import br.com.usinasantafe.pco.model.dao.PassageiroDAO;
 import br.com.usinasantafe.pco.util.connHttp.PostCadGenerico;
 import br.com.usinasantafe.pco.util.connHttp.UrlsConexaoHttp;
+import br.com.usinasantafe.pco.view.ActivityGeneric;
 
 public class EnvioDadosServ {
 
     private static EnvioDadosServ instance = null;
     private UrlsConexaoHttp urlsConexaoHttp;
-
-    private int statusEnvio; //1 - Enviando; 2 - Existe Dados para Enviar; 3 - Todos os Dados Enviados
+    public static int status; //1 - Existe Dados para Enviar; 2 - Enviado; 3 - Todos os Dados Foram Enviados;
     private int posEnvio;
     private Context context;
 
@@ -31,33 +32,21 @@ public class EnvioDadosServ {
         return instance;
     }
 
-    public void enviarDados(Context context) {
-
-        this.context = context;
-
-        ConexaoWeb conexaoWeb = new ConexaoWeb();
-        if (conexaoWeb.verificaConexao(this.context)) {
-
-            PassageiroCTR passageiroCTR = new PassageiroCTR();
-            String dados = passageiroCTR.dadosEnvio();
-
-            Log.i("PMM", "PASSAGEIRO = " + dados);
-
-            UrlsConexaoHttp urlsConexaoHttp = new UrlsConexaoHttp();
-
-            String[] url = {urlsConexaoHttp.getsInserirPassageiro()};
-            Map<String, Object> parametrosPost = new HashMap<String, Object>();
-            parametrosPost.put("dado", dados);
-
-            PostCadGenerico conHttpPostGenerico = new PostCadGenerico();
-            conHttpPostGenerico.setParametrosPost(parametrosPost);
-            conHttpPostGenerico.execute(url);
-
+    public void envioDados(String activity) {
+        status = 1;
+        if(ActivityGeneric.connectNetwork) {
+            LogProcessoDAO.getInstance().insertLogProcesso("ActivityGeneric.connectNetwork", activity);
+            status = 2;
+            if (verifDadosEnvio()) {
+                LogProcessoDAO.getInstance().insertLogProcesso("if (verifCabecFechado()) {\n" +
+                        "enviarCabecFechado(activity);", activity);
+                enviarPassageiro(activity);
+            } else {
+                status = 3;
+            }
+        } else{
+            status = 3;
         }
-        else{
-            statusEnvio = 2;
-        }
-
     }
 
     public boolean verifDadosEnvio() {
@@ -65,24 +54,40 @@ public class EnvioDadosServ {
         return passageiroCTR.verPassageiroNEnviado();
     }
 
-    public int getStatusEnvio() {
-        return statusEnvio;
+
+    ////////////////////////////////// ENVIAR DADOS ///////////////////////////////////////////////
+
+    public void enviarPassageiro(String activity) {
+
+        PassageiroCTR passageiroCTR = new PassageiroCTR();
+        LogProcessoDAO.getInstance().insertLogProcesso("envio(urlsConexaoHttp.getsInsertBolFechadoMMFert(), carregCTR.dadosEnvioCabecFechado(), activity);", activity);
+        envio(urlsConexaoHttp.getsInserirPassageiro(), passageiroCTR.dadosEnvio(), activity);
+
     }
 
-    ////////////////////////////////////MECANISMO RECEBIMENTO/////////////////////////////////////////
+    public void envio(String url, String dados, String activity){
 
-    public void recDados(String result){
-        if(result.trim().startsWith("SALVOU")) {
-            PassageiroCTR passageiroCTR = new PassageiroCTR();
-            passageiroCTR.updatePassageiro(result);
-        }
+        String[] strings = {url, activity};
+        Map<String, Object> parametrosPost = new HashMap<String, Object>();
+        parametrosPost.put("dado", dados);
+        LogProcessoDAO.getInstance().insertLogProcesso("postCadGenerico.execute('" + url + "'); - Dados de Envio = " + dados, activity);
+        PostCadGenerico postCadGenerico = new PostCadGenerico();
+        postCadGenerico.setParametrosPost(parametrosPost);
+        postCadGenerico.execute(strings);
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void setStatusEnvio(int statusEnvio) {
-        this.statusEnvio = statusEnvio;
+    ////////////////////////////////////MECANISMO RECEBIMENTO/////////////////////////////////////////
+
+    public void recDados(String result, String activity){
+        if(result.trim().startsWith("SALVOU")) {
+            PassageiroCTR passageiroCTR = new PassageiroCTR();
+            passageiroCTR.updatePassageiro(result, activity);
+        }
     }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     public int getPosEnvio() {
         return posEnvio;

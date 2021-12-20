@@ -24,8 +24,7 @@ import java.util.Calendar;
 
 import br.com.usinasantafe.pco.PCOContext;
 import br.com.usinasantafe.pco.R;
-import br.com.usinasantafe.pco.ReceberAlarme;
-import br.com.usinasantafe.pco.util.ConexaoWeb;
+import br.com.usinasantafe.pco.model.dao.LogProcessoDAO;
 import br.com.usinasantafe.pco.util.EnvioDadosServ;
 import br.com.usinasantafe.pco.util.VerifDadosServ;
 
@@ -46,8 +45,6 @@ public class MenuInicialActivity extends ActivityGeneric {
         pcoContext = (PCOContext) getApplication();
         textViewProcesso = (TextView) findViewById(R.id.textViewProcesso);
 
-        verifEnvio();
-
         if (!checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             String[] PERMISSIONS = {android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
             ActivityCompat.requestPermissions((Activity) this, PERMISSIONS, 112);
@@ -58,28 +55,36 @@ public class MenuInicialActivity extends ActivityGeneric {
             ActivityCompat.requestPermissions((Activity) this, PERMISSIONS, 112);
         }
 
+        LogProcessoDAO.getInstance().insertLogProcesso("        if (!checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {\n" +
+                "            String[] PERMISSIONS = {android.Manifest.permission.WRITE_EXTERNAL_STORAGE};\n" +
+                "            ActivityCompat.requestPermissions((Activity) this, PERMISSIONS, 112);\n" +
+                "        }\n" +
+                "        if (!checkPermission(Manifest.permission.CAMERA)) {\n" +
+                "            String[] PERMISSIONS = {Manifest.permission.CAMERA};\n" +
+                "            ActivityCompat.requestPermissions((Activity) this, PERMISSIONS, 112);\n" +
+                "        }\n" +
+                "customHandler.postDelayed(updateTimerThread, 0);", getLocalClassName());
+        customHandler.postDelayed(updateTimerThread, 0);
+
+        LogProcessoDAO.getInstance().insertLogProcesso("progressBar = new ProgressDialog(this);\n" +
+                "        ArrayList<String> itens = new ArrayList<>();\n" +
+                "        itens.add(\"INICIAR VIAGEM\");\n" +
+                "        itens.add(\"CONFIGURAÇÃO\");\n" +
+                "        itens.add(\"SAIR\");\n" +
+                "        itens.add(\"LOG\");", getLocalClassName());
+
         progressBar = new ProgressDialog(this);
-
-        if(pcoContext.getConfigCTR().hasElements()){
-            if(!pcoContext.getConfigCTR().getConfig().getDtrhViagemConfig().equals("")){
-                startTimer("N_SD");
-                Intent it = new Intent(MenuInicialActivity.this, ListaPassageiroActivity.class);
-                startActivity(it);
-                finish();
-            }
-            else{
-                atualizarAplic();
-            }
-        }
-
-        clearBD();
 
         ArrayList<String> itens = new ArrayList<>();
 
         itens.add("INICIAR VIAGEM");
         itens.add("CONFIGURAÇÃO");
         itens.add("SAIR");
+        itens.add("LOG");
 
+        LogProcessoDAO.getInstance().insertLogProcesso("AdapterList adapterList = new AdapterList(this, itens);\n" +
+                "        menuInicialListView = (ListView) findViewById(R.id.listaMenuInicial);\n" +
+                "        menuInicialListView.setAdapter(adapterList);", getLocalClassName());
         AdapterList adapterList = new AdapterList(this, itens);
         menuInicialListView = (ListView) findViewById(R.id.listaMenuInicial);
         menuInicialListView.setAdapter(adapterList);
@@ -90,31 +95,61 @@ public class MenuInicialActivity extends ActivityGeneric {
             public void onItemClick(AdapterView<?> l, View v, int position,
                                     long id) {
 
+                LogProcessoDAO.getInstance().insertLogProcesso("menuInicialListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
+                        "            @Override\n" +
+                        "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
+                        "                                    long id) {\n" +
+                        "                TextView textView = v.findViewById(R.id.textViewItemList);\n" +
+                        "                String text = textView.getText().toString();", getLocalClassName());
+
                 TextView textView = v.findViewById(R.id.textViewItemList);
                 String text = textView.getText().toString();
 
                 if (text.equals("INICIAR VIAGEM")) {
+                    LogProcessoDAO.getInstance().insertLogProcesso("if (text.equals(\"INICIAR VIAGEM\")) {", getLocalClassName());
                     if (pcoContext.getPassageiroCTR().hasElementsMotorista()
-                            && pcoContext.getConfigCTR().hasElements()) {
+                            && pcoContext.getConfigCTR().hasElemConfig()) {
 
-                        pcoContext.setVerTela(1);
+                        LogProcessoDAO.getInstance().insertLogProcesso("if (pcoContext.getPassageiroCTR().hasElementsMotorista()\n" +
+                                "                            && pcoContext.getConfigCTR().hasElemConfig()) {\n" +
+                                "                        pcoContext.setVerTela(1);\n" +
+                                "                        Intent it = new Intent(MenuInicialActivity.this, MotoristaActivity.class);", getLocalClassName());
+                        pcoContext.getConfigCTR().setPosicaoTela(1L);
                         Intent it = new Intent(MenuInicialActivity.this, MotoristaActivity.class);
                         startActivity(it);
                         finish();
 
                     }
 
-                } else if (text.equals("RELATÓRIO")) {
-
                 } else if (text.equals("CONFIGURAÇÃO")) {
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else if (text.equals(\"CONFIGURAÇÃO\")) {\n" +
+                            "                    pcoContext.setVerTela(7);\n" +
+                            "                    Intent it = new Intent(MenuInicialActivity.this, SenhaActivity.class);", getLocalClassName());
+                    pcoContext.getConfigCTR().setPosicaoTela(7L);
                     Intent it = new Intent(MenuInicialActivity.this, SenhaActivity.class);
                     startActivity(it);
                     finish();
                 } else if (text.equals("SAIR")) {
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else if (text.equals(\"SAIR\")) {\n" +
+                            "                    Intent intent = new Intent(Intent.ACTION_MAIN);\n" +
+                            "                    intent.addCategory(Intent.CATEGORY_HOME);\n" +
+                            "                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);\n" +
+                            "                    startActivity(intent);", getLocalClassName());
                     Intent intent = new Intent(Intent.ACTION_MAIN);
                     intent.addCategory(Intent.CATEGORY_HOME);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
+                } else if (text.equals("LOG")) {
+                    LogProcessoDAO.getInstance().insertLogProcesso("else if (text.equals(\"LOG\")) {", getLocalClassName());
+                    if(pcoContext.getConfigCTR().hasElemConfig()) {
+                        LogProcessoDAO.getInstance().insertLogProcesso("if(pmmContext.getConfigCTR().hasElemConfig()) {\n" +
+                                "                        pmmContext.getConfigCTR().setPosicaoTela(12L);\n" +
+                                "                        Intent it = new Intent(MenuInicialActivity.this, SenhaActivity.class);", getLocalClassName());
+                        pcoContext.getConfigCTR().setPosicaoTela(8L);
+                        Intent it = new Intent(MenuInicialActivity.this, SenhaActivity.class);
+                        startActivity(it);
+                        finish();
+                    }
                 }
 
             }
@@ -128,95 +163,37 @@ public class MenuInicialActivity extends ActivityGeneric {
         return (check == PackageManager.PERMISSION_GRANTED);
     }
 
-    public void atualizarAplic(){
-        ConexaoWeb conexaoWeb = new ConexaoWeb();
-        if (conexaoWeb.verificaConexao(this)) {
-            if (pcoContext.getConfigCTR().hasElements()) {
-                progressBar.setCancelable(true);
-                progressBar.setMessage("BUSCANDO ATUALIZAÇÃO...");
-                progressBar.show();
-                customHandler.postDelayed(updateTimerThread, 10000);
-                VerifDadosServ.getInstance().setVerTerm(false);
-                VerifDadosServ.getInstance().verAtualAplic(pcoContext.versaoAplic, this, progressBar);
-            }
-        } else {
-            VerifDadosServ.getInstance().setVerTerm(true);
-            startTimer("N_SD");
-        }
-    }
-
     private Runnable updateTimerThread = new Runnable() {
 
         public void run() {
-            verifEnvio();
-            if(!VerifDadosServ.getInstance().isVerTerm()) {
-                VerifDadosServ.getInstance().cancelVer();
-                if (progressBar.isShowing()) {
-                    progressBar.dismiss();
+
+            if (pcoContext.getConfigCTR().hasElemConfig()) {
+                LogProcessoDAO.getInstance().insertLogProcesso("        if (pmmContext.getConfigCTR().hasElemConfig()) {\n" +
+                        "            pmmContext.getConfigCTR().setStatusRetVerif(0L);\n" +
+                        "EnvioDadosServ.status = " + EnvioDadosServ.status, getLocalClassName());
+                if (EnvioDadosServ.status == 1) {
+                    textViewProcesso.setTextColor(Color.RED);
+                    textViewProcesso.setText("Existem Dados para serem Enviados");
+                } else if (EnvioDadosServ.status == 2) {
+                    textViewProcesso.setTextColor(Color.YELLOW);
+                    textViewProcesso.setText("Enviando Dados...");
+                } else if (EnvioDadosServ.status == 3) {
+                    textViewProcesso.setTextColor(Color.GREEN);
+                    textViewProcesso.setText("Todos os Dados já foram Enviados");
                 }
-                startTimer("N_SD");
+            } else {
+                textViewProcesso.setTextColor(Color.RED);
+                textViewProcesso.setText("Aparelho sem Equipamento");
             }
-            customHandler.postDelayed(this, 10000);
+
+            LogProcessoDAO.getInstance().insertLogProcesso("if(EnvioDadosServ.status != 3){\n" +
+                    "                customHandler.postDelayed(this, 10000);\n" +
+                    "            }", getLocalClassName());
+            if(EnvioDadosServ.status != 3){
+                customHandler.postDelayed(this, 10000);
+            }
         }
     };
-
-    public void startTimer(String verAtual) {
-
-        Log.i("PMM", "VERATUAL = " + verAtual);
-
-        if(!verAtual.equals("N_SD")){
-            int pos1 = verAtual.indexOf("#") + 1;
-            String dthr = verAtual.substring(pos1);
-            pcoContext.getConfigCTR().setDthrServConfig(dthr);
-        }
-
-        Intent intent = new Intent(this, ReceberAlarme.class);
-
-        if (progressBar.isShowing()) {
-            progressBar.dismiss();
-        }
-
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        Calendar c = Calendar.getInstance();
-        c.setTimeInMillis(System.currentTimeMillis());
-        c.add(Calendar.SECOND, 1);
-
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-
-        if (pendingIntent != null && alarmManager != null) {
-            alarmManager.cancel(pendingIntent);
-        }
-
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), 60000, pendingIntent);
-
-    }
-
-    public void verifEnvio(){
-        if (pcoContext.getConfigCTR().hasElements()) {
-            if (EnvioDadosServ.getInstance().getStatusEnvio() == 1) {
-                textViewProcesso.setTextColor(Color.YELLOW);
-                textViewProcesso.setText("Enviando Dados...");
-            } else if (EnvioDadosServ.getInstance().getStatusEnvio() == 2) {
-                textViewProcesso.setTextColor(Color.RED);
-                textViewProcesso.setText("Existem Dados para serem Enviados");
-            } else if (EnvioDadosServ.getInstance().getStatusEnvio() == 3) {
-                textViewProcesso.setTextColor(Color.GREEN);
-                textViewProcesso.setText("Todos os Dados já foram Enviados");
-            } else {
-                textViewProcesso.setTextColor(Color.YELLOW);
-                textViewProcesso.setText("Verificando Dados...");
-            }
-        } else {
-            textViewProcesso.setTextColor(Color.RED);
-            textViewProcesso.setText("Aparelho sem Equipamento");
-        }
-    }
-
-    public void clearBD() {
-        pcoContext.getPassageiroCTR().delPassageiro();
-    }
 
     public void onBackPressed() {
     }

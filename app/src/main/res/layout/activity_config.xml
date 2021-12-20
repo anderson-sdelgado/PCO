@@ -12,6 +12,11 @@
     tools:context=".view.ConfigActivity">
 
     <TextView
+        android:id="@+id/textViewTipoEquipConfig"
+        style="@style/TextViewConfig"
+        android:text="@string/texto_tipo_equip" />
+
+    <TextView
         android:id="@+id/textViewEquipConfig"
         style="@style/TextView"
         android:layout_width="wrap_content"
@@ -20,6 +25,18 @@
 
     <EditText
         android:id="@+id/editTextEquipConfig"
+        style="@style/EditView"
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/textViewNroAparelhoConfig"
+        style="@style/TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/texto_nro_aparelho" />
+
+    <EditText
+        android:id="@+id/editTextNroAparelhoConfig"
         style="@style/EditView"
         android:inputType="number" />
 

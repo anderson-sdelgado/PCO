@@ -13,9 +13,13 @@ public class ConfigBean extends Entidade {
     @DatabaseField(generatedId=true)
     private Long idConfig;
     @DatabaseField
-    private Long idEquipConfig;
+    private Long tipoEquipConfig; // 1 - PRÓPRIO; 2 - TERCEIRO;
+    @DatabaseField
+    private Long nroAparelhoConfig;
     @DatabaseField
     private String senhaConfig;
+    @DatabaseField
+    private Long idEquipConfig;
     @DatabaseField
     private Long matricMotoConfig;
     @DatabaseField
@@ -26,6 +30,21 @@ public class ConfigBean extends Entidade {
     private String dthrServConfig;
     @DatabaseField
     private Long difDthrConfig;
+    @DatabaseField
+    private Long idTrajetoConfig;
+    @DatabaseField
+    private Long lotacaoMaxConfig;
+    @DatabaseField
+    private Long posicaoTela;
+    // 1 - Tela Inicial
+    // 2 - Tela Passageiro
+    // 3 - Verificando Motorista
+    // 4 - Verificando Colaborador
+    // 5 - Leitura Lista Passageiro
+    // 6 - Leitura Msg Passageiro
+    // 7 - Configuracao;
+    // 8 - Log Menu Inicial;
+    // 9 - Log Lista de Bag;
 
     public ConfigBean() {
     }
@@ -94,4 +113,43 @@ public class ConfigBean extends Entidade {
         this.difDthrConfig = difDthrConfig;
     }
 
+    public Long getTipoEquipConfig() {
+        return tipoEquipConfig;
+    }
+
+    public void setTipoEquipConfig(Long tipoEquipConfig) {
+        this.tipoEquipConfig = tipoEquipConfig;
+    }
+
+    public Long getNroAparelhoConfig() {
+        return nroAparelhoConfig;
+    }
+
+    public void setNroAparelhoConfig(Long nroAparelhoConfig) {
+        this.nroAparelhoConfig = nroAparelhoConfig;
+    }
+
+    public Long getIdTrajetoConfig() {
+        return idTrajetoConfig;
+    }
+
+    public void setIdTrajetoConfig(Long idTrajetoConfig) {
+        this.idTrajetoConfig = idTrajetoConfig;
+    }
+
+    public Long getLotacaoMaxConfig() {
+        return lotacaoMaxConfig;
+    }
+
+    public void setLotacaoMaxConfig(Long lotacaoMaxConfig) {
+        this.lotacaoMaxConfig = lotacaoMaxConfig;
+    }
+
+    public Long getPosicaoTela() {
+        return posicaoTela;
+    }
+
+    public void setPosicaoTela(Long posicaoTela) {
+        this.posicaoTela = posicaoTela;
+    }
 }

@@ -1,7 +1,5 @@
 package br.com.usinasantafe.pco.model.dao;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -24,7 +22,7 @@ public class PassageiroDAO {
     }
 
     public boolean verPassageiroNEnviado(){
-        List passageiroList = passageiroNEnviadoList();
+        List<PassageiroBean> passageiroList = passageiroNEnviadoList();
         boolean ret = passageiroList.size() > 0;
         passageiroList.clear();
         return ret;
@@ -75,8 +73,10 @@ public class PassageiroDAO {
     }
 
     public void salvarPassageiro(ConfigBean configBean, Long matricColab){
+        Long dthr = Tempo.getInstance().dthr();
         PassageiroBean passageiroBean = new PassageiroBean();
-        passageiroBean.setDthrPassageiro(Tempo.getInstance().dataComHora());
+        passageiroBean.setDthrPassageiro(Tempo.getInstance().dthr(dthr));
+        passageiroBean.setDthrLongPassageiro(dthr);
         passageiroBean.setDthrViagemPassageiro(configBean.getDtrhViagemConfig());
         passageiroBean.setIdEquipPassageiro(configBean.getIdEquipConfig());
         passageiroBean.setMatricMotoPassageiro(configBean.getMatricMotoConfig());
@@ -84,23 +84,18 @@ public class PassageiroDAO {
         passageiroBean.setMatricColabPassageiro(matricColab);
         passageiroBean.setStatusPassageiro(1L);
         passageiroBean.insert();
-
-        EnvioDadosServ.getInstance().setStatusEnvio(2);
-
     }
 
     public String dadosEnvio(){
 
-        List passageiroList = passageiroNEnviadoList();
+        List<PassageiroBean> passageiroList = passageiroNEnviadoList();
 
         JsonArray jsonArrayPassageiro = new JsonArray();
 
         for (int i = 0; i < passageiroList.size(); i++) {
-
-            PassageiroBean passageiroBean = (PassageiroBean) passageiroList.get(i);
+            PassageiroBean passageiroBean = passageiroList.get(i);
             Gson gsonCabec = new Gson();
             jsonArrayPassageiro.add(gsonCabec.toJsonTree(passageiroBean, passageiroBean.getClass()));
-
         }
 
         passageiroList.clear();
@@ -112,7 +107,7 @@ public class PassageiroDAO {
 
     }
 
-    public void updatePassageiro(String retorno) {
+    public void updatePassageiro(String retorno, String activity) {
 
         try{
 
@@ -151,7 +146,7 @@ public class PassageiroDAO {
 
             }
 
-            EnvioDadosServ.getInstance().setStatusEnvio(3);
+            EnvioDadosServ.getInstance().envioDados(activity);
 
         }
         catch(Exception e){
@@ -160,15 +155,28 @@ public class PassageiroDAO {
     }
 
     public void delPassageiro(){
-
-        for(PassageiroBean passageiroBean : passageiroEnviadoList()){
-
-            if(Tempo.getInstance().timeDataHora(passageiroBean.getDthrViagemPassageiro()) <= Tempo.getInstance().timeMenos1Mes()){
+        List<PassageiroBean> passageiroList = passageiroEnviadoList();
+        for(PassageiroBean passageiroBean : passageiroList){
+            if(passageiroBean.getDthrLongViagemPassageiro() < Tempo.getInstance().dthrLongDia1Menos()) {
                 passageiroBean.delete();
             }
-
         }
+        passageiroList.clear();
+    }
 
+    public ArrayList<String> passageiroArrayList(ArrayList<String> dadosArrayList){
+        dadosArrayList.add("PASSAGEIRO");
+        List<PassageiroBean> passageiroList = passageiroList();
+        for(PassageiroBean passageiroBean : passageiroList){
+            dadosArrayList.add(dadosPassageiro(passageiroBean));
+        }
+        passageiroList.clear();
+        return dadosArrayList;
+    }
+
+    private String dadosPassageiro(PassageiroBean passageiroBean){
+        Gson gsonCabec = new Gson();
+        return gsonCabec.toJsonTree(passageiroBean, passageiroBean.getClass()).toString();
     }
 
     private EspecificaPesquisa getPesqDthrViagem(String dthrViagemPassageiro){

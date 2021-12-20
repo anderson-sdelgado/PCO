@@ -8,11 +8,14 @@ import java.util.List;
 
 import br.com.usinasantafe.pco.model.bean.estaticas.ColabBean;
 import br.com.usinasantafe.pco.model.bean.estaticas.MotoristaBean;
+import br.com.usinasantafe.pco.model.bean.estaticas.TrajetoBean;
 import br.com.usinasantafe.pco.model.bean.variaveis.PassageiroBean;
 import br.com.usinasantafe.pco.model.dao.ColabDAO;
 import br.com.usinasantafe.pco.model.dao.MotoristaDAO;
 import br.com.usinasantafe.pco.model.dao.PassageiroDAO;
+import br.com.usinasantafe.pco.model.dao.TrajetoDAO;
 import br.com.usinasantafe.pco.util.AtualDadosServ;
+import br.com.usinasantafe.pco.util.EnvioDadosServ;
 
 public class PassageiroCTR {
 
@@ -61,10 +64,11 @@ public class PassageiroCTR {
         return passageiroDAO.verPassageiroNEnviado();
     }
 
-    public void salvarPassageiro(Long matricColab){
+    public void salvarPassageiro(Long matricColab, String activity){
         ConfigCTR configCTR = new ConfigCTR();
         PassageiroDAO passageiroDAO = new PassageiroDAO();
         passageiroDAO.salvarPassageiro(configCTR.getConfig(), matricColab);
+        EnvioDadosServ.getInstance().envioDados(activity);
     }
 
     public String dadosEnvio(){
@@ -72,9 +76,9 @@ public class PassageiroCTR {
         return passageiroDAO.dadosEnvio();
     }
 
-    public void updatePassageiro(String retorno) {
+    public void updatePassageiro(String retorno, String activity) {
         PassageiroDAO passageiroDAO = new PassageiroDAO();
-        passageiroDAO.updatePassageiro(retorno);
+        passageiroDAO.updatePassageiro(retorno, activity);
     }
 
     public void delPassageiro(){
@@ -82,16 +86,23 @@ public class PassageiroCTR {
         passageiroDAO.delPassageiro();
     }
 
-    public void atualDadosMotorista(Context telaAtual, Class telaProx, ProgressDialog progressDialog){
-        ArrayList colabArrayList = new ArrayList();
-        colabArrayList.add("MotoristaBean");
-        AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, colabArrayList);
-    }
-
-    public void atualDadosColab(Context telaAtual, Class telaProx, ProgressDialog progressDialog){
-        ArrayList colabArrayList = new ArrayList();
-        colabArrayList.add("ColabBean");
-        AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, colabArrayList);
+    public void atualDados(Context telaAtual, Class telaProx, ProgressDialog progressDialog, String tipoAtual) {
+        ArrayList classeArrayList = new ArrayList();
+        switch (tipoAtual) {
+            case "Motorista":
+                classeArrayList.add("MotoristaBean");
+                break;
+            case "Colab":
+                classeArrayList.add("ColabBean");
+                break;
+            case "Equip":
+                classeArrayList.add("EquipBean");
+                break;
+            case "Trajeto":
+                classeArrayList.add("TrajetoBean");
+                break;
+        }
+        AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, classeArrayList);
     }
 
     public void verMotorista(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog){
@@ -102,6 +113,18 @@ public class PassageiroCTR {
     public void verColab(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog){
         ColabDAO colabDAO = new ColabDAO();
         colabDAO.verColab(dado, telaAtual, telaProx, progressDialog);
+    }
+
+    public List<TrajetoBean> trajetoList(){
+        TrajetoDAO trajetoDAO = new TrajetoDAO();
+        return trajetoDAO.trajetoList();
+    }
+
+    public int qtdePassageiroPorLotacao(){
+        List<PassageiroBean> passageiroList = passageiroList();
+        ConfigCTR configCTR = new ConfigCTR();
+        int ret = (int) (configCTR.getConfig().getLotacaoMaxConfig() - passageiroList.size());
+        return ret;
     }
 
 }

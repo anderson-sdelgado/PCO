@@ -6,19 +6,23 @@ package br.com.usinasantafe.pco.model.bean;
 
 public class AtualAplicBean {
 
-    private Long nroEquipAtual;
+    private Long nroAparelhoAtual;
     private String versaoAtual;
     private String versaoNova;
+    private Long flagAtualApp;
+    private Long flagLogEnvio;
+    private Long flagLogErro;
+    private String dthr;
 
     public AtualAplicBean() {
     }
 
-    public Long getNroEquipAtual() {
-        return nroEquipAtual;
+    public Long getNroAparelhoAtual() {
+        return nroAparelhoAtual;
     }
 
-    public void setNroEquipAtual(Long nroEquipAtual) {
-        this.nroEquipAtual = nroEquipAtual;
+    public void setNroAparelhoAtual(Long nroAparelhoAtual) {
+        this.nroAparelhoAtual = nroAparelhoAtual;
     }
 
     public String getVersaoAtual() {
@@ -35,5 +39,37 @@ public class AtualAplicBean {
 
     public void setVersaoNova(String versaoNova) {
         this.versaoNova = versaoNova;
+    }
+
+    public Long getFlagAtualApp() {
+        return flagAtualApp;
+    }
+
+    public void setFlagAtualApp(Long flagAtualApp) {
+        this.flagAtualApp = flagAtualApp;
+    }
+
+    public Long getFlagLogEnvio() {
+        return flagLogEnvio;
+    }
+
+    public void setFlagLogEnvio(Long flagLogEnvio) {
+        this.flagLogEnvio = flagLogEnvio;
+    }
+
+    public Long getFlagLogErro() {
+        return flagLogErro;
+    }
+
+    public void setFlagLogErro(Long flagLogErro) {
+        this.flagLogErro = flagLogErro;
+    }
+
+    public String getDthr() {
+        return dthr;
+    }
+
+    public void setDthr(String dthr) {
+        this.dthr = dthr;
     }
 }

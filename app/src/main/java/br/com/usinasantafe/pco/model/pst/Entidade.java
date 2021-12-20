@@ -11,43 +11,48 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.usinasantafe.pco.model.dao.LogErroDAO;
+
 @SuppressWarnings({"rawtypes","unchecked"})
 public abstract class Entidade implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Dao dao;
-
+	
 	private Dao daoImpl(){
-
+		
 		try {
-
+			
 			if(dao == null){
 				DatabaseHelper instance = DatabaseHelper.getInstance();
 				dao = instance.getDao(getClass());
 			}
-
+			
 			return dao;
-
+			
 		} catch (SQLException e) {
+			LogErroDAO.getInstance().insertLogErro(e);
 			throw new RuntimeException(e);
 		}
-
-
+		
+		
 	}
-
+	
 	public void insert() {
 		try {
 			this.daoImpl().create(this);
 		} catch (SQLException e) {
+			LogErroDAO.getInstance().insertLogErro(e);
 			throw new RuntimeException(e);
 		}
 	}
-
+	
 	public void update() {
-
+		
 		try {
 			this.daoImpl().update(this);
 		} catch (SQLException e) {
+			LogErroDAO.getInstance().insertLogErro(e);
 			throw new RuntimeException(e);
 		}
 	}
@@ -56,15 +61,17 @@ public abstract class Entidade implements Serializable {
 		try {
 			this.daoImpl().delete(this);
 		} catch (SQLException e) {
+			LogErroDAO.getInstance().insertLogErro(e);
 			throw new RuntimeException(e);
 		}
 	}
-
+	
 	public void deleteAll()  {
 		try {
 			DeleteBuilder<String, Object> deleteBuilder = this.daoImpl().deleteBuilder();
 			deleteBuilder.delete();
 		} catch (SQLException e) {
+			LogErroDAO.getInstance().insertLogErro(e);
 			throw new RuntimeException(e);
 		}
 	}
@@ -73,6 +80,7 @@ public abstract class Entidade implements Serializable {
 		try {
 			return this.daoImpl().queryForAll();
 		} catch (SQLException e) {
+			LogErroDAO.getInstance().insertLogErro(e);
 			throw new RuntimeException(e);
 		}
 	}
@@ -81,6 +89,7 @@ public abstract class Entidade implements Serializable {
 		try {
 			return this.daoImpl().queryForEq(campo, valor);
 		} catch (SQLException e) {
+			LogErroDAO.getInstance().insertLogErro(e);
 			throw new RuntimeException(e);
 		}
 	}
@@ -90,14 +99,14 @@ public abstract class Entidade implements Serializable {
 			QueryBuilder<String, Object> queryBuilder =
 					this.daoImpl().queryBuilder();
 			Where<String, Object> where = queryBuilder.where();
-			EspecificaPesquisa pesquisa = (EspecificaPesquisa) pesquisaArrayList.get(0);
+			EspecificaPesquisa pesquisa = pesquisaArrayList.get(0);
 			if(pesquisa.getTipo() == 1) {
 				where.eq(pesquisa.getCampo(), pesquisa.getValor());
 			}else {
 				where.ne(pesquisa.getCampo(), pesquisa.getValor());
 			}
 			for(int i = 1; i < pesquisaArrayList.size(); i++){
-				pesquisa = (EspecificaPesquisa) pesquisaArrayList.get(i);
+				pesquisa = pesquisaArrayList.get(i);
 				where.and();
 				if(pesquisa.getTipo() == 1) {
 					where.eq(pesquisa.getCampo(), pesquisa.getValor());
@@ -108,6 +117,7 @@ public abstract class Entidade implements Serializable {
 			PreparedQuery preparedQuery = queryBuilder.prepare();
 			return this.daoImpl().query(preparedQuery);
 		} catch (SQLException e) {
+			LogErroDAO.getInstance().insertLogErro(e);
 			throw new RuntimeException(e);
 		}
 	}
@@ -122,6 +132,7 @@ public abstract class Entidade implements Serializable {
 			PreparedQuery preparedQuery = queryBuilder.prepare();
 			return this.daoImpl().query(preparedQuery);
 		} catch (SQLException e) {
+			LogErroDAO.getInstance().insertLogErro(e);
 			throw new RuntimeException(e);
 		}
 	}
@@ -131,14 +142,14 @@ public abstract class Entidade implements Serializable {
 			QueryBuilder<String, Object> queryBuilder =
 					this.daoImpl().queryBuilder();
 			Where<String, Object> where = queryBuilder.where();
-			EspecificaPesquisa pesquisa = (EspecificaPesquisa) pesquisaArrayList.get(0);
+			EspecificaPesquisa pesquisa = pesquisaArrayList.get(0);
 			if(pesquisa.getTipo() == 1) {
 				where.eq(pesquisa.getCampo(), pesquisa.getValor());
 			}else {
 				where.ne(pesquisa.getCampo(), pesquisa.getValor());
 			}
 			for(int i = 1; i < pesquisaArrayList.size(); i++){
-				pesquisa = (EspecificaPesquisa) pesquisaArrayList.get(i);
+				pesquisa = pesquisaArrayList.get(i);
 				where.and();
 				if(pesquisa.getTipo() == 1) {
 					where.eq(pesquisa.getCampo(), pesquisa.getValor());
@@ -150,43 +161,42 @@ public abstract class Entidade implements Serializable {
 			PreparedQuery preparedQuery = queryBuilder.prepare();
 			return this.daoImpl().query(preparedQuery);
 		} catch (SQLException e) {
+			LogErroDAO.getInstance().insertLogErro(e);
 			throw new RuntimeException(e);
 		}
 	}
-
+	
 	public List orderBy(String campo, boolean order){
 		try {
-
+			
 			QueryBuilder<String, Object> queryBuilder =
 					this.daoImpl().queryBuilder();
 			queryBuilder.orderBy(campo, order);
 			PreparedQuery preparedQuery = queryBuilder.prepare();
 			return this.daoImpl().query(preparedQuery);
-
+			
 		} catch (SQLException e) {
+			LogErroDAO.getInstance().insertLogErro(e);
 			throw new RuntimeException(e);
 		}
 	}
-
-
+	
+	
 	public boolean exists(String campo, Object valor){
 		try {
 			if(this.daoImpl().queryForEq(campo, valor).size() > 0){
 				return true;
 			}
 		} catch (SQLException e) {
+			LogErroDAO.getInstance().insertLogErro(e);
 			e.printStackTrace();
 		}
 		return false;
 	}
 
-
+	
 	public boolean hasElements() {
 		return all().size() > 0;
-	}
-
-	public int count() {
-		return all().size();
 	}
 
 	public List in(String campo, List valores){
@@ -198,6 +208,7 @@ public abstract class Entidade implements Serializable {
 			PreparedQuery preparedQuery = queryBuilder.prepare();
 			return this.daoImpl().query(preparedQuery);
 		} catch (SQLException e) {
+			LogErroDAO.getInstance().insertLogErro(e);
 			throw new RuntimeException(e);
 		}
 	}
@@ -212,6 +223,7 @@ public abstract class Entidade implements Serializable {
 			PreparedQuery preparedQuery = queryBuilder.prepare();
 			return this.daoImpl().query(preparedQuery);
 		} catch (SQLException e) {
+			LogErroDAO.getInstance().insertLogErro(e);
 			throw new RuntimeException(e);
 		}
 	}
@@ -223,7 +235,7 @@ public abstract class Entidade implements Serializable {
 			Where<String, Object> where = queryBuilder.where();
 			where.in(campo, valores);
 			for(int i = 0; i < pesquisaArrayList.size(); i++){
-				EspecificaPesquisa pesquisa = (EspecificaPesquisa) pesquisaArrayList.get(i);
+				EspecificaPesquisa pesquisa = pesquisaArrayList.get(i);
 				where.and();
 				if(pesquisa.getTipo() == 1) {
 					where.eq(pesquisa.getCampo(), pesquisa.getValor());
@@ -234,6 +246,7 @@ public abstract class Entidade implements Serializable {
 			PreparedQuery preparedQuery = queryBuilder.prepare();
 			return this.daoImpl().query(preparedQuery);
 		} catch (SQLException e) {
+			LogErroDAO.getInstance().insertLogErro(e);
 			throw new RuntimeException(e);
 		}
 	}
@@ -245,7 +258,7 @@ public abstract class Entidade implements Serializable {
 			Where<String, Object> where = queryBuilder.where();
 			where.in(campo, valores);
 			for(int i = 0; i < pesquisaArrayList.size(); i++){
-				EspecificaPesquisa pesquisa = (EspecificaPesquisa) pesquisaArrayList.get(i);
+				EspecificaPesquisa pesquisa = pesquisaArrayList.get(i);
 				where.and();
 				if(pesquisa.getTipo() == 1) {
 					where.eq(pesquisa.getCampo(), pesquisa.getValor());
@@ -257,6 +270,7 @@ public abstract class Entidade implements Serializable {
 			PreparedQuery preparedQuery = queryBuilder.prepare();
 			return this.daoImpl().query(preparedQuery);
 		} catch (SQLException e) {
+			LogErroDAO.getInstance().insertLogErro(e);
 			throw new RuntimeException(e);
 		}
 	}
@@ -265,4 +279,58 @@ public abstract class Entidade implements Serializable {
 		this.daoImpl().clearObjectCache();
 		dao = null;
 	}
+
+	public List dif(String campo, Object valor) {
+		try {
+			QueryBuilder<String, Object> queryBuilder =
+					this.daoImpl().queryBuilder();
+			Where<String, Object> where = queryBuilder.where();
+			where.ne(campo, valor);
+			PreparedQuery preparedQuery = queryBuilder.prepare();
+			return this.daoImpl().query(preparedQuery);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public List difAndOrderBy(String campo, Object valor, String col, boolean order) {
+		try {
+			QueryBuilder<String, Object> queryBuilder =
+					this.daoImpl().queryBuilder();
+			Where<String, Object> where = queryBuilder.where();
+			where.ne(campo, valor);
+			queryBuilder.orderBy(col, order);
+			PreparedQuery preparedQuery = queryBuilder.prepare();
+			return this.daoImpl().query(preparedQuery);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public void deleteGet(ArrayList<EspecificaPesquisa> pesquisaArrayList)  {
+		try {
+			DeleteBuilder<String, Object> deleteBuilder = this.daoImpl().deleteBuilder();
+			Where<String, Object> where = deleteBuilder.where();
+			EspecificaPesquisa pesquisa = pesquisaArrayList.get(0);
+			if(pesquisa.getTipo() == 1) {
+				where.le(pesquisa.getCampo(), pesquisa.getValor());
+			}else {
+				where.ge(pesquisa.getCampo(), pesquisa.getValor());
+			}
+			for(int i = 1; i < pesquisaArrayList.size(); i++){
+				pesquisa = pesquisaArrayList.get(i);
+				where.and();
+				if(pesquisa.getTipo() == 1) {
+					where.le(pesquisa.getCampo(), pesquisa.getValor());
+				}else {
+					where.ge(pesquisa.getCampo(), pesquisa.getValor());
+				}
+			}
+			deleteBuilder.delete();
+		} catch (SQLException e) {
+			LogErroDAO.getInstance().insertLogErro(e);
+			throw new RuntimeException(e);
+		}
+	}
+
 }

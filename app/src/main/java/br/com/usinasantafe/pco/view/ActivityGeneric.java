@@ -1,5 +1,7 @@
 package br.com.usinasantafe.pco.view;
 
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -7,12 +9,28 @@ import android.widget.EditText;
 
 import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
 
+import br.com.usinasantafe.pco.NetworkChangeListerner;
 import br.com.usinasantafe.pco.R;
 import br.com.usinasantafe.pco.model.pst.DatabaseHelper;
 
 public class ActivityGeneric extends OrmLiteBaseActivity<DatabaseHelper> {
 
     public EditText editTextPadrao;
+    NetworkChangeListerner networkChangeListerner = new NetworkChangeListerner();
+    public static boolean connectNetwork;
+
+    @Override
+    protected void onStart() {
+        IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeListerner, intentFilter);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(networkChangeListerner);
+        super.onStop();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,10 +42,10 @@ public class ActivityGeneric extends OrmLiteBaseActivity<DatabaseHelper> {
     protected void onResume() {
         super.onResume();
 
-//        if ((EditText) findViewById(R.id.editTextPadrao) != null) {
-//            editTextPadrao = (EditText) findViewById(R.id.editTextPadrao);
-//                editTextPadrao.setText("");
-//        }
+        if ((EditText) findViewById(R.id.editTextPadrao) != null) {
+            editTextPadrao = (EditText) findViewById(R.id.editTextPadrao);
+                editTextPadrao.setText("");
+        }
 
         if((Button) findViewById(R.id.buttonNum0) != null){
             Button buttonNum0 = (Button) findViewById(R.id.buttonNum0);

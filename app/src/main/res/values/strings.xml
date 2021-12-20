@@ -159,4 +159,21 @@
     <string name="texto_fechar_viagem">FECHAR VIAGEM</string>
     <string name="texto_titulo_passageiro">PASSAGEIRO(S)</string>
     <string name="texto_atual_colab">ATUALIZAR COLABORADORES</string>
+    <string name="texto_nro_aparelho">NRO APARELHO</string>
+    <string name="texto_tipo_equip">TIPO EQUIP.</string>
+    <string name="texto_titulo_trajeto">TRAJETOS</string>
+    <string name="texto_lotacao_max">LOTAÇÃO MAX</string>
+    <string name="texto_padrao_nao">NÃO</string>
+    <string name="texto_padrao_sim">SIM</string>
+    <string name="texto_titulo_msg_add_passag">PASSAGEIRO</string>
+    <string name="texto_msg_add_passag">FALTA 20 PASSAGEIRO PARA LOTAÇÃO MÁXIMA. DESEJA ADICIONAR MAIS UM PASSAGEIRO NA VIAGEM?</string>
+    <string name="texto_inicio">INICIANDO O APLICATIVO...</string>
+    <string name="texto_titulo_log_base_dado">LOG - BASE DADO</string>
+    <string name="texto_padrao_avancar">AVANÇAR</string>
+    <string name="texto_titulo_log_erro">LOG - ERRO</string>
+    <string name="texto_titulo_log_proc">LOG - PROCESSO</string>
+    <string name="texto_titulo_historico">HISTÓRICO</string>
+    <string name="texto_hist_apont">PARADA: VERIFICACAO INICIAL</string>
+    <string name="texto_hist_horario">10:08</string>
+    <string name="texto_hist_impl_transb">TRANSBORDO: 1001</string>
 </resources>

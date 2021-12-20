@@ -13,7 +13,6 @@ import android.widget.TextView;
 import br.com.usinasantafe.pco.PCOContext;
 import br.com.usinasantafe.pco.R;
 import br.com.usinasantafe.pco.model.bean.estaticas.MotoristaBean;
-import br.com.usinasantafe.pco.util.ConexaoWeb;
 import br.com.usinasantafe.pco.util.VerifDadosServ;
 import br.com.usinasantafe.pco.zxing.CaptureActivity;
 
@@ -56,9 +55,16 @@ public class MotoristaActivity extends ActivityGeneric {
             @Override
             public void onClick(View v) {
                 if(pcoContext.getConfigCTR().getMotoConfig().getMatricMoto() > 0){
-                    Intent it = new Intent(MotoristaActivity.this, ListaTurnoActivity.class);
-                    startActivity(it);
-                    finish();
+                    if(pcoContext.getConfigCTR().getConfig().getTipoEquipConfig() == 1L){
+                        Intent it = new Intent(MotoristaActivity.this, ListaTurnoActivity.class);
+                        startActivity(it);
+                        finish();
+                    }
+                    else{
+                        Intent it = new Intent(MotoristaActivity.this, EquipActivity.class);
+                        startActivity(it);
+                        finish();
+                    }
                 }
             }
         });
@@ -105,8 +111,8 @@ public class MotoristaActivity extends ActivityGeneric {
                             progressBar.setMessage("ATUALIZANDO MOTORISTA...");
                             progressBar.show();
 
-                            pcoContext.getPassageiroCTR().atualDadosMotorista(MotoristaActivity.this
-                                    , MotoristaActivity.class, progressBar);
+                            pcoContext.getPassageiroCTR().atualDados(MotoristaActivity.this
+                                    , MotoristaActivity.class, progressBar, "Motorista");
 
                         } else {
 
@@ -128,7 +134,6 @@ public class MotoristaActivity extends ActivityGeneric {
                 alerta.setPositiveButton("NÃO", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
                     }
                 });
 
