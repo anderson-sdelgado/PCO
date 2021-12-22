@@ -29,6 +29,8 @@ public class PassageiroBean extends Entidade {
     @DatabaseField
     private Long dthrLongPassageiro;
     @DatabaseField
+    private Long idTrajetoPassageiro;
+    @DatabaseField
     private Long statusPassageiro; // 1 - Sem Envio; 2 - Enviado
 
     public PassageiroBean() {
@@ -112,5 +114,13 @@ public class PassageiroBean extends Entidade {
 
     public void setDthrLongPassageiro(Long dthrLongPassageiro) {
         this.dthrLongPassageiro = dthrLongPassageiro;
+    }
+
+    public Long getIdTrajetoPassageiro() {
+        return idTrajetoPassageiro;
+    }
+
+    public void setIdTrajetoPassageiro(Long idTrajetoPassageiro) {
+        this.idTrajetoPassageiro = idTrajetoPassageiro;
     }
 }

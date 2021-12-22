@@ -20,7 +20,7 @@ public class PostVerGenerico extends AsyncTask<String, Void, String> {
 
     private static PostCadGenerico instance = null;
     private Map<String, Object> parametrosPost = null;
-    private VerifDadosServ verifDadosServ;
+    private String activity;
 
     public PostVerGenerico() {
     }
@@ -32,6 +32,7 @@ public class PostVerGenerico extends AsyncTask<String, Void, String> {
         String resultado = null;
 
         String url = arg[0];
+        this.activity = arg[1];
 
         try {
 
@@ -91,7 +92,7 @@ public class PostVerGenerico extends AsyncTask<String, Void, String> {
 
         try {
             Log.i("ECM", "VALOR RECEBIDO --> " + result);
-            VerifDadosServ.getInstance().manipularDadosHttp(result);
+            VerifDadosServ.getInstance().manipularDadosHttp(result, activity);
         } catch (Exception e) {
             Log.i("PMM", "Erro2 = " + e);
         }

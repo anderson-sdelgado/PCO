@@ -34,6 +34,7 @@ public class ListaPassageiroActivity extends ActivityGeneric {
     private PCOContext pcoContext;
     private TextView textViewMotorista;
     private TextView textViewTurno;
+    private TextView textViewLotacao;
     private AdapterListPassageiro adapterList;
     private ProgressDialog progressBar;
 
@@ -50,6 +51,7 @@ public class ListaPassageiroActivity extends ActivityGeneric {
 
         textViewMotorista = (TextView) findViewById(R.id.textViewMotorista);
         textViewTurno = (TextView) findViewById(R.id.textViewTurno);
+        textViewLotacao = (TextView) findViewById(R.id.textViewLotacao);
         Button buttonInserirPassageiro = (Button) findViewById(R.id.buttonInserirPassageiro);
         Button buttonFecharViagem = (Button) findViewById(R.id.buttonFecharViagem);
         Button buttonAtualPadrao = (Button) findViewById(R.id.buttonAtualPadrao);
@@ -69,6 +71,7 @@ public class ListaPassageiroActivity extends ActivityGeneric {
                 "        }\n" +
                 "        textViewTurno.setText(turno);\n" +
                 "        passageiroList = pcoContext.getPassageiroCTR().passageiroList();\n" +
+                "textViewLotacao.setText(\"QTDE DE PASSAGEIRO: \" + passageiroList.size());\n" +
                 "        ArrayList<String> itens = new ArrayList<>();\n" +
                 "        for(PassageiroBean passageiroBean : passageiroList){\n" +
                 "            ColabBean colabBean = pcoContext.getPassageiroCTR().getColab(passageiroBean.getMatricColabPassageiro());\n" +
@@ -97,6 +100,7 @@ public class ListaPassageiroActivity extends ActivityGeneric {
         textViewTurno.setText(turno);
 
         passageiroList = pcoContext.getPassageiroCTR().passageiroList();
+        textViewLotacao.setText("QTDE DE PASSAGEIRO: " + passageiroList.size());
 
         ArrayList<String> itens = new ArrayList<>();
 

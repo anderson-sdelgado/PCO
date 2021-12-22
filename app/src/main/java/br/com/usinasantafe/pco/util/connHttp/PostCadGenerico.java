@@ -76,7 +76,6 @@ public class PostCadGenerico extends AsyncTask<String, Void, String> {
 				try {
 					bufferedReader.close();
 				} catch (Exception er) {
-					Log.i("PMM", "Erro = " + er);
 					LogErroDAO.getInstance().insertLogErro(er);
 				}
 			}

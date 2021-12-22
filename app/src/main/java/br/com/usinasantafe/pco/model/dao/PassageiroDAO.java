@@ -5,6 +5,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -67,21 +68,18 @@ public class PassageiroDAO {
         return passageiroBean.orderBy("idPassageiro", false);
     }
 
-    public List<PassageiroBean> passageiroViagemList(String dthr){
-        PassageiroBean passageiroBean = new PassageiroBean();
-        return passageiroBean.get("dthrViagemPassageiro", dthr);
-    }
-
     public void salvarPassageiro(ConfigBean configBean, Long matricColab){
         Long dthr = Tempo.getInstance().dthr();
         PassageiroBean passageiroBean = new PassageiroBean();
         passageiroBean.setDthrPassageiro(Tempo.getInstance().dthr(dthr));
         passageiroBean.setDthrLongPassageiro(dthr);
         passageiroBean.setDthrViagemPassageiro(configBean.getDtrhViagemConfig());
+        passageiroBean.setDthrLongViagemPassageiro(configBean.getDtrhLongViagemConfig());
         passageiroBean.setIdEquipPassageiro(configBean.getIdEquipConfig());
         passageiroBean.setMatricMotoPassageiro(configBean.getMatricMotoConfig());
         passageiroBean.setIdTurnoPassageiro(configBean.getIdTurnoConfig());
         passageiroBean.setMatricColabPassageiro(matricColab);
+        passageiroBean.setIdTrajetoPassageiro(configBean.getIdTrajetoConfig());
         passageiroBean.setStatusPassageiro(1L);
         passageiroBean.insert();
     }
@@ -107,49 +105,33 @@ public class PassageiroDAO {
 
     }
 
-    public void updatePassageiro(String retorno, String activity) {
+    public void updatePassageiro(String objPrinc) throws JSONException {
 
-        try{
+        JSONObject passageiroJsonObj = new JSONObject(objPrinc);
+        JSONArray passageiroJsonArray = passageiroJsonObj.getJSONArray("passageiro");
 
-            int pos1 = retorno.indexOf("_") + 1;
-            String objPrinc = retorno.substring(pos1);
+        if (passageiroJsonArray.length() > 0) {
 
-            JSONObject jObjPassageiro = new JSONObject(objPrinc);
-            JSONArray jsonArrayPassageiro = jObjPassageiro.getJSONArray("passageiro");
+            ArrayList<Long> rList = new ArrayList<>();
+            PassageiroBean passageiroBean = new PassageiroBean();
 
-            if (jsonArrayPassageiro.length() > 0) {
+            for (int i = 0; i < passageiroJsonArray.length(); i++) {
 
-                ArrayList<Long> rList = new ArrayList<Long>();
-                PassageiroBean passageiroBean = new PassageiroBean();
+                JSONObject objPassageiro = passageiroJsonArray.getJSONObject(i);
+                Gson gsonPassageiro = new Gson();
+                passageiroBean = gsonPassageiro.fromJson(objPassageiro.toString(), PassageiroBean.class);
 
-                for (int i = 0; i < jsonArrayPassageiro.length(); i++) {
-
-                    JSONObject objPassageiro = jsonArrayPassageiro.getJSONObject(i);
-                    Gson gsonPassageiro = new Gson();
-                    passageiroBean = gsonPassageiro.fromJson(objPassageiro.toString(), PassageiroBean.class);
-
-                    rList.add(passageiroBean.getIdPassageiro());
-
-                }
-
-                List passageiroList = passageiroBean.in("idPassageiro", rList);
-
-                for (int i = 0; i < passageiroList.size(); i++) {
-
-                    passageiroBean = (PassageiroBean) passageiroList.get(i);
-                    passageiroBean.setStatusPassageiro(2L);
-                    passageiroBean.update();
-
-                }
-
-                rList.clear();
+                rList.add(passageiroBean.getIdPassageiro());
 
             }
 
-            EnvioDadosServ.getInstance().envioDados(activity);
+            List<PassageiroBean> passageiroList = passageiroBean.in("idPassageiro", rList);
+            for (PassageiroBean passageiro : passageiroList) {
+                passageiro.setStatusPassageiro(2L);
+                passageiro.update();
+            }
+            rList.clear();
 
-        }
-        catch(Exception e){
         }
 
     }

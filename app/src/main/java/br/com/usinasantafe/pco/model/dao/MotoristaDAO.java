@@ -44,7 +44,6 @@ public class MotoristaDAO {
     }
 
     public void verMotorista(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog){
-        VerifDadosServ.getInstance().setVerTerm(true);
         VerifDadosServ.getInstance().verDados(dado, "Moto", telaAtual, telaProx, progressDialog);
     }
 
@@ -65,7 +64,7 @@ public class MotoristaDAO {
                 ConfigCTR configCTR = new ConfigCTR();
                 configCTR.setMotoConfig(motoristaBean);
 
-                VerifDadosServ.getInstance().pulaTelaSemTerm();
+                VerifDadosServ.getInstance().pulaTela();
 
             } else {
                 VerifDadosServ.getInstance().msgSemTerm("MOTORISTA INEXISTENTE NA BASE DE DADOS! FAVOR VERIFICA A NUMERAÇÃO.");

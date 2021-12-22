@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import br.com.usinasantafe.pco.control.PassageiroCTR;
+import br.com.usinasantafe.pco.model.dao.LogErroDAO;
 import br.com.usinasantafe.pco.model.dao.LogProcessoDAO;
 import br.com.usinasantafe.pco.model.dao.PassageiroDAO;
 import br.com.usinasantafe.pco.util.connHttp.PostCadGenerico;
@@ -17,7 +18,7 @@ public class EnvioDadosServ {
 
     private static EnvioDadosServ instance = null;
     private UrlsConexaoHttp urlsConexaoHttp;
-    public static int status; //1 - Existe Dados para Enviar; 2 - Enviado; 3 - Todos os Dados Foram Enviados;
+    public static int status; //1 - Existe Dados para Enviar; 2 - Enviando; 3 - Todos os Dados Foram Enviados;
     private int posEnvio;
     private Context context;
 
@@ -84,6 +85,12 @@ public class EnvioDadosServ {
         if(result.trim().startsWith("SALVOU")) {
             PassageiroCTR passageiroCTR = new PassageiroCTR();
             passageiroCTR.updatePassageiro(result, activity);
+        }
+        else {
+            LogProcessoDAO.getInstance().insertLogProcesso("else {\n" +
+                    "            status = 1;", activity);
+            status = 1;
+            LogErroDAO.getInstance().insertLogErro(result);
         }
     }
 

@@ -148,7 +148,7 @@
     <string name="texto_padrao_salvar">SALVAR</string>
     <string name="texto_atualizar_bd">ATUALIZAR DADOS</string>
     <string name="texto_item_list">TESTE</string>
-    <string name="texto_menu_principal">PRINCIPAL - V 1.02</string>
+    <string name="texto_menu_principal">PRINCIPAL - V 2.00</string>
     <string name="texto_motorista">MATRIC. MOTORISTA:</string>
     <string name="texto_padrao_retornar">RETORNAR</string>
     <string name="texto_turno">TURNO</string>
@@ -162,7 +162,7 @@
     <string name="texto_nro_aparelho">NRO APARELHO</string>
     <string name="texto_tipo_equip">TIPO EQUIP.</string>
     <string name="texto_titulo_trajeto">TRAJETOS</string>
-    <string name="texto_lotacao_max">LOTAÇÃO MAX</string>
+    <string name="texto_lotacao_max">LOTAÇÃO MÁXIMA</string>
     <string name="texto_padrao_nao">NÃO</string>
     <string name="texto_padrao_sim">SIM</string>
     <string name="texto_titulo_msg_add_passag">PASSAGEIRO</string>

@@ -11,6 +11,7 @@ import br.com.usinasantafe.pco.model.bean.estaticas.MotoristaBean;
 import br.com.usinasantafe.pco.model.bean.estaticas.TrajetoBean;
 import br.com.usinasantafe.pco.model.bean.variaveis.PassageiroBean;
 import br.com.usinasantafe.pco.model.dao.ColabDAO;
+import br.com.usinasantafe.pco.model.dao.LogErroDAO;
 import br.com.usinasantafe.pco.model.dao.MotoristaDAO;
 import br.com.usinasantafe.pco.model.dao.PassageiroDAO;
 import br.com.usinasantafe.pco.model.dao.TrajetoDAO;
@@ -77,8 +78,24 @@ public class PassageiroCTR {
     }
 
     public void updatePassageiro(String retorno, String activity) {
-        PassageiroDAO passageiroDAO = new PassageiroDAO();
-        passageiroDAO.updatePassageiro(retorno, activity);
+
+        try {
+
+            int pos1 = retorno.indexOf("_") + 1;
+
+            String objPrinc  = retorno.substring(pos1);
+
+            PassageiroDAO passageiroDAO = new PassageiroDAO();
+            passageiroDAO.updatePassageiro(objPrinc);
+
+            EnvioDadosServ.getInstance().envioDados(activity);
+
+        }
+        catch (Exception e){
+            EnvioDadosServ.status = 1;
+            LogErroDAO.getInstance().insertLogErro(e);
+        }
+
     }
 
     public void delPassageiro(){

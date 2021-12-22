@@ -40,7 +40,7 @@ public class ColabDAO {
     }
 
     public void verColab(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog){
-        VerifDadosServ.getInstance().setVerTerm(true);
+
         VerifDadosServ.getInstance().verDados(dado, "Colab", telaAtual, telaProx, progressDialog);
     }
 
@@ -63,16 +63,16 @@ public class ColabDAO {
 
                 VerifDadosServ.getInstance().setMsgVerifColab(Tempo.getInstance().dthr() + "\n" +
                         + colabBean.getMatricColab() + " - " + colabBean.getNomeColab());
-                VerifDadosServ.getInstance().pulaTelaSemTerm();
+                VerifDadosServ.getInstance().pulaTela();
 
             } else {
                 VerifDadosServ.getInstance().setMsgVerifColab("COLABORADOR INEXISTENTE NA BASE DE DADOS! FAVOR VERIFICA A NUMERAÇÃO.");
-                VerifDadosServ.getInstance().pulaTelaSemTerm();
+                VerifDadosServ.getInstance().pulaTela();
             }
 
         } catch (Exception e) {
             VerifDadosServ.getInstance().setMsgVerifColab("FALHA DE PESQUISA DE COLABORADOR! POR FAVOR, TENTAR NOVAMENTE COM UM SINAL MELHOR.");
-            VerifDadosServ.getInstance().pulaTelaSemTerm();
+            VerifDadosServ.getInstance().pulaTela();
         }
     }
 

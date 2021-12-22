@@ -32,7 +32,6 @@ import br.com.usinasantafe.pco.view.TelaInicialActivity;
 public class VerifDadosServ {
 
     private static VerifDadosServ instance = null;
-    private GenericRecordable genericRecordable;
     private UrlsConexaoHttp urlsConexaoHttp;
     private Context telaAtual;
     private Class telaProx;
@@ -40,17 +39,10 @@ public class VerifDadosServ {
     private ProgressDialog progressDialog;
     private String dados;
     private String tipo;
-    private AtualAplicBean atualAplicBean;
-    private MenuInicialActivity menuInicialActivity;
-    private boolean verTerm;
     private PostVerGenerico postVerGenerico;
     private String msgVerifColab;
-    public static int status;
+    public static int status; //1 - Existe Dados para Enviar; 2 - Enviando; 3 - Todos os Dados Foram Enviados;
     private TelaInicialActivity telaInicialActivity;
-
-    public VerifDadosServ() {
-        //genericRecordable = new GenericRecordable();
-    }
 
     public static VerifDadosServ getInstance() {
         if (instance == null)
@@ -94,7 +86,7 @@ public class VerifDadosServ {
 
     public void verDados(String dado, String tipo, Context telaAtual, Class telaProx, ProgressDialog progressDialog) {
 
-        verTerm = false;
+        status = 2;
         urlsConexaoHttp = new UrlsConexaoHttp();
         this.telaAtual = telaAtual;
         this.telaProx = telaProx;
@@ -102,19 +94,7 @@ public class VerifDadosServ {
         this.dados = dado;
         this.tipo = tipo;
 
-        envioDados();
-
-    }
-
-    public void envioDados() {
-
-        String[] url = {urlsConexaoHttp.urlVerifica(tipo)};
-        Map<String, Object> parametrosPost = new HashMap<String, Object>();
-        parametrosPost.put("dado", String.valueOf(dados));
-
-        postVerGenerico = new PostVerGenerico();
-        postVerGenerico.setParametrosPost(parametrosPost);
-        postVerGenerico.execute(url);
+        envioVerif(telaAtual.getPackageName());
 
     }
 
@@ -145,16 +125,19 @@ public class VerifDadosServ {
     }
 
     public void cancelVer() {
-        verTerm = true;
+        status = 3;
         if (postVerGenerico.getStatus() == AsyncTask.Status.RUNNING) {
             postVerGenerico.cancel(true);
         }
     }
 
-    public void pulaTelaSemTerm(){
-        this.progressDialog.dismiss();
-        Intent it = new Intent(telaAtual, telaProx);
-        telaAtual.startActivity(it);
+    public void pulaTela(){
+        if(status < 3) {
+            status = 3;
+            this.progressDialog.dismiss();
+            Intent it = new Intent(telaAtual, telaProx);
+            telaAtual.startActivity(it);
+        }
     }
 
     public void msgSemTerm(String texto){
@@ -175,14 +158,6 @@ public class VerifDadosServ {
         if (postVerGenerico.getStatus() == AsyncTask.Status.RUNNING) {
             postVerGenerico.cancel(true);
         }
-    }
-
-    public boolean isVerTerm() {
-        return verTerm;
-    }
-
-    public void setVerTerm(boolean verTerm) {
-        this.verTerm = verTerm;
     }
 
     public String getMsgVerifColab() {

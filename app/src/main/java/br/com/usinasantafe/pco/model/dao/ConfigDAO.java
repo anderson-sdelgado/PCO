@@ -67,6 +67,7 @@ public class ConfigDAO {
         configBean.setMatricMotoConfig(0L);
         configBean.setIdTurnoConfig(0L);
         configBean.setDtrhViagemConfig("");
+        configBean.setDtrhLongViagemConfig(0L);
         configBean.setDthrServConfig("");
         configBean.setDifDthrConfig(0L);
         configBean.setIdTrajetoConfig(0L);
@@ -96,6 +97,7 @@ public class ConfigDAO {
     public void clearDthrViagemConfig(){
         ConfigBean configBean = getConfig();
         configBean.setDtrhViagemConfig("");
+        configBean.setDtrhLongViagemConfig(0L);
         configBean.update();
     }
 
@@ -106,9 +108,11 @@ public class ConfigDAO {
     }
 
     public void setLotacaoMaxConfig(Long lotacaoMax){
+        Long dthr = Tempo.getInstance().dthr();
         ConfigBean configBean = getConfig();
         configBean.setLotacaoMaxConfig(lotacaoMax);
-        configBean.setDtrhViagemConfig(Tempo.getInstance().dthr(Tempo.getInstance().dthr()));
+        configBean.setDtrhViagemConfig(Tempo.getInstance().dthr(dthr));
+        configBean.setDtrhLongViagemConfig(dthr);
         configBean.update();
     }
 
@@ -122,6 +126,7 @@ public class ConfigDAO {
             ConfigBean configBean = new ConfigBean();
             configBean.setPosicaoTela(posicaoTela);
             configBean.setSenhaConfig("");
+            configBean.setTipoEquipConfig(0L);
             configBean.insert();
             configBean.commit();
         }

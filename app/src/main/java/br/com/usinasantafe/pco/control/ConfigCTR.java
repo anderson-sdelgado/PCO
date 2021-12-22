@@ -113,12 +113,6 @@ public class ConfigCTR {
         configDAO.setPosicaoTela(posicaoTela);
     }
 
-    public MotoristaBean getMotoConfig(){
-        ConfigDAO configDAO = new ConfigDAO();
-        MotoristaDAO motoristaDAO = new MotoristaDAO();
-        return motoristaDAO.getMotorista(configDAO.getConfig().getMatricMotoConfig());
-    }
-
     public AtualAplicBean recAtual(String result) {
 
         AtualAplicBean atualAplicBean = new AtualAplicBean();

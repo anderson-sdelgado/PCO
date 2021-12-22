@@ -27,6 +27,8 @@ public class ConfigBean extends Entidade {
     @DatabaseField
     private String dtrhViagemConfig;
     @DatabaseField
+    private Long dtrhLongViagemConfig;
+    @DatabaseField
     private String dthrServConfig;
     @DatabaseField
     private Long difDthrConfig;
@@ -151,5 +153,13 @@ public class ConfigBean extends Entidade {
 
     public void setPosicaoTela(Long posicaoTela) {
         this.posicaoTela = posicaoTela;
+    }
+
+    public Long getDtrhLongViagemConfig() {
+        return dtrhLongViagemConfig;
+    }
+
+    public void setDtrhLongViagemConfig(Long dtrhLongViagemConfig) {
+        this.dtrhLongViagemConfig = dtrhLongViagemConfig;
     }
 }

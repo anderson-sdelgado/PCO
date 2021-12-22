@@ -16,7 +16,7 @@ import br.com.usinasantafe.pco.model.dao.LogProcessoDAO;
 import br.com.usinasantafe.pco.util.EnvioDadosServ;
 import br.com.usinasantafe.pco.util.VerifDadosServ;
 
-public class TelaInicialActivity extends AppCompatActivity {
+public class TelaInicialActivity extends ActivityGeneric {
 
     private PCOContext pcbContext;
     private Handler customHandler = new Handler();
@@ -50,26 +50,31 @@ public class TelaInicialActivity extends AppCompatActivity {
 
     public void goMenuInicial(){
 
-        LogProcessoDAO.getInstance().insertLogProcesso("customHandler.removeCallbacks(encerraAtualThread);", getLocalClassName());
+        LogProcessoDAO.getInstance().insertLogProcesso("public void goMenuInicial(){\n" +
+                "        customHandler.removeCallbacks(encerraAtualThread);", getLocalClassName());
         customHandler.removeCallbacks(encerraAtualThread);
-        LogProcessoDAO.getInstance().insertLogProcesso("}\n" +
-                "        else{\n" +
-                "Intent it = new Intent(TelaInicialActivity.this, MenuInicialActivity.class);", getLocalClassName());
-        if(!pcbContext.getConfigCTR().getConfig().getDtrhViagemConfig().equals("")){
-            LogProcessoDAO.getInstance().insertLogProcesso("if(!pcbContext.getConfigCTR().getConfig().getDtrhViagemConfig().equals(\"\")){\n" +
-                    "            Intent it = new Intent(TelaInicialActivity.this, ListaBagCarregActivity.class);", getLocalClassName());
-            Intent it = new Intent(TelaInicialActivity.this, ListaPassageiroActivity.class);
-            startActivity(it);
-            finish();
-        }
-        else{
+        if(pcbContext.getConfigCTR().hasElemConfig()){
+            LogProcessoDAO.getInstance().insertLogProcesso("if(pcbContext.getConfigCTR().hasElemConfig()){", getLocalClassName());
+            if(!pcbContext.getConfigCTR().getConfig().getDtrhViagemConfig().equals("")){
+                LogProcessoDAO.getInstance().insertLogProcesso("if(!pcbContext.getConfigCTR().getConfig().getDtrhViagemConfig().equals(\"\")){\n" +
+                        "            Intent it = new Intent(TelaInicialActivity.this, ListaBagCarregActivity.class);", getLocalClassName());
+                Intent it = new Intent(TelaInicialActivity.this, ListaPassageiroActivity.class);
+                startActivity(it);
+                finish();
+            } else {
+                LogProcessoDAO.getInstance().insertLogProcesso("else{\n" +
+                        "            Intent it = new Intent(TelaInicialActivity.this, MenuInicialActivity.class);", getLocalClassName());
+                Intent it = new Intent(TelaInicialActivity.this, MenuInicialActivity.class);
+                startActivity(it);
+                finish();
+            }
+        } else {
             LogProcessoDAO.getInstance().insertLogProcesso("else{\n" +
                     "            Intent it = new Intent(TelaInicialActivity.this, MenuInicialActivity.class);", getLocalClassName());
             Intent it = new Intent(TelaInicialActivity.this, MenuInicialActivity.class);
             startActivity(it);
             finish();
         }
-
     }
 
     public void atualizarAplic(){
@@ -110,7 +115,9 @@ public class TelaInicialActivity extends AppCompatActivity {
     }
 
     public void clearBD() {
-        LogProcessoDAO.getInstance().insertLogProcesso("pmmContext.getConfigCTR().deleteLogs();", getLocalClassName());
+        LogProcessoDAO.getInstance().insertLogProcesso("public void clearBD() {\n" +
+                "        pcbContext.getConfigCTR().deleteLogs();\n" +
+                "        pcbContext.getPassageiroCTR().delPassageiro();", getLocalClassName());
         pcbContext.getConfigCTR().deleteLogs();
         pcbContext.getPassageiroCTR().delPassageiro();
     }
@@ -157,10 +164,9 @@ public class TelaInicialActivity extends AppCompatActivity {
                 EnvioDadosServ.status = 3;
             }
 
-            LogProcessoDAO.getInstance().insertLogProcesso("VerifDadosServ.status = 3;", getLocalClassName());
+            LogProcessoDAO.getInstance().insertLogProcesso("VerifDadosServ.status = 3;\n" +
+                    "            atualizarAplic();", getLocalClassName());
             VerifDadosServ.status = 3;
-
-            LogProcessoDAO.getInstance().insertLogProcesso("atualizarAplic()", getLocalClassName());
             atualizarAplic();
 
         }
