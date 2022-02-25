@@ -19,7 +19,6 @@ public class LogErroActivity extends ActivityGeneric {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_erro);
 
-
         pcbContext = (PCOContext) getApplication();
 
         Button buttonRetLogErro = findViewById(R.id.buttonRetLogErro);

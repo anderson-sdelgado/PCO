@@ -17,7 +17,6 @@ import br.com.usinasantafe.pco.PCOContext;
 import br.com.usinasantafe.pco.R;
 import br.com.usinasantafe.pco.model.bean.estaticas.TrajetoBean;
 import br.com.usinasantafe.pco.model.dao.LogProcessoDAO;
-import br.com.usinasantafe.pco.util.EnvioDadosServ;
 
 public class ListaTrajetoActivity extends ActivityGeneric {
 
@@ -33,8 +32,8 @@ public class ListaTrajetoActivity extends ActivityGeneric {
 
         pcoContext = (PCOContext) getApplication();
 
-        Button buttonAtualAtividade = (Button) findViewById(R.id.buttonAtualTrajeto);
-        Button buttonRetAtividade = (Button) findViewById(R.id.buttonRetTrajeto);
+        Button buttonAtualAtividade = findViewById(R.id.buttonAtualTrajeto);
+        Button buttonRetAtividade = findViewById(R.id.buttonRetTrajeto);
 
         buttonAtualAtividade.setOnClickListener(new View.OnClickListener() {
 
@@ -60,7 +59,7 @@ public class ListaTrajetoActivity extends ActivityGeneric {
                     progressBar.setMessage("ATUALIZANDO ATIVIDADES...");
                     progressBar.show();
 
-                    pcoContext.getPassageiroCTR().atualDados(ListaTrajetoActivity.this
+                    pcoContext.getViagemCTR().atualDados(ListaTrajetoActivity.this
                             , ListaTrajetoActivity.class, progressBar, "Trajeto");
 
                 } else {
@@ -111,7 +110,7 @@ public class ListaTrajetoActivity extends ActivityGeneric {
                 "        trajetoListView = (ListView) findViewById(R.id.trajetoList);\n" +
                 "        trajetoListView.setAdapter(adapterList);", getLocalClassName());
 
-        trajetoList = pcoContext.getPassageiroCTR().trajetoList();
+        trajetoList = pcoContext.getViagemCTR().trajetoList();
 
         ArrayList<String> itens = new ArrayList<String>();
         for (int i = 0; i < trajetoList.size(); i++) {
@@ -136,7 +135,7 @@ public class ListaTrajetoActivity extends ActivityGeneric {
                         "                pcoContext.getConfigCTR().setTrajetoConfig(trajetoBean.getIdTrajeto());\n" +
                         "                Intent it = new Intent(ListaTrajetoActivity.this, LotacaoMaxActivity.class);", getLocalClassName());
                 TrajetoBean trajetoBean = trajetoList.get(position);
-                pcoContext.getConfigCTR().setTrajetoConfig(trajetoBean.getIdTrajeto());
+                pcoContext.getViagemCTR().getCabecViagemBean().setIdTrajetoCabecViagem(trajetoBean.getIdTrajeto());
                 Intent it = new Intent(ListaTrajetoActivity.this, LotacaoMaxActivity.class);
                 startActivity(it);
                 finish();

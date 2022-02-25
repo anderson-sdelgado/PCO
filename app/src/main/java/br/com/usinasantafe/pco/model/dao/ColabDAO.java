@@ -10,7 +10,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-import br.com.usinasantafe.pco.control.PassageiroCTR;
+import br.com.usinasantafe.pco.control.ViagemCTR;
 import br.com.usinasantafe.pco.model.bean.estaticas.ColabBean;
 import br.com.usinasantafe.pco.util.Tempo;
 import br.com.usinasantafe.pco.util.VerifDadosServ;
@@ -58,8 +58,8 @@ public class ColabDAO {
                 ColabBean colabBean = gson.fromJson(objeto.toString(), ColabBean.class);
                 colabBean.insert();
 
-                PassageiroCTR passageiroCTR = new PassageiroCTR();
-                passageiroCTR.salvarPassageiro(colabBean.getMatricColab(), activity);
+                ViagemCTR viagemCTR = new ViagemCTR();
+                viagemCTR.salvarPassageiro(colabBean.getMatricColab(), activity);
 
                 VerifDadosServ.getInstance().setMsgVerifColab(Tempo.getInstance().dthr() + "\n" +
                         + colabBean.getMatricColab() + " - " + colabBean.getNomeColab());

@@ -177,8 +177,8 @@ public class Tempo {
 
     }
 
-    public Long dthrLongDia1Menos(){
-        return dthr() - (1*24*60*60*1000);
+    public Long dthrLongDiaMenos(int dia){
+        return dthr() - (dia*24*60*60*1000);
     }
 
     public Long dthrStringToLong(String dthrString){

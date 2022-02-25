@@ -21,21 +21,13 @@ public class ConfigBean extends Entidade {
     @DatabaseField
     private Long idEquipConfig;
     @DatabaseField
-    private Long matricMotoConfig;
-    @DatabaseField
-    private Long idTurnoConfig;
-    @DatabaseField
-    private String dtrhViagemConfig;
-    @DatabaseField
-    private Long dtrhLongViagemConfig;
-    @DatabaseField
     private String dthrServConfig;
     @DatabaseField
     private Long difDthrConfig;
     @DatabaseField
-    private Long idTrajetoConfig;
-    @DatabaseField
     private Long lotacaoMaxConfig;
+    @DatabaseField
+    private Double hodometroConfig;
     @DatabaseField
     private Long posicaoTela;
     // 1 - Tela Inicial
@@ -47,6 +39,7 @@ public class ConfigBean extends Entidade {
     // 7 - Configuracao;
     // 8 - Log Menu Inicial;
     // 9 - Log Lista de Bag;
+    // 10 - Finalizar Viagem
 
     public ConfigBean() {
     }
@@ -73,30 +66,6 @@ public class ConfigBean extends Entidade {
 
     public void setSenhaConfig(String senhaConfig) {
         this.senhaConfig = senhaConfig;
-    }
-
-    public Long getMatricMotoConfig() {
-        return matricMotoConfig;
-    }
-
-    public void setMatricMotoConfig(Long matricMotoConfig) {
-        this.matricMotoConfig = matricMotoConfig;
-    }
-
-    public Long getIdTurnoConfig() {
-        return idTurnoConfig;
-    }
-
-    public void setIdTurnoConfig(Long idTurnoConfig) {
-        this.idTurnoConfig = idTurnoConfig;
-    }
-
-    public String getDtrhViagemConfig() {
-        return dtrhViagemConfig;
-    }
-
-    public void setDtrhViagemConfig(String dtrhViagemConfig) {
-        this.dtrhViagemConfig = dtrhViagemConfig;
     }
 
     public String getDthrServConfig() {
@@ -131,14 +100,6 @@ public class ConfigBean extends Entidade {
         this.nroAparelhoConfig = nroAparelhoConfig;
     }
 
-    public Long getIdTrajetoConfig() {
-        return idTrajetoConfig;
-    }
-
-    public void setIdTrajetoConfig(Long idTrajetoConfig) {
-        this.idTrajetoConfig = idTrajetoConfig;
-    }
-
     public Long getLotacaoMaxConfig() {
         return lotacaoMaxConfig;
     }
@@ -155,11 +116,11 @@ public class ConfigBean extends Entidade {
         this.posicaoTela = posicaoTela;
     }
 
-    public Long getDtrhLongViagemConfig() {
-        return dtrhLongViagemConfig;
+    public Double getHodometroConfig() {
+        return hodometroConfig;
     }
 
-    public void setDtrhLongViagemConfig(Long dtrhLongViagemConfig) {
-        this.dtrhLongViagemConfig = dtrhLongViagemConfig;
+    public void setHodometroConfig(Double hodometroConfig) {
+        this.hodometroConfig = hodometroConfig;
     }
 }

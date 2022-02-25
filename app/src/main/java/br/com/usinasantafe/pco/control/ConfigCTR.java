@@ -11,8 +11,6 @@ import java.util.List;
 
 import br.com.usinasantafe.pco.model.bean.AtualAplicBean;
 import br.com.usinasantafe.pco.model.bean.estaticas.EquipBean;
-import br.com.usinasantafe.pco.model.bean.estaticas.MotoristaBean;
-import br.com.usinasantafe.pco.model.bean.estaticas.TurnoBean;
 import br.com.usinasantafe.pco.model.bean.variaveis.ConfigBean;
 import br.com.usinasantafe.pco.model.bean.variaveis.LogErroBean;
 import br.com.usinasantafe.pco.model.bean.variaveis.LogProcessoBean;
@@ -21,8 +19,7 @@ import br.com.usinasantafe.pco.model.dao.ConfigDAO;
 import br.com.usinasantafe.pco.model.dao.EquipDAO;
 import br.com.usinasantafe.pco.model.dao.LogErroDAO;
 import br.com.usinasantafe.pco.model.dao.LogProcessoDAO;
-import br.com.usinasantafe.pco.model.dao.MotoristaDAO;
-import br.com.usinasantafe.pco.model.dao.PassageiroDAO;
+import br.com.usinasantafe.pco.model.dao.PassageiroViagemDAO;
 import br.com.usinasantafe.pco.util.AtualDadosServ;
 import br.com.usinasantafe.pco.util.VerifDadosServ;
 import br.com.usinasantafe.pco.view.TelaInicialActivity;
@@ -83,29 +80,14 @@ public class ConfigCTR {
         configDAO.setEquipConfig(equipDAO.getEquipNro(nroEquip).getIdEquip());
     }
 
-    public void setMotoConfig(MotoristaBean motoristaBean){
-        ConfigDAO configDAO = new ConfigDAO();
-        configDAO.setMotoConfig(motoristaBean);
-    }
-
-    public void setTurnoConfig(TurnoBean turnoBean){
-        ConfigDAO configDAO = new ConfigDAO();
-        configDAO.setTurnoConfig(turnoBean);
-    }
-
-    public void setTrajetoConfig(Long idTrajeto){
-        ConfigDAO configDAO = new ConfigDAO();
-        configDAO.setTrajetoConfig(idTrajeto);
-    }
-
     public void setLotacaoMaxConfig(Long lotacaoMax){
         ConfigDAO configDAO = new ConfigDAO();
         configDAO.setLotacaoMaxConfig(lotacaoMax);
     }
 
-    public void clearDtrhViagemConfig(){
+    public void setHodometroInicialConfig(Double hodometroInicial){
         ConfigDAO configDAO = new ConfigDAO();
-        configDAO.clearDthrViagemConfig();
+        configDAO.setHodometroInicialConfig(hodometroInicial);
     }
 
     public void setPosicaoTela(Long posicaoTela){
@@ -153,9 +135,9 @@ public class ConfigCTR {
     public ArrayList<String> logBaseDadoList(){
         ArrayList<String> dadosArrayList = new ArrayList<>();
         ConfigDAO configDAO = new ConfigDAO();
-        PassageiroDAO passageiroDAO = new PassageiroDAO();
+        PassageiroViagemDAO passageiroViagemDAO = new PassageiroViagemDAO();
         dadosArrayList = configDAO.configArrayList(dadosArrayList);
-        dadosArrayList = passageiroDAO.passageiroArrayList(dadosArrayList);
+        dadosArrayList = passageiroViagemDAO.passageiroArrayList(dadosArrayList);
         return dadosArrayList;
     }
 

@@ -38,7 +38,7 @@ public class MotoristaDAO {
         return motoristaBean;
     }
 
-    private List motoristaList(Long matricMoto){
+    private List<MotoristaBean> motoristaList(Long matricMoto){
         MotoristaBean motoristaBean = new MotoristaBean();
         return motoristaBean.get("matricMoto", matricMoto);
     }
@@ -61,17 +61,20 @@ public class MotoristaDAO {
                 MotoristaBean motoristaBean = gson.fromJson(objeto.toString(), MotoristaBean.class);
                 motoristaBean.insert();
 
-                ConfigCTR configCTR = new ConfigCTR();
-                configCTR.setMotoConfig(motoristaBean);
-
                 VerifDadosServ.getInstance().pulaTela();
 
             } else {
+
+                VerifDadosServ.getInstance().setMatricula("");
                 VerifDadosServ.getInstance().msgSemTerm("MOTORISTA INEXISTENTE NA BASE DE DADOS! FAVOR VERIFICA A NUMERAÇÃO.");
+
             }
 
         } catch (Exception e) {
+
+            VerifDadosServ.getInstance().setMatricula("");
             VerifDadosServ.getInstance().msgSemTerm("FALHA DE PESQUISA DE MOTORISTA! POR FAVOR, TENTAR NOVAMENTE COM UM SINAL MELHOR.");
+
         }
     }
 

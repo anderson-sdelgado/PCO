@@ -26,7 +26,7 @@ public class ListaTurnoActivity extends ActivityGeneric {
 
         pcoContext = (PCOContext) getApplication();
 
-        Button buttonRetTurno = (Button) findViewById(R.id.buttonRetTurno);
+        Button buttonRetTurno = findViewById(R.id.buttonRetTurno);
 
         LogProcessoDAO.getInstance().insertLogProcesso("ArrayList<String> itens = new ArrayList<String>();\n" +
                 "        itens.add(\"TURNO 1: 00:02 - 07:30\");\n" +
@@ -64,11 +64,7 @@ public class ListaTurnoActivity extends ActivityGeneric {
                         "                Intent it = new Intent(ListaTurnoActivity.this, ListaTrajetoActivity.class);", getLocalClassName());
 
                 Long turno = Long.valueOf(position + 1);
-                TurnoBean turnoBean = new TurnoBean();
-                turnoBean.setIdTurno(turno);
-                turnoBean.setCodTurno(turno);
-                pcoContext.getConfigCTR().setTurnoConfig(turnoBean);
-
+                pcoContext.getViagemCTR().getCabecViagemBean().setIdTurnoCabecViagem(turno);
                 Intent it = new Intent(ListaTurnoActivity.this, ListaTrajetoActivity.class);
                 startActivity(it);
                 finish();

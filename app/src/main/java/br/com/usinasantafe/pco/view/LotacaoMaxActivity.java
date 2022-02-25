@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import br.com.usinasantafe.pco.PCOContext;
 import br.com.usinasantafe.pco.R;
@@ -24,8 +25,19 @@ public class LotacaoMaxActivity extends ActivityGeneric {
 
         pcoContext = (PCOContext) getApplication();
 
-        Button buttonOkLotacao = (Button) findViewById(R.id.buttonOkPadrao);
-        Button buttonCancLotacao = (Button) findViewById(R.id.buttonCancPadrao);
+        Button buttonOkLotacao = findViewById(R.id.buttonOkPadrao);
+        Button buttonCancLotacao = findViewById(R.id.buttonCancPadrao);
+        EditText editText = findViewById(R.id.editTextPadrao);
+
+        if(pcoContext.getConfigCTR().getConfig().getLotacaoMaxConfig() > 0L){
+            LogProcessoDAO.getInstance().insertLogProcesso("if(pcoContext.getConfigCTR().getConfig().getLotacaoMaxConfig() > 0L){\n" +
+                    "            editText.setText(String.valueOf(pcoContext.getConfigCTR().getConfig().getLotacaoMaxConfig()));", getLocalClassName());
+            editText.setText(String.valueOf(pcoContext.getConfigCTR().getConfig().getLotacaoMaxConfig()));
+        } else {
+            LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                    "            editText.setText(\"\");", getLocalClassName());
+            editText.setText("");
+        }
 
         buttonOkLotacao.setOnClickListener(new View.OnClickListener() {
 
@@ -47,9 +59,8 @@ public class LotacaoMaxActivity extends ActivityGeneric {
                                 "                        pcoContext.getConfigCTR().setLotacaoMaxConfig(Long.parseLong(editTextPadrao.getText().toString()));\n" +
                                 "                        Intent it = new Intent(LotacaoMaxActivity.this, ListaPassageiroActivity.class);", getLocalClassName());
 
-                        pcoContext.getConfigCTR().setPosicaoTela(2L);
                         pcoContext.getConfigCTR().setLotacaoMaxConfig(Long.parseLong(editTextPadrao.getText().toString()));
-                        Intent it = new Intent(LotacaoMaxActivity.this, ListaPassageiroActivity.class);
+                        Intent it = new Intent(LotacaoMaxActivity.this, HorimetroActivity.class);
                         startActivity(it);
                         finish();
 

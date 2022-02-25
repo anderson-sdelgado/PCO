@@ -5,28 +5,23 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import br.com.usinasantafe.pco.PCOContext;
 import br.com.usinasantafe.pco.R;
 import br.com.usinasantafe.pco.model.dao.LogProcessoDAO;
 import br.com.usinasantafe.pco.util.EnvioDadosServ;
-import br.com.usinasantafe.pco.util.VerifDadosServ;
 
 public class MenuInicialActivity extends ActivityGeneric {
 
@@ -43,7 +38,7 @@ public class MenuInicialActivity extends ActivityGeneric {
         setContentView(R.layout.activity_menu_inicial);
 
         pcoContext = (PCOContext) getApplication();
-        textViewProcesso = (TextView) findViewById(R.id.textViewProcesso);
+        textViewProcesso = findViewById(R.id.textViewProcesso);
 
         if (!checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             String[] PERMISSIONS = {android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -107,7 +102,7 @@ public class MenuInicialActivity extends ActivityGeneric {
 
                 if (text.equals("INICIAR VIAGEM")) {
                     LogProcessoDAO.getInstance().insertLogProcesso("if (text.equals(\"INICIAR VIAGEM\")) {", getLocalClassName());
-                    if (pcoContext.getPassageiroCTR().hasElementsMotorista()
+                    if (pcoContext.getViagemCTR().hasElementsMotorista()
                             && pcoContext.getConfigCTR().hasElemConfig()) {
 
                         LogProcessoDAO.getInstance().insertLogProcesso("if (pcoContext.getPassageiroCTR().hasElementsMotorista()\n" +
@@ -125,7 +120,9 @@ public class MenuInicialActivity extends ActivityGeneric {
                     LogProcessoDAO.getInstance().insertLogProcesso("} else if (text.equals(\"CONFIGURAÇÃO\")) {\n" +
                             "                    pcoContext.setVerTela(7);\n" +
                             "                    Intent it = new Intent(MenuInicialActivity.this, SenhaActivity.class);", getLocalClassName());
-                    pcoContext.getConfigCTR().setPosicaoTela(7L);
+                    if(pcoContext.getConfigCTR().hasElemConfig()){
+                        pcoContext.getConfigCTR().setPosicaoTela(7L);
+                    }
                     Intent it = new Intent(MenuInicialActivity.this, SenhaActivity.class);
                     startActivity(it);
                     finish();

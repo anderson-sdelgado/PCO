@@ -3,38 +3,29 @@ package br.com.usinasantafe.pco;
 import android.app.Application;
 
 import br.com.usinasantafe.pco.control.ConfigCTR;
-import br.com.usinasantafe.pco.control.PassageiroCTR;
+import br.com.usinasantafe.pco.control.ViagemCTR;
 
 public class PCOContext extends Application {
 
     public static String versaoAplic = "2.00";
-    private PassageiroCTR passageiroCTR;
+    private ViagemCTR viagemCTR;
     private ConfigCTR configCTR;
-    private String matriculaPassageiro;
 
     @Override
     public void onCreate() {
         super.onCreate();
     }
 
-    public PassageiroCTR getPassageiroCTR() {
-        if (passageiroCTR == null)
-            passageiroCTR = new PassageiroCTR();
-        return passageiroCTR;
+    public ViagemCTR getViagemCTR() {
+        if (viagemCTR == null)
+            viagemCTR = new ViagemCTR();
+        return viagemCTR;
     }
 
     public ConfigCTR getConfigCTR() {
         if (configCTR == null)
             configCTR = new ConfigCTR();
         return configCTR;
-    }
-
-    public String getMatriculaPassageiro() {
-        return matriculaPassageiro;
-    }
-
-    public void setMatriculaPassageiro(String matriculaPassageiro) {
-        this.matriculaPassageiro = matriculaPassageiro;
     }
 
 }

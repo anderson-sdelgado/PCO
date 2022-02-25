@@ -19,7 +19,6 @@ public class LogProcessoActivity extends ActivityGeneric {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_processo);
 
-
         pcoContext = (PCOContext) getApplication();
 
         Button buttonAvancaLogProcesso = findViewById(R.id.buttonAvancaLogProcesso);

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import br.com.usinasantafe.pco.PCOContext;
 import br.com.usinasantafe.pco.R;
@@ -24,9 +25,20 @@ public class EquipActivity extends ActivityGeneric {
 
         pcoContext = (PCOContext) getApplication();
 
-        Button buttonOkEquip = (Button) findViewById(R.id.buttonOkPadrao);
-        Button buttonCancEquip = (Button) findViewById(R.id.buttonCancPadrao);
-        Button buttonAtualPadrao = (Button) findViewById(R.id.buttonAtualPadrao);
+        Button buttonOkEquip = findViewById(R.id.buttonOkPadrao);
+        Button buttonCancEquip = findViewById(R.id.buttonCancPadrao);
+        Button buttonAtualPadrao = findViewById(R.id.buttonAtualPadrao);
+        EditText editText = findViewById(R.id.editTextPadrao);
+
+        if(pcoContext.getConfigCTR().getConfig().getIdEquipConfig() > 0L){
+            LogProcessoDAO.getInstance().insertLogProcesso("if(pcoContext.getConfigCTR().getConfig().getIdEquipConfig() > 0L){\n" +
+                    "            editText.setText(String.valueOf(pcoContext.getConfigCTR().getEquip().getNroEquip()));", getLocalClassName());
+            editText.setText(String.valueOf(pcoContext.getConfigCTR().getEquip().getNroEquip()));
+        } else {
+            LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                    "            editText.setText(\"\");", getLocalClassName());
+            editText.setText("");
+        }
 
         buttonAtualPadrao.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,7 +77,7 @@ public class EquipActivity extends ActivityGeneric {
                             progressBar.setMessage("Atualizando Colaborador...");
                             progressBar.show();
 
-                            pcoContext.getPassageiroCTR().atualDados(EquipActivity.this
+                            pcoContext.getViagemCTR().atualDados(EquipActivity.this
                                     , EquipActivity.class, progressBar, "Equip");
 
                         } else {

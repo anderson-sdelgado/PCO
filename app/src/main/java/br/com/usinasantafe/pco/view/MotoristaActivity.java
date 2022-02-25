@@ -24,7 +24,6 @@ public class MotoristaActivity extends ActivityGeneric {
     private TextView txtRetPassageiro;
     private ProgressDialog progressBar;
     private Handler customHandler = new Handler();
-    private MotoristaBean motoristaBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,21 +32,18 @@ public class MotoristaActivity extends ActivityGeneric {
 
         pcoContext = (PCOContext) getApplication();
 
-        txtRetPassageiro = (TextView) findViewById(R.id.txtRetPassageiro);
-        Button buttonOkPassageiro = (Button) findViewById(R.id.buttonOkPassageiro);
-        Button buttonCancPassageiro = (Button) findViewById(R.id.buttonCancPassageiro);
-        Button buttonAcionarCamera = (Button) findViewById(R.id.buttonAcionarCamera);
-        Button buttonAtualPadrao = (Button) findViewById(R.id.buttonAtualPadrao);
+        txtRetPassageiro = findViewById(R.id.txtRetPassageiro);
+        Button buttonOkPassageiro = findViewById(R.id.buttonOkPassageiro);
+        Button buttonCancPassageiro = findViewById(R.id.buttonCancPassageiro);
+        Button buttonAcionarCamera = findViewById(R.id.buttonAcionarCamera);
+        Button buttonAtualPadrao = findViewById(R.id.buttonAtualPadrao);
 
         LogProcessoDAO.getInstance().insertLogProcesso("MotoristaBean motoristaBean = new MotoristaBean();\n" +
                 "        motoristaBean.setMatricMoto(0L);\n" +
                 "        motoristaBean.setNomeMoto(\"\");\n" +
                 "        txtRetPassageiro.setText(\"POR FAVOR, REALIZE A LEITURA DO CRACHÁ DO MOTORISTA.\");", getLocalClassName());
 
-        motoristaBean = new MotoristaBean();
-        motoristaBean.setMatricMoto(0L);
-        motoristaBean.setNomeMoto("");
-
+        VerifDadosServ.getInstance().setMatricula("");
         txtRetPassageiro.setText("POR FAVOR, REALIZE A LEITURA DO CRACHÁ DO MOTORISTA.");
 
         buttonOkPassageiro.setOnClickListener(new View.OnClickListener() {
@@ -57,10 +53,15 @@ public class MotoristaActivity extends ActivityGeneric {
                 LogProcessoDAO.getInstance().insertLogProcesso("buttonOkPassageiro.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @Override\n" +
                         "            public void onClick(View v) {", getLocalClassName());
-                if(motoristaBean.getMatricMoto() > 0){
+                if(!VerifDadosServ.getInstance().getMatricula().equals("")){
+
                     LogProcessoDAO.getInstance().insertLogProcesso("if(motoristaBean.getMatricMoto() > 0){\n" +
-                            "                    pcoContext.getConfigCTR().setMotoConfig(motoristaBean);", getLocalClassName());
-                    pcoContext.getConfigCTR().setMotoConfig(motoristaBean);
+                            "                    pcoContext.getViagemCTR().setCabecViagemBean();\n" +
+                            "                    pcoContext.getViagemCTR().getCabecViagemBean().setMatricMotoCabecViagem(motoristaBean.getMatricMoto());", getLocalClassName());
+
+                    pcoContext.getViagemCTR().setCabecViagemBean();
+                    pcoContext.getViagemCTR().getCabecViagemBean().setMatricMotoCabecViagem(Long.valueOf(VerifDadosServ.getInstance().getMatricula()));
+
                     if(pcoContext.getConfigCTR().getConfig().getTipoEquipConfig() == 1L){
                         LogProcessoDAO.getInstance().insertLogProcesso("if(pcoContext.getConfigCTR().getConfig().getTipoEquipConfig() == 1L){\n" +
                                 "                        Intent it = new Intent(MotoristaActivity.this, ListaTurnoActivity.class);", getLocalClassName());
@@ -142,7 +143,7 @@ public class MotoristaActivity extends ActivityGeneric {
                             progressBar.setMessage("ATUALIZANDO MOTORISTA...");
                             progressBar.show();
 
-                            pcoContext.getPassageiroCTR().atualDados(MotoristaActivity.this
+                            pcoContext.getViagemCTR().atualDados(MotoristaActivity.this
                                     , MotoristaActivity.class, progressBar, "Motorista");
 
                         } else {
@@ -190,21 +191,27 @@ public class MotoristaActivity extends ActivityGeneric {
     public void onActivityResult(int requestCode, int resultCode, Intent data){
 
         if(REQUEST_CODE == requestCode && RESULT_OK == resultCode){
+
             LogProcessoDAO.getInstance().insertLogProcesso("@Override\n" +
                     "    public void onActivityResult(int requestCode, int resultCode, Intent data){\n" +
                     "        if(REQUEST_CODE == requestCode && RESULT_OK == resultCode){\n" +
                     "            String matricula = data.getStringExtra(\"SCAN_RESULT\");", getLocalClassName());
-            String matricula = data.getStringExtra("SCAN_RESULT");
-            if(matricula.length() == 8){
+            String matric = data.getStringExtra("SCAN_RESULT");
+
+            if(matric.length() == 8){
+
                 LogProcessoDAO.getInstance().insertLogProcesso("if(matricula.length() == 8){\n" +
                         "                matricula = matricula.substring(0, 7);", getLocalClassName());
-                matricula = matricula.substring(0, 7);
-                if (pcoContext.getPassageiroCTR().verMotorista(Long.parseLong(matricula))) {
+                VerifDadosServ.getInstance().setMatricula(matric.substring(0, 7));
+
+                if (pcoContext.getViagemCTR().verMotorista(Long.parseLong(VerifDadosServ.getInstance().getMatricula()))) {
+
                     LogProcessoDAO.getInstance().insertLogProcesso("if (pcoContext.getPassageiroCTR().verMotorista(Long.parseLong(matricula))) {\n" +
                             "                    motoristaBean = pcoContext.getPassageiroCTR().getMotorista(Long.parseLong(matricula));\n" +
                             "                    txtRetPassageiro.setText(motoristaBean.getMatricMoto() + \"\\n\" + motoristaBean.getNomeMoto());", getLocalClassName());
-                    motoristaBean = pcoContext.getPassageiroCTR().getMotorista(Long.parseLong(matricula));
+                    MotoristaBean motoristaBean = pcoContext.getViagemCTR().getMotorista(Long.parseLong(VerifDadosServ.getInstance().getMatricula()));
                     txtRetPassageiro.setText(motoristaBean.getMatricMoto() + "\n" + motoristaBean.getNomeMoto());
+
                 } else {
 
                     LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
@@ -221,7 +228,7 @@ public class MotoristaActivity extends ActivityGeneric {
                     progressBar.show();
 
                     customHandler.postDelayed(updateTimerThread, 10000);
-                    pcoContext.getPassageiroCTR().verMotorista(matricula, MotoristaActivity.this, MotoristaActivity.class, progressBar);
+                    pcoContext.getViagemCTR().verMotorista(VerifDadosServ.getInstance().getMatricula(), MotoristaActivity.this, MotoristaActivity.class, progressBar);
 
                 }
             }

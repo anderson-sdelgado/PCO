@@ -1,8 +1,5 @@
 package br.com.usinasantafe.pco.view;
 
-import static br.com.usinasantafe.pco.view.ActivityGeneric.connectNetwork;
-
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
@@ -55,9 +52,9 @@ public class TelaInicialActivity extends ActivityGeneric {
         customHandler.removeCallbacks(encerraAtualThread);
         if(pcbContext.getConfigCTR().hasElemConfig()){
             LogProcessoDAO.getInstance().insertLogProcesso("if(pcbContext.getConfigCTR().hasElemConfig()){", getLocalClassName());
-            if(!pcbContext.getConfigCTR().getConfig().getDtrhViagemConfig().equals("")){
-                LogProcessoDAO.getInstance().insertLogProcesso("if(!pcbContext.getConfigCTR().getConfig().getDtrhViagemConfig().equals(\"\")){\n" +
-                        "            Intent it = new Intent(TelaInicialActivity.this, ListaBagCarregActivity.class);", getLocalClassName());
+            if(pcbContext.getViagemCTR().verCabecViagemAberto()){
+                LogProcessoDAO.getInstance().insertLogProcesso("if(pcbContext.getViagemCTR().verCabecViagemAberto()){" +
+                        "            Intent it = new Intent(TelaInicialActivity.this, ListaPassageiroActivity.class);", getLocalClassName());
                 Intent it = new Intent(TelaInicialActivity.this, ListaPassageiroActivity.class);
                 startActivity(it);
                 finish();
@@ -119,7 +116,7 @@ public class TelaInicialActivity extends ActivityGeneric {
                 "        pcbContext.getConfigCTR().deleteLogs();\n" +
                 "        pcbContext.getPassageiroCTR().delPassageiro();", getLocalClassName());
         pcbContext.getConfigCTR().deleteLogs();
-        pcbContext.getPassageiroCTR().delPassageiro();
+        pcbContext.getViagemCTR().deleteViagemEnviada();
     }
 
     private Runnable encerraAtualThread = new Runnable() {

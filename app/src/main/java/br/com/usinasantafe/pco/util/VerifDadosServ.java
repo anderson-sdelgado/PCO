@@ -41,6 +41,7 @@ public class VerifDadosServ {
     private String tipo;
     private PostVerGenerico postVerGenerico;
     private String msgVerifColab;
+    private String matricula;
     public static int status; //1 - Existe Dados para Enviar; 2 - Enviando; 3 - Todos os Dados Foram Enviados;
     private TelaInicialActivity telaInicialActivity;
 
@@ -166,5 +167,13 @@ public class VerifDadosServ {
 
     public void setMsgVerifColab(String msgVerifColab) {
         this.msgVerifColab = msgVerifColab;
+    }
+
+    public String getMatricula() {
+        return matricula;
+    }
+
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
     }
 }

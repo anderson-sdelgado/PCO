@@ -34,62 +34,68 @@ public class ConfigActivity extends ActivityGeneric {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_config);
 
-        Button buttonSalvarConfig =  (Button) findViewById(R.id.buttonSalvarConfig);
-        Button buttonCancConfig = (Button) findViewById(R.id.buttonCancConfig);
-        Button buttonAtualizarBD = (Button) findViewById(R.id.buttonAtualizarBD);
-        textViewTipoEquipConfig = (TextView)  findViewById(R.id.textViewTipoEquipConfig);
-        editTextEquipConfig = (EditText)  findViewById(R.id.editTextEquipConfig);
-        editTextSenhaConfig = (EditText)  findViewById(R.id.editTextSenhaConfig);
-        editTextNroAparelhoConfig = (EditText)  findViewById(R.id.editTextNroAparelhoConfig);
+        Button buttonSalvarConfig = findViewById(R.id.buttonSalvarConfig);
+        Button buttonCancConfig = findViewById(R.id.buttonCancConfig);
+        Button buttonAtualizarBD = findViewById(R.id.buttonAtualizarBD);
+        textViewTipoEquipConfig = findViewById(R.id.textViewTipoEquipConfig);
+        editTextEquipConfig = findViewById(R.id.editTextEquipConfig);
+        editTextSenhaConfig = findViewById(R.id.editTextSenhaConfig);
+        editTextNroAparelhoConfig = findViewById(R.id.editTextNroAparelhoConfig);
 
         pcoContext = (PCOContext) getApplication();
 
         configBean = new ConfigBean();
 
-        LogProcessoDAO.getInstance().insertLogProcesso("if (pcoContext.getConfigCTR().hasElemConfig()) {\n" +
-                "            configBean = pcoContext.getConfigCTR().getConfig();\n" +
-                "            editTextSenhaConfig.setText(configBean.getSenhaConfig());", getLocalClassName());
+        if(!pcoContext.getConfigCTR().hasElemConfig()){
 
-        configBean = pcoContext.getConfigCTR().getConfig();
-        editTextSenhaConfig.setText(configBean.getSenhaConfig());
+            LogProcessoDAO.getInstance().insertLogProcesso("if(!pcoContext.getConfigCTR().hasElemConfig()){\n" +
+                    "            configBean.setTipoEquipConfig(0L);\n" +
+                    "            editTextEquipConfig.setEnabled(false);\n" +
+                    "            editTextEquipConfig.setText(\"\");\n" +
+                    "            editTextNroAparelhoConfig.setText(\"\");\n" +
+                    "            editTextSenhaConfig.setText(\"\");", getLocalClassName());
+            configBean.setTipoEquipConfig(0L);
+            editTextEquipConfig.setEnabled(false);
+            editTextEquipConfig.setText("");
+            editTextNroAparelhoConfig.setText("");
+            editTextSenhaConfig.setText("");
 
-        LogProcessoDAO.getInstance().insertLogProcesso("switch ((int) configBean.getTipoEquipConfig().longValue()) {", getLocalClassName());
-        switch ((int) configBean.getTipoEquipConfig().longValue()) {
-            case 1:
-                LogProcessoDAO.getInstance().insertLogProcesso("case 1:\n" +
-                        "                    \n" +
-                        "                    textViewTipoEquipConfig.setText(\"EQUIP. PRÓPRIO\");\n" +
-                        "                    editTextEquipConfig.setEnabled(true);\n" +
-                        "                    editTextEquipConfig.setText(String.valueOf(pcoContext.getConfigCTR().getEquip().getNroEquip()));\n" +
-                        "                    break;", getLocalClassName());
-                textViewTipoEquipConfig.setText("EQUIP. PRÓPRIO");
-                editTextEquipConfig.setEnabled(true);
-                editTextEquipConfig.setText(String.valueOf(pcoContext.getConfigCTR().getEquip().getNroEquip()));
-                break;
-            case 2:
-                LogProcessoDAO.getInstance().insertLogProcesso("case 2:\n" +
-                        "                    textViewTipoEquipConfig.setText(\"EQUIP. TERCEIRO\");\n" +
-                        "                    editTextEquipConfig.setEnabled(false);\n" +
-                        "                    editTextEquipConfig.setText(\"\");\n" +
-                        "                    break;", getLocalClassName());
-                textViewTipoEquipConfig.setText("EQUIP. TERCEIRO");
-                editTextEquipConfig.setEnabled(false);
-                editTextEquipConfig.setText("");
-                break;
-            default:
-                LogProcessoDAO.getInstance().insertLogProcesso("default:\n" +
-                        "            configBean.setTipoEquipConfig(0L);\n" +
-                        "            editTextEquipConfig.setEnabled(false);\n" +
-                        "            editTextEquipConfig.setText(\"\");\n" +
-                        "            editTextNroAparelhoConfig.setText(\"\");\n" +
-                        "            editTextSenhaConfig.setText(\"\");", getLocalClassName());
-                configBean.setTipoEquipConfig(0L);
-                editTextEquipConfig.setEnabled(false);
-                editTextEquipConfig.setText("");
-                editTextNroAparelhoConfig.setText("");
-                editTextSenhaConfig.setText("");
+        } else {
+
+            LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                    "            configBean = pcoContext.getConfigCTR().getConfig();\n" +
+                    "            editTextSenhaConfig.setText(configBean.getSenhaConfig());\n" +
+                    "switch ((int) configBean.getTipoEquipConfig().longValue()) {", getLocalClassName());
+
+            configBean = pcoContext.getConfigCTR().getConfig();
+            editTextSenhaConfig.setText(configBean.getSenhaConfig());
+            editTextNroAparelhoConfig.setText(String.valueOf(configBean.getNroAparelhoConfig()));
+
+            switch ((int) configBean.getTipoEquipConfig().longValue()) {
+                case 1:
+                    LogProcessoDAO.getInstance().insertLogProcesso("case 1:\n" +
+                            "                    \n" +
+                            "                    textViewTipoEquipConfig.setText(\"EQUIP. PRÓPRIO\");\n" +
+                            "                    editTextEquipConfig.setEnabled(true);\n" +
+                            "                    editTextEquipConfig.setText(String.valueOf(pcoContext.getConfigCTR().getEquip().getNroEquip()));\n" +
+                            "                    break;", getLocalClassName());
+                    textViewTipoEquipConfig.setText("EQUIP. PRÓPRIO");
+                    editTextEquipConfig.setEnabled(true);
+                    editTextEquipConfig.setText(String.valueOf(pcoContext.getConfigCTR().getEquip().getNroEquip()));
+                    break;
+                case 2:
+                    LogProcessoDAO.getInstance().insertLogProcesso("case 2:\n" +
+                            "                    textViewTipoEquipConfig.setText(\"EQUIP. TERCEIRO\");\n" +
+                            "                    editTextEquipConfig.setEnabled(false);\n" +
+                            "                    editTextEquipConfig.setText(\"\");\n" +
+                            "                    break;", getLocalClassName());
+                    textViewTipoEquipConfig.setText("EQUIP. TERCEIRO");
+                    editTextEquipConfig.setEnabled(false);
+                    editTextEquipConfig.setText("");
+                    break;
+            }
+
         }
-
 
         textViewTipoEquipConfig.setOnClickListener(new View.OnClickListener() {
 

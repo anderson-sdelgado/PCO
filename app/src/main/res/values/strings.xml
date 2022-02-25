@@ -176,4 +176,5 @@
     <string name="texto_hist_apont">PARADA: VERIFICACAO INICIAL</string>
     <string name="texto_hist_horario">10:08</string>
     <string name="texto_hist_impl_transb">TRANSBORDO: 1001</string>
+    <string name="texto_horimetro">HORÍMETRO:</string>
 </resources>

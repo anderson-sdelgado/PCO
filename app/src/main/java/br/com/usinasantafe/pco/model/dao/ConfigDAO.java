@@ -33,7 +33,7 @@ public class ConfigDAO {
     }
 
     public boolean getConfig(String senha){
-        List<ConfigBean> configList = configList(senha);
+        List<ConfigBean> configList = configListSenha(senha);
         boolean ret = configList.size() > 0;
         configList.clear();
         return ret;
@@ -47,12 +47,12 @@ public class ConfigDAO {
         return ret;
     }
 
-    private List configList(){
+    private List<ConfigBean> configList(){
         ConfigBean configBean = new ConfigBean();
         return configBean.all();
     }
 
-    private List configList(String senha){
+    private List<ConfigBean> configListSenha(String senha){
         ConfigBean configBean = new ConfigBean();
         return configBean.get("senhaConfig", senha);
     }
@@ -64,13 +64,8 @@ public class ConfigDAO {
         configBean.setIdEquipConfig(idEquip);
         configBean.setSenhaConfig(senha);
         configBean.setNroAparelhoConfig(nroAparelho);
-        configBean.setMatricMotoConfig(0L);
-        configBean.setIdTurnoConfig(0L);
-        configBean.setDtrhViagemConfig("");
-        configBean.setDtrhLongViagemConfig(0L);
         configBean.setDthrServConfig("");
         configBean.setDifDthrConfig(0L);
-        configBean.setIdTrajetoConfig(0L);
         configBean.setLotacaoMaxConfig(0L);
         configBean.insert();
         configBean.commit();
@@ -82,54 +77,22 @@ public class ConfigDAO {
         configBean.update();
     }
 
-    public void setMotoConfig(MotoristaBean motoristaBean){
-        ConfigBean configBean = getConfig();
-        configBean.setMatricMotoConfig(motoristaBean.getMatricMoto());
-        configBean.update();
-    }
-
-    public void setTurnoConfig(TurnoBean turnoBean){
-        ConfigBean configBean = getConfig();
-        configBean.setIdTurnoConfig(turnoBean.getIdTurno());
-        configBean.update();
-    }
-
-    public void clearDthrViagemConfig(){
-        ConfigBean configBean = getConfig();
-        configBean.setDtrhViagemConfig("");
-        configBean.setDtrhLongViagemConfig(0L);
-        configBean.update();
-    }
-
-    public void setTrajetoConfig(Long idTrajeto){
-        ConfigBean configBean = getConfig();
-        configBean.setIdTrajetoConfig(idTrajeto);
-        configBean.update();
-    }
-
     public void setLotacaoMaxConfig(Long lotacaoMax){
-        Long dthr = Tempo.getInstance().dthr();
         ConfigBean configBean = getConfig();
         configBean.setLotacaoMaxConfig(lotacaoMax);
-        configBean.setDtrhViagemConfig(Tempo.getInstance().dthr(dthr));
-        configBean.setDtrhLongViagemConfig(dthr);
+        configBean.update();
+    }
+
+    public void setHodometroInicialConfig(Double hodometroInicial){
+        ConfigBean configBean = getConfig();
+        configBean.setHodometroConfig(hodometroInicial);
         configBean.update();
     }
 
     public void setPosicaoTela(Long posicaoTela){
-        if(hasElements()){
-            ConfigBean configBean = getConfig();
-            configBean.setPosicaoTela(posicaoTela);
-            configBean.update();
-        }
-        else{
-            ConfigBean configBean = new ConfigBean();
-            configBean.setPosicaoTela(posicaoTela);
-            configBean.setSenhaConfig("");
-            configBean.setTipoEquipConfig(0L);
-            configBean.insert();
-            configBean.commit();
-        }
+        ConfigBean configBean = getConfig();
+        configBean.setPosicaoTela(posicaoTela);
+        configBean.update();
     }
 
     public AtualAplicBean recAtual(JSONArray jsonArray) throws JSONException {

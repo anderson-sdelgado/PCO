@@ -1,15 +1,11 @@
 package br.com.usinasantafe.pco.util;
 
-import android.content.Context;
-import android.util.Log;
-
 import java.util.HashMap;
 import java.util.Map;
 
-import br.com.usinasantafe.pco.control.PassageiroCTR;
+import br.com.usinasantafe.pco.control.ViagemCTR;
 import br.com.usinasantafe.pco.model.dao.LogErroDAO;
 import br.com.usinasantafe.pco.model.dao.LogProcessoDAO;
-import br.com.usinasantafe.pco.model.dao.PassageiroDAO;
 import br.com.usinasantafe.pco.util.connHttp.PostCadGenerico;
 import br.com.usinasantafe.pco.util.connHttp.UrlsConexaoHttp;
 import br.com.usinasantafe.pco.view.ActivityGeneric;
@@ -19,8 +15,6 @@ public class EnvioDadosServ {
     private static EnvioDadosServ instance = null;
     private UrlsConexaoHttp urlsConexaoHttp;
     public static int status; //1 - Existe Dados para Enviar; 2 - Enviando; 3 - Todos os Dados Foram Enviados;
-    private int posEnvio;
-    private Context context;
 
     public EnvioDadosServ() {
         urlsConexaoHttp = new UrlsConexaoHttp();
@@ -34,35 +28,76 @@ public class EnvioDadosServ {
     }
 
     public void envioDados(String activity) {
+        LogProcessoDAO.getInstance().insertLogProcesso("public void envioDados(String activity) {\n" +
+                "        status = 1;", activity);
         status = 1;
         if(ActivityGeneric.connectNetwork) {
-            LogProcessoDAO.getInstance().insertLogProcesso("ActivityGeneric.connectNetwork", activity);
+            LogProcessoDAO.getInstance().insertLogProcesso("if(ActivityGeneric.connectNetwork) {\n" +
+                    "            status = 2;", activity);
             status = 2;
-            if (verifDadosEnvio()) {
+            if (verifCabecFechado()) {
                 LogProcessoDAO.getInstance().insertLogProcesso("if (verifCabecFechado()) {\n" +
                         "enviarCabecFechado(activity);", activity);
-                enviarPassageiro(activity);
+                enviarCabecFechado(activity);
             } else {
-                status = 3;
+                LogProcessoDAO.getInstance().insertLogProcesso("} else {", activity);
+                if(verifPassagNEnviado()){
+                    LogProcessoDAO.getInstance().insertLogProcesso("if(verifPassagNEnviado()){\n" +
+                            "                    enviarCabecAberto(activity);", activity);
+                    enviarCabecAberto(activity);
+                } else {
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                            "                    status = 3;", activity);
+                    status = 3;
+                }
             }
-        } else{
+        } else {
+            LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                    "                    status = 3;", activity);
             status = 3;
         }
     }
 
     public boolean verifDadosEnvio() {
-        PassageiroCTR passageiroCTR = new PassageiroCTR();
-        return passageiroCTR.verPassageiroNEnviado();
+        if ((!verifPassagNEnviado())
+                && (!verifCabecFechado())){
+            return false;
+        } else {
+            return true;
+        }
     }
 
+    ////////////////////////////// VERIFICAR ENVIO DADOS //////////////////////////////////////////
+
+    public Boolean verifPassagNEnviado() {
+        ViagemCTR viagemCTR = new ViagemCTR();
+        return viagemCTR.verPassageiroNEnviado();
+    }
+
+    public Boolean verifCabecFechado() {
+        ViagemCTR viagemCTR = new ViagemCTR();
+        return viagemCTR.verCabecViagemFechado();
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     ////////////////////////////////// ENVIAR DADOS ///////////////////////////////////////////////
 
-    public void enviarPassageiro(String activity) {
+    public void enviarCabecFechado(String activity) {
 
-        PassageiroCTR passageiroCTR = new PassageiroCTR();
-        LogProcessoDAO.getInstance().insertLogProcesso("envio(urlsConexaoHttp.getsInsertBolFechadoMMFert(), carregCTR.dadosEnvioCabecFechado(), activity);", activity);
-        envio(urlsConexaoHttp.getsInserirPassageiro(), passageiroCTR.dadosEnvio(), activity);
+        ViagemCTR viagemCTR = new ViagemCTR();
+
+        LogProcessoDAO.getInstance().insertLogProcesso("motoMecFertCTR.dadosEnvioBolFechadoMMFert()", activity);
+        envio(urlsConexaoHttp.getsInsertCabecFechado(), viagemCTR.dadosEnvioCabecFechado(), activity);
+
+    }
+
+    public void enviarCabecAberto(String activity) {
+
+        ViagemCTR viagemCTR = new ViagemCTR();
+
+        LogProcessoDAO.getInstance().insertLogProcesso("motoMecFertCTR.dadosEnvioBolAbertoMMFert()", activity);
+        envio(urlsConexaoHttp.getsInsertCabecAberto(), viagemCTR.dadosEnvioCabecAberto(), activity);
 
     }
 
@@ -82,9 +117,20 @@ public class EnvioDadosServ {
     ////////////////////////////////////MECANISMO RECEBIMENTO/////////////////////////////////////////
 
     public void recDados(String result, String activity){
-        if(result.trim().startsWith("SALVOU")) {
-            PassageiroCTR passageiroCTR = new PassageiroCTR();
-            passageiroCTR.updatePassageiro(result, activity);
+        LogProcessoDAO.getInstance().insertLogProcesso("public void recDados(" + result + ", activity){", activity);
+        if(result.trim().startsWith("CABECABERTO_")) {
+            ViagemCTR viagemCTR = new ViagemCTR();
+            viagemCTR.updateCabecAberto(result, activity);
+            LogProcessoDAO.getInstance().insertLogProcesso("if(result.trim().startsWith(\"CABECABERTO_\")) {\n" +
+                    "            ViagemCTR viagemCTR = new ViagemCTR();\n" +
+                    "            viagemCTR.updateCabecAberto(result, activity);", activity);
+        }
+        else if(result.trim().startsWith("CABECFECHADO_")) {
+            LogProcessoDAO.getInstance().insertLogProcesso("else if(result.trim().startsWith(\"CABECFECHADO_\")) {\n" +
+                    "            ViagemCTR viagemCTR = new ViagemCTR();\n" +
+                    "            viagemCTR.updateCabecFechado(result, activity);", activity);
+            ViagemCTR viagemCTR = new ViagemCTR();
+            viagemCTR.updateCabecFechado(result, activity);
         }
         else {
             LogProcessoDAO.getInstance().insertLogProcesso("else {\n" +
@@ -96,11 +142,4 @@ public class EnvioDadosServ {
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
-    public int getPosEnvio() {
-        return posEnvio;
-    }
-
-    public void setPosEnvio(int posEnvio) {
-        this.posEnvio = posEnvio;
-    }
 }

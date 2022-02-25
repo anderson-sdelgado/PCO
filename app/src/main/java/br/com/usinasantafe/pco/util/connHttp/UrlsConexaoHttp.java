@@ -4,8 +4,8 @@ import br.com.usinasantafe.pco.PCOContext;
 
 public class UrlsConexaoHttp {
 
-    public static String urlPrincipal = "http://www.usinasantafe.com.br/pcoqa/view/";
-    public static String urlPrincEnvio = "http://www.usinasantafe.com.br/pcoqa/view/";
+    public static String urlPrincipal = "https://www.usinasantafe.com.br/pcodev/view/";
+    public static String urlPrincEnvio = "https://www.usinasantafe.com.br/pcodev/view/";
 
     public static String localPSTEstatica = "br.com.usinasantafe.pco.model.bean.estaticas.";
     public static String localUrl = "br.com.usinasantafe.pco.util.connHttp.UrlsConexaoHttp";
@@ -21,8 +21,12 @@ public class UrlsConexaoHttp {
     public UrlsConexaoHttp() {
     }
 
-    public String getsInserirPassageiro() {
-        return urlPrincEnvio + "inserirpassageiro.php" + put;
+    public String getsInsertCabecFechado() {
+        return urlPrincEnvio + "inserircabecfechado.php" + put;
+    }
+
+    public String getsInsertCabecAberto() {
+        return urlPrincEnvio + "inserircabecaberto.php" + put;
     }
 
     public String urlVerifica(String classe) {

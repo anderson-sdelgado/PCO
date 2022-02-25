@@ -19,10 +19,9 @@ import br.com.usinasantafe.pco.PCOContext;
 import br.com.usinasantafe.pco.R;
 import br.com.usinasantafe.pco.model.bean.estaticas.ColabBean;
 import br.com.usinasantafe.pco.model.bean.estaticas.MotoristaBean;
-import br.com.usinasantafe.pco.model.bean.variaveis.PassageiroBean;
+import br.com.usinasantafe.pco.model.bean.variaveis.PassageiroViagemBean;
 import br.com.usinasantafe.pco.model.dao.LogProcessoDAO;
 import br.com.usinasantafe.pco.util.EnvioDadosServ;
-import br.com.usinasantafe.pco.util.Tempo;
 import br.com.usinasantafe.pco.util.VerifDadosServ;
 import br.com.usinasantafe.pco.zxing.CaptureActivity;
 
@@ -30,7 +29,7 @@ public class ListaPassageiroActivity extends ActivityGeneric {
 
     public static final int REQUEST_CODE = 0;
     private ListView passageiroListView;
-    private List<PassageiroBean> passageiroList;
+    private List<PassageiroViagemBean> passageiroList;
     private PCOContext pcoContext;
     private TextView textViewMotorista;
     private TextView textViewTurno;
@@ -47,35 +46,36 @@ public class ListaPassageiroActivity extends ActivityGeneric {
         setContentView(R.layout.activity_lista_passageiro);
 
         pcoContext = (PCOContext) getApplication();
-        textViewProcesso = (TextView) findViewById(R.id.textViewProcesso);
+        textViewProcesso = findViewById(R.id.textViewProcesso);
 
-        textViewMotorista = (TextView) findViewById(R.id.textViewMotorista);
-        textViewTurno = (TextView) findViewById(R.id.textViewTurno);
-        textViewLotacao = (TextView) findViewById(R.id.textViewLotacao);
-        Button buttonInserirPassageiro = (Button) findViewById(R.id.buttonInserirPassageiro);
-        Button buttonFecharViagem = (Button) findViewById(R.id.buttonFecharViagem);
-        Button buttonAtualPadrao = (Button) findViewById(R.id.buttonAtualPadrao);
+        textViewMotorista = findViewById(R.id.textViewMotorista);
+        textViewTurno = findViewById(R.id.textViewTurno);
+        textViewLotacao = findViewById(R.id.textViewLotacao);
+        Button buttonInserirPassageiro = findViewById(R.id.buttonInserirPassageiro);
+        Button buttonFecharViagem = findViewById(R.id.buttonFecharViagem);
+        Button buttonAtualPadrao = findViewById(R.id.buttonAtualPadrao);
 
         LogProcessoDAO.getInstance().insertLogProcesso("customHandler.postDelayed(updateTimerThread, 0);\n" +
-                "        MotoristaBean motoristaBean = pcoContext.getPassageiroCTR().getMotorista(pcoContext.getConfigCTR().getConfig().getMatricMotoConfig());\n" +
+                "        MotoristaBean motoristaBean = pcoContext.getViagemCTR().getMotorista(pcoContext.getViagemCTR().getCabecViagemAberto().getMatricMotoCabecViagem());\n" +
                 "        textViewMotorista.setText(motoristaBean.getMatricMoto() + \" - \" + motoristaBean.getNomeMoto());\n" +
                 "        String turno = \"\";\n" +
-                "        if(pcoContext.getConfigCTR().getConfig().getIdTurnoConfig() == 1) {\n" +
+                "        Long idTurno = pcoContext.getViagemCTR().getCabecViagemAberto().getIdTurnoCabecViagem();\n" +
+                "        if(idTurno == 1) {\n" +
                 "            turno = \"TURNO 1: 00:02 - 07:30\";\n" +
                 "        }\n" +
-                "        else if(pcoContext.getConfigCTR().getConfig().getIdTurnoConfig() == 2) {\n" +
+                "        else if(idTurno == 2) {\n" +
                 "            turno = \"TURNO 2: 07:31 - 15:54\";\n" +
                 "        }\n" +
                 "        else{\n" +
                 "            turno = \"TURNO 3: 15:55 - 00:01\";\n" +
                 "        }\n" +
                 "        textViewTurno.setText(turno);\n" +
-                "        passageiroList = pcoContext.getPassageiroCTR().passageiroList();\n" +
-                "textViewLotacao.setText(\"QTDE DE PASSAGEIRO: \" + passageiroList.size());\n" +
+                "        passageiroList = pcoContext.getViagemCTR().passageiroList();\n" +
+                "        textViewLotacao.setText(\"QTDE DE PASSAGEIRO: \" + passageiroList.size());\n" +
                 "        ArrayList<String> itens = new ArrayList<>();\n" +
-                "        for(PassageiroBean passageiroBean : passageiroList){\n" +
-                "            ColabBean colabBean = pcoContext.getPassageiroCTR().getColab(passageiroBean.getMatricColabPassageiro());\n" +
-                "            itens.add(Tempo.getInstance().dthr(passageiroBean.getDthrLongPassageiro()) + \"\\n\"\n" +
+                "        for(PassageiroViagemBean passageiroViagemBean : passageiroList){\n" +
+                "            ColabBean colabBean = pcoContext.getViagemCTR().getColab(passageiroViagemBean.getMatricColabPassageiroViagem());\n" +
+                "            itens.add(passageiroViagemBean.getDthrPassageiroViagem() + \"\\n\"\n" +
                 "                    + colabBean.getMatricColab() + \" - \" + colabBean.getNomeColab());\n" +
                 "        }\n" +
                 "        adapterList = new AdapterListPassageiro(this, itens);\n" +
@@ -84,14 +84,15 @@ public class ListaPassageiroActivity extends ActivityGeneric {
 
         customHandler.postDelayed(updateTimerThread, 0);
 
-        MotoristaBean motoristaBean = pcoContext.getPassageiroCTR().getMotorista(pcoContext.getConfigCTR().getConfig().getMatricMotoConfig());
+        MotoristaBean motoristaBean = pcoContext.getViagemCTR().getMotorista(pcoContext.getViagemCTR().getCabecViagemAberto().getMatricMotoCabecViagem());
         textViewMotorista.setText(motoristaBean.getMatricMoto() + " - " + motoristaBean.getNomeMoto());
 
         String turno = "";
-        if(pcoContext.getConfigCTR().getConfig().getIdTurnoConfig() == 1) {
+        Long idTurno = pcoContext.getViagemCTR().getCabecViagemAberto().getIdTurnoCabecViagem();
+        if(idTurno == 1) {
             turno = "TURNO 1: 00:02 - 07:30";
         }
-        else if(pcoContext.getConfigCTR().getConfig().getIdTurnoConfig() == 2) {
+        else if(idTurno == 2) {
             turno = "TURNO 2: 07:31 - 15:54";
         }
         else{
@@ -99,14 +100,14 @@ public class ListaPassageiroActivity extends ActivityGeneric {
         }
         textViewTurno.setText(turno);
 
-        passageiroList = pcoContext.getPassageiroCTR().passageiroList();
+        passageiroList = pcoContext.getViagemCTR().passageiroList();
         textViewLotacao.setText("QTDE DE PASSAGEIRO: " + passageiroList.size());
 
         ArrayList<String> itens = new ArrayList<>();
 
-        for(PassageiroBean passageiroBean : passageiroList){
-            ColabBean colabBean = pcoContext.getPassageiroCTR().getColab(passageiroBean.getMatricColabPassageiro());
-            itens.add(Tempo.getInstance().dthr(passageiroBean.getDthrLongPassageiro()) + "\n"
+        for(PassageiroViagemBean passageiroViagemBean : passageiroList){
+            ColabBean colabBean = pcoContext.getViagemCTR().getColab(passageiroViagemBean.getMatricColabPassageiroViagem());
+            itens.add(passageiroViagemBean.getDthrPassageiroViagem() + "\n"
                     + colabBean.getMatricColab() + " - " + colabBean.getNomeColab());
         }
 
@@ -131,13 +132,15 @@ public class ListaPassageiroActivity extends ActivityGeneric {
         buttonFecharViagem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 LogProcessoDAO.getInstance().insertLogProcesso("buttonFecharViagem.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @Override\n" +
                         "            public void onClick(View v) {\n" +
-                        "                pcoContext.getConfigCTR().clearDtrhViagemConfig();\n" +
-                        "                Intent it = new Intent(ListaPassageiroActivity.this, MenuInicialActivity.class);", getLocalClassName());
-                pcoContext.getConfigCTR().clearDtrhViagemConfig();
-                Intent it = new Intent(ListaPassageiroActivity.this, MenuInicialActivity.class);
+                        "                pcoContext.getConfigCTR().setPosicaoTela(10L);\n" +
+                        "                Intent it = new Intent(ListaPassageiroActivity.this, HorimetroActivity.class);", getLocalClassName());
+
+                pcoContext.getConfigCTR().setPosicaoTela(10L);
+                Intent it = new Intent(ListaPassageiroActivity.this, HorimetroActivity.class);
                 startActivity(it);
                 finish();
             }
@@ -178,7 +181,7 @@ public class ListaPassageiroActivity extends ActivityGeneric {
                             progressBar.setMessage("ATUALIZANDO MOTORISTA...");
                             progressBar.show();
 
-                            pcoContext.getPassageiroCTR().atualDados(ListaPassageiroActivity.this
+                            pcoContext.getViagemCTR().atualDados(ListaPassageiroActivity.this
                                     , ListaPassageiroActivity.class, progressBar, "Colab");
 
                         } else {
@@ -233,7 +236,7 @@ public class ListaPassageiroActivity extends ActivityGeneric {
                         "                VerifDadosServ.getInstance().setMsgVerifColab(\"\");\n" +
                         "                Intent it = new Intent(ListaPassageiroActivity.this, MsgAddPassageiroActivity.class);", getLocalClassName());
                 String matriculaPassageiro = data.getStringExtra("SCAN_RESULT");
-                pcoContext.setMatriculaPassageiro(matriculaPassageiro);
+                VerifDadosServ.getInstance().setMatricula(matriculaPassageiro);
                 VerifDadosServ.getInstance().setMsgVerifColab("");
                 Intent it = new Intent(ListaPassageiroActivity.this, MsgAddPassageiroActivity.class);
                 startActivity(it);
