@@ -15,6 +15,7 @@ import br.com.usinasantafe.pco.model.bean.variaveis.ConfigBean;
 import br.com.usinasantafe.pco.model.bean.variaveis.LogErroBean;
 import br.com.usinasantafe.pco.model.bean.variaveis.LogProcessoBean;
 import br.com.usinasantafe.pco.model.dao.AtualAplicDAO;
+import br.com.usinasantafe.pco.model.dao.CabecViagemDAO;
 import br.com.usinasantafe.pco.model.dao.ConfigDAO;
 import br.com.usinasantafe.pco.model.dao.EquipDAO;
 import br.com.usinasantafe.pco.model.dao.LogErroDAO;
@@ -135,9 +136,11 @@ public class ConfigCTR {
     public ArrayList<String> logBaseDadoList(){
         ArrayList<String> dadosArrayList = new ArrayList<>();
         ConfigDAO configDAO = new ConfigDAO();
+        CabecViagemDAO cabecViagemDAO = new CabecViagemDAO();
         PassageiroViagemDAO passageiroViagemDAO = new PassageiroViagemDAO();
         dadosArrayList = configDAO.configArrayList(dadosArrayList);
-        dadosArrayList = passageiroViagemDAO.passageiroArrayList(dadosArrayList);
+        dadosArrayList = cabecViagemDAO.cabecViagemArrayList(dadosArrayList);
+        dadosArrayList = passageiroViagemDAO.passagViagemArrayList(dadosArrayList);
         return dadosArrayList;
     }
 

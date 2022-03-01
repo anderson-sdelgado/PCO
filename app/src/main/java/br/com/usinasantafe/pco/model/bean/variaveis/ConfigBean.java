@@ -38,7 +38,7 @@ public class ConfigBean extends Entidade {
     // 6 - Leitura Msg Passageiro
     // 7 - Configuracao;
     // 8 - Log Menu Inicial;
-    // 9 - Log Lista de Bag;
+    // 9 - Log Lista Passageiro;
     // 10 - Finalizar Viagem
 
     public ConfigBean() {

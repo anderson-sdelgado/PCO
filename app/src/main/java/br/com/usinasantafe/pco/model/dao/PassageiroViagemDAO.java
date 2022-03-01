@@ -150,8 +150,8 @@ public class PassageiroViagemDAO {
         return idPassageiroList;
     }
 
-    public ArrayList<String> passageiroArrayList(ArrayList<String> dadosArrayList){
-        dadosArrayList.add("PASSAGEIRO");
+    public ArrayList<String> passagViagemArrayList(ArrayList<String> dadosArrayList){
+        dadosArrayList.add("PASSAGEIRO VIAGEM");
         List<PassageiroViagemBean> passageiroViagemList = passageiroViagemList();
         for(PassageiroViagemBean passageiroViagemBean : passageiroViagemList){
             dadosArrayList.add(dadosPassageiro(passageiroViagemBean));
@@ -162,7 +162,7 @@ public class PassageiroViagemDAO {
 
     private String dadosPassageiro(PassageiroViagemBean passageiroViagemBean){
         Gson gsonCabec = new Gson();
-        return gsonCabec.toJsonTree(passageiroViagemBean, passageiroViagemBean.getClass()).toString();
+        return gsonCabec.toJsonTree(passageiroViagemBean, PassageiroViagemBean.class).toString();
     }
 
     public void deletePassageiroViagem(ArrayList<Long> idPassageiroViagemArrayList){
@@ -204,7 +204,7 @@ public class PassageiroViagemDAO {
 
     private EspecificaPesquisa getPesqMatricColab(Long matricColab){
         EspecificaPesquisa pesquisa = new EspecificaPesquisa();
-        pesquisa.setCampo("matricColabPassageiro");
+        pesquisa.setCampo("matricColabPassageiroViagem");
         pesquisa.setValor(matricColab);
         pesquisa.setTipo(1);
         return pesquisa;

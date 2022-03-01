@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pco.model.bean.variaveis.CabecViagemBean;
+import br.com.usinasantafe.pco.model.bean.variaveis.PassageiroViagemBean;
 import br.com.usinasantafe.pco.model.pst.EspecificaPesquisa;
 import br.com.usinasantafe.pco.util.Tempo;
 
@@ -38,6 +39,11 @@ public class CabecViagemDAO {
         CabecViagemBean cabecViagemBean = cabecViagemList.get(0);
         cabecViagemList.clear();
         return cabecViagemBean;
+    }
+
+    public List<CabecViagemBean> cabecViagemList(){
+        CabecViagemBean cabecViagemBean = new CabecViagemBean();
+        return cabecViagemBean.orderBy("idCabecViagem", false);
     }
 
     public List<CabecViagemBean> cabecAbertoList(){
@@ -127,6 +133,21 @@ public class CabecViagemDAO {
 
     }
 
+    private String dadosCabec(CabecViagemBean cabecViagemBean){
+        Gson gsonCabec = new Gson();
+        return gsonCabec.toJsonTree(cabecViagemBean, CabecViagemBean.class).toString();
+    }
+
+    public ArrayList<String> cabecViagemArrayList(ArrayList<String> dadosArrayList){
+        dadosArrayList.add("CABEC VIAGEM");
+        List<CabecViagemBean> cabecViagemList = cabecViagemList();
+        for(CabecViagemBean cabecViagemBean : cabecViagemList){
+            dadosArrayList.add(dadosCabec(cabecViagemBean));
+        }
+        cabecViagemList.clear();
+        return dadosArrayList;
+    }
+
     public void deleteCabec(CabecViagemBean cabecViagemBean){
         cabecViagemBean.delete();
     }
@@ -134,6 +155,7 @@ public class CabecViagemDAO {
     public void abrirCabec(CabecViagemBean cabecViagemBean){
         Long dthr = Tempo.getInstance().dthr();
         cabecViagemBean.setDthrCabecViagem(Tempo.getInstance().dthr(dthr));
+        cabecViagemBean.setDthrLongCabecViagem(dthr);
         cabecViagemBean.setStatusCabecViagem(1L);
         cabecViagemBean.insert();
     }

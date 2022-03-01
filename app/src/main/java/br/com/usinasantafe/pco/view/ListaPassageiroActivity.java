@@ -54,6 +54,7 @@ public class ListaPassageiroActivity extends ActivityGeneric {
         Button buttonInserirPassageiro = findViewById(R.id.buttonInserirPassageiro);
         Button buttonFecharViagem = findViewById(R.id.buttonFecharViagem);
         Button buttonAtualPadrao = findViewById(R.id.buttonAtualPadrao);
+        Button buttonLog = findViewById(R.id.buttonLog);
 
         LogProcessoDAO.getInstance().insertLogProcesso("customHandler.postDelayed(updateTimerThread, 0);\n" +
                 "        MotoristaBean motoristaBean = pcoContext.getViagemCTR().getMotorista(pcoContext.getViagemCTR().getCabecViagemAberto().getMatricMotoCabecViagem());\n" +
@@ -141,6 +142,23 @@ public class ListaPassageiroActivity extends ActivityGeneric {
 
                 pcoContext.getConfigCTR().setPosicaoTela(10L);
                 Intent it = new Intent(ListaPassageiroActivity.this, HorimetroActivity.class);
+                startActivity(it);
+                finish();
+            }
+
+        });
+
+        buttonLog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonLog.setOnClickListener(new View.OnClickListener() {\n" +
+                        "            @Override\n" +
+                        "            public void onClick(View v) {\n" +
+                        "                pcoContext.getConfigCTR().setPosicaoTela(9L);\n" +
+                        "                Intent it = new Intent(ListaPassageiroActivity.this, SenhaActivity.class);", getLocalClassName());
+                pcoContext.getConfigCTR().setPosicaoTela(9L);
+                Intent it = new Intent(ListaPassageiroActivity.this, SenhaActivity.class);
                 startActivity(it);
                 finish();
             }
@@ -249,8 +267,6 @@ public class ListaPassageiroActivity extends ActivityGeneric {
 
         public void run() {
             if (pcoContext.getConfigCTR().hasElemConfig()) {
-                LogProcessoDAO.getInstance().insertLogProcesso("if (pcoContext.getConfigCTR().hasElemConfig()) {\n" +
-                        "EnvioDadosServ.status = " + EnvioDadosServ.status, getLocalClassName());
                 if (EnvioDadosServ.status == 1) {
                     textViewProcesso.setTextColor(Color.RED);
                     textViewProcesso.setText("Existem Dados para serem Enviados");

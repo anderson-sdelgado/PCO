@@ -99,9 +99,10 @@ public class ViagemCTR {
         cabecViagemDAO.abrirCabec(cabecViagemBean);
     }
 
-    public void fecharCabec(Double horimetroNum){
+    public void fecharCabec(Double horimetroNum, String activity){
         CabecViagemDAO cabecViagemDAO = new CabecViagemDAO();
         cabecViagemDAO.fecharCabec(horimetroNum);
+        EnvioDadosServ.getInstance().envioDados(activity);
     }
 
     public void salvarPassageiro(Long matricColab, String activity){

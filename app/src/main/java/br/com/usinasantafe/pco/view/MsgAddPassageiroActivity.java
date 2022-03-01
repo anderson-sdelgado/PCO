@@ -155,6 +155,9 @@ public class MsgAddPassageiroActivity extends ActivityGeneric {
             msgBag = msgBag + "\nO ÔNIBUS ESTA COM " + (pcoContext.getViagemCTR().qtdePassageiroPorLotacao() * -1) + " PASSAGEIRO(S) ACIMA DA LOTAÇÃO MÁXIMA!";
         }
 
+        LogProcessoDAO.getInstance().insertLogProcesso("\nDESEJA INSERIR OUTRO PASSAGEIRO NA VIAGEM?", getLocalClassName());
+        msgBag = msgBag + "\nDESEJA INSERIR OUTRO PASSAGEIRO NA VIAGEM?";
+
         textViewMsgPassageiro.setText(msgBag);
 
     }

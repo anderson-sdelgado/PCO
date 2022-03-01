@@ -68,8 +68,12 @@ public class HorimetroActivity extends ActivityGeneric {
                     }
                     else{
 
+                        LogProcessoDAO.getInstance().insertLogProcesso("else{\n" +
+                                "                        pcoContext.getConfigCTR().setHodometroInicialConfig(horimetroNum);\n" +
+                                "                        pcoContext.getViagemCTR().fecharCabec(horimetroNum, getLocalClassName());\n" +
+                                "                        Intent it = new Intent(HorimetroActivity.this, MenuInicialActivity.class);", getLocalClassName());
                         pcoContext.getConfigCTR().setHodometroInicialConfig(horimetroNum);
-                        pcoContext.getViagemCTR().fecharCabec(horimetroNum);
+                        pcoContext.getViagemCTR().fecharCabec(horimetroNum, getLocalClassName());
                         Intent it = new Intent(HorimetroActivity.this, MenuInicialActivity.class);
                         startActivity(it);
                         finish();
@@ -108,7 +112,11 @@ public class HorimetroActivity extends ActivityGeneric {
             startActivity(it);
             finish();
         } else {
-
+            LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                    "            Intent it = new Intent(HorimetroActivity.this, ListaPassageiroActivity.class);", getLocalClassName());
+            Intent it = new Intent(HorimetroActivity.this, ListaPassageiroActivity.class);
+            startActivity(it);
+            finish();
         }
     }
 
