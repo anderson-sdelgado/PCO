@@ -37,11 +37,6 @@ public class TelaInicialActivity extends ActivityGeneric {
 
     }
 
-    public boolean checkPermission(String permission) {
-        int check = ContextCompat.checkSelfPermission(this, permission);
-        return (check == PackageManager.PERMISSION_GRANTED);
-    }
-
     public void onBackPressed() {
     }
 
@@ -85,7 +80,7 @@ public class TelaInicialActivity extends ActivityGeneric {
                             "                customHandler.postDelayed(updateTimerThread, 10000);\n" +
                             "pmmContext.getConfigCTR().verAtualAplic(pmmContext.versaoAplic, this, getLocalClassName());", getLocalClassName());
                     customHandler.postDelayed(encerraAtualThread, 10000);
-                    pcbContext.getConfigCTR().verAtualAplic(pcbContext.versaoAplic, this, getLocalClassName());
+                    pcbContext.getConfigCTR().verAtualAplic(pcbContext.versaoWS, this, getLocalClassName());
                 }
                 else{
                     LogProcessoDAO.getInstance().insertLogProcesso("else{\n" +

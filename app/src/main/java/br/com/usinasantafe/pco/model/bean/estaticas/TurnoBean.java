@@ -11,9 +11,11 @@ public class TurnoBean extends Entidade {
     private static final long serialVersionUID = 1L;
 
     @DatabaseField(id=true)
-    private Long idTurno;
+    private Long idRJornadaTurno;
     @DatabaseField
-    private Long codTurno;
+    private Long idJornada;
+    @DatabaseField
+    private Long idTurno;
     @DatabaseField
     private Long nroTurno;
     @DatabaseField
@@ -22,20 +24,28 @@ public class TurnoBean extends Entidade {
     public TurnoBean() {
     }
 
+    public Long getIdRJornadaTurno() {
+        return idRJornadaTurno;
+    }
+
+    public void setIdRJornadaTurno(Long idRJornadaTurno) {
+        this.idRJornadaTurno = idRJornadaTurno;
+    }
+
+    public Long getIdJornada() {
+        return idJornada;
+    }
+
+    public void setIdJornada(Long idJornada) {
+        this.idJornada = idJornada;
+    }
+
     public Long getIdTurno() {
         return idTurno;
     }
 
     public void setIdTurno(Long idTurno) {
         this.idTurno = idTurno;
-    }
-
-    public Long getCodTurno() {
-        return codTurno;
-    }
-
-    public void setCodTurno(Long codTurno) {
-        this.codTurno = codTurno;
     }
 
     public Long getNroTurno() {

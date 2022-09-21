@@ -9,21 +9,9 @@ public class TurnoDAO {
     public TurnoDAO() {
     }
 
-    public List getTurnoList(Long codTurno){
+    public List<TurnoBean> turnoList(Long idJornada){
         TurnoBean turnoBean = new TurnoBean();
-        return turnoBean.get("codTurno", codTurno);
-    }
-
-    public TurnoBean getTurno(Long idTurno){
-        List turnoList = turnoList(idTurno);
-        TurnoBean turnoBean = (TurnoBean) turnoList.get(0);
-        turnoList.clear();
-        return turnoBean;
-    }
-
-    private List turnoList(Long idTurno){
-        TurnoBean turnoBean = new TurnoBean();
-        return turnoBean.get("idTurno", idTurno);
+        return turnoBean.get("idJornada", idJornada);
     }
 
 }

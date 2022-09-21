@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import br.com.usinasantafe.pco.PCOContext;
 import br.com.usinasantafe.pco.R;
@@ -18,6 +19,7 @@ public class ListaTurnoActivity extends ActivityGeneric {
 
     private ListView turnoListView;
     private PCOContext pcoContext;
+    private List<TurnoBean> turnoBeanList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,19 +30,21 @@ public class ListaTurnoActivity extends ActivityGeneric {
 
         Button buttonRetTurno = findViewById(R.id.buttonRetTurno);
 
-        LogProcessoDAO.getInstance().insertLogProcesso("ArrayList<String> itens = new ArrayList<String>();\n" +
-                "        itens.add(\"TURNO 1: 00:02 - 07:30\");\n" +
-                "        itens.add(\"TURNO 2: 07:31 - 15:54\");\n" +
-                "        itens.add(\"TURNO 3: 15:55 - 00:01\");\n" +
+        LogProcessoDAO.getInstance().insertLogProcesso("turnoBeanList = pcoContext.getConfigCTR().turnoList();\n" +
+                "        ArrayList<String> itens = new ArrayList<String>();\n" +
+                "        for(TurnoBean turnoBean : turnoBeanList){\n" +
+                "            itens.add(turnoBean.getDescTurno());\n" +
+                "        }\n" +
                 "        AdapterList adapterList = new AdapterList(this, itens);\n" +
                 "        turnoListView = (ListView) findViewById(R.id.listaTurno);\n" +
                 "        turnoListView.setAdapter(adapterList);", getLocalClassName());
 
+        turnoBeanList = pcoContext.getConfigCTR().turnoList();
         ArrayList<String> itens = new ArrayList<String>();
 
-        itens.add("TURNO 1: 00:02 - 07:30");
-        itens.add("TURNO 2: 07:31 - 15:54");
-        itens.add("TURNO 3: 15:55 - 00:01");
+        for(TurnoBean turnoBean : turnoBeanList){
+            itens.add(turnoBean.getDescTurno());
+        }
 
         AdapterList adapterList = new AdapterList(this, itens);
         turnoListView = (ListView) findViewById(R.id.listaTurno);
@@ -55,16 +59,9 @@ public class ListaTurnoActivity extends ActivityGeneric {
                         "            @Override\n" +
                         "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
                         "                                    long id) {\n" +
-                        "                Long turno = Long.valueOf(position + 1);\n" +
-                        "                TurnoBean turnoBean = new TurnoBean();\n" +
-                        "                turnoBean.setIdTurno(turno);\n" +
-                        "                turnoBean.setCodTurno(turno);\n" +
-                        "                pcoContext.getConfigCTR().setTurnoConfig(turnoBean);\n" +
-                        "                \n" +
+                        "                pcoContext.getViagemCTR().getCabecViagemBean().setIdTurnoCabecViagem(turnoBeanList.get(position).getIdTurno());\n" +
                         "                Intent it = new Intent(ListaTurnoActivity.this, ListaTrajetoActivity.class);", getLocalClassName());
-
-                Long turno = Long.valueOf(position + 1);
-                pcoContext.getViagemCTR().getCabecViagemBean().setIdTurnoCabecViagem(turno);
+                pcoContext.getViagemCTR().getCabecViagemBean().setIdTurnoCabecViagem(turnoBeanList.get(position).getIdTurno());
                 Intent it = new Intent(ListaTurnoActivity.this, ListaTrajetoActivity.class);
                 startActivity(it);
                 finish();

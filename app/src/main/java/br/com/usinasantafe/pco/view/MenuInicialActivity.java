@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import br.com.usinasantafe.pco.BuildConfig;
 import br.com.usinasantafe.pco.PCOContext;
 import br.com.usinasantafe.pco.R;
 import br.com.usinasantafe.pco.model.dao.LogProcessoDAO;
@@ -30,6 +31,7 @@ public class MenuInicialActivity extends ActivityGeneric {
     private ProgressDialog progressBar;
 
     private TextView textViewProcesso;
+    private TextView textViewPrincipal;
     private Handler customHandler = new Handler();
 
     @Override
@@ -39,14 +41,17 @@ public class MenuInicialActivity extends ActivityGeneric {
 
         pcoContext = (PCOContext) getApplication();
         textViewProcesso = findViewById(R.id.textViewProcesso);
+        textViewPrincipal = findViewById(R.id.textViewPrincipal);
 
-        if (!checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            String[] PERMISSIONS = {android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
-            ActivityCompat.requestPermissions((Activity) this, PERMISSIONS, 112);
-        }
+        textViewPrincipal.setText("PRINCIPAL - V " + BuildConfig.VERSION_NAME);
 
         if (!checkPermission(Manifest.permission.CAMERA)) {
             String[] PERMISSIONS = {Manifest.permission.CAMERA};
+            ActivityCompat.requestPermissions((Activity) this, PERMISSIONS, 112);
+        }
+
+        if (!checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            String[] PERMISSIONS = {android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
             ActivityCompat.requestPermissions((Activity) this, PERMISSIONS, 112);
         }
 

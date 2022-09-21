@@ -11,6 +11,7 @@ import java.util.List;
 
 import br.com.usinasantafe.pco.model.bean.AtualAplicBean;
 import br.com.usinasantafe.pco.model.bean.estaticas.EquipBean;
+import br.com.usinasantafe.pco.model.bean.estaticas.TurnoBean;
 import br.com.usinasantafe.pco.model.bean.variaveis.ConfigBean;
 import br.com.usinasantafe.pco.model.bean.variaveis.LogErroBean;
 import br.com.usinasantafe.pco.model.bean.variaveis.LogProcessoBean;
@@ -21,6 +22,7 @@ import br.com.usinasantafe.pco.model.dao.EquipDAO;
 import br.com.usinasantafe.pco.model.dao.LogErroDAO;
 import br.com.usinasantafe.pco.model.dao.LogProcessoDAO;
 import br.com.usinasantafe.pco.model.dao.PassageiroViagemDAO;
+import br.com.usinasantafe.pco.model.dao.TurnoDAO;
 import br.com.usinasantafe.pco.util.AtualDadosServ;
 import br.com.usinasantafe.pco.util.VerifDadosServ;
 import br.com.usinasantafe.pco.view.TelaInicialActivity;
@@ -79,6 +81,11 @@ public class ConfigCTR {
         EquipDAO equipDAO = new EquipDAO();
         ConfigDAO configDAO = new ConfigDAO();
         configDAO.setEquipConfig(equipDAO.getEquipNro(nroEquip).getIdEquip());
+    }
+
+    public List<TurnoBean> turnoList(){
+        TurnoDAO turnoDAO = new TurnoDAO();
+        return turnoDAO.turnoList(getEquip().getIdJornada());
     }
 
     public void setLotacaoMaxConfig(Long lotacaoMax){
