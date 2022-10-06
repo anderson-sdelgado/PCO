@@ -25,6 +25,8 @@ public class CabecViagemBean extends Entidade {
     @DatabaseField
     private Long idTrajetoCabecViagem;
     @DatabaseField
+    private String descrTrajetoCabecViagem;
+    @DatabaseField
     private Double hodometroInicialCabecViagem;
     @DatabaseField
     private Double hodometroFinalCabecViagem;
@@ -115,5 +117,13 @@ public class CabecViagemBean extends Entidade {
 
     public void setHodometroFinalCabecViagem(Double hodometroFinalCabecViagem) {
         this.hodometroFinalCabecViagem = hodometroFinalCabecViagem;
+    }
+
+    public String getDescrTrajetoCabecViagem() {
+        return descrTrajetoCabecViagem;
+    }
+
+    public void setDescrTrajetoCabecViagem(String descrTrajetoCabecViagem) {
+        this.descrTrajetoCabecViagem = descrTrajetoCabecViagem;
     }
 }

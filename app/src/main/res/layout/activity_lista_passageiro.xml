@@ -54,11 +54,18 @@
         android:text="@string/texto_item_list" />
 
     <Button
-        android:id="@+id/buttonInserirPassageiro"
+        android:id="@+id/buttonInserirCapturarPassag"
         style="@style/BotaoAvulso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/texto_inserir_passageiro" />
+        android:text="@string/texto_pega_matric" />
+
+    <Button
+        android:id="@+id/buttonInserirDigPassag"
+        style="@style/BotaoAvulso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/texto_dig_matric" />
 
     <Button
         android:id="@+id/buttonFecharViagem"
@@ -66,13 +73,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/texto_fechar_viagem" />
-
-    <Button
-        android:id="@+id/buttonLog"
-        style="@style/BotaoAvulso"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/texto_log" />
 
     <Button
         android:id="@+id/buttonAtualPadrao"

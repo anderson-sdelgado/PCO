@@ -21,6 +21,8 @@ public class PassageiroViagemBean extends Entidade {
     @DatabaseField
     private Long dthrLongPassageiroViagem;
     @DatabaseField
+    private Long tipoPassageiroViagem; // 1 - Leitor; 2 - Manual
+    @DatabaseField
     private Long statusPassageiroViagem; // 1 - Sem Envio; 2 - Enviado
 
     public PassageiroViagemBean() {
@@ -72,5 +74,13 @@ public class PassageiroViagemBean extends Entidade {
 
     public void setStatusPassageiroViagem(Long statusPassageiroViagem) {
         this.statusPassageiroViagem = statusPassageiroViagem;
+    }
+
+    public Long getTipoPassageiroViagem() {
+        return tipoPassageiroViagem;
+    }
+
+    public void setTipoPassageiroViagem(Long tipoPassageiroViagem) {
+        this.tipoPassageiroViagem = tipoPassageiroViagem;
     }
 }

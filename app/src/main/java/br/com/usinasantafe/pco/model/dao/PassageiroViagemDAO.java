@@ -69,7 +69,7 @@ public class PassageiroViagemDAO {
         return passageiroViagemBean.orderBy("idPassageiroViagem", false);
     }
 
-    public void salvarPassageiro(Long idCabec, Long matricColab){
+    public void salvarPassageiro(Long idCabec, Long matricColab, Long tipo){
         Long dthr = Tempo.getInstance().dthr();
         PassageiroViagemBean passageiroViagemBean = new PassageiroViagemBean();
         passageiroViagemBean.setIdCabecPassageiroViagem(idCabec);
@@ -77,6 +77,7 @@ public class PassageiroViagemDAO {
         passageiroViagemBean.setDthrPassageiroViagem(Tempo.getInstance().dthr(dthr));
         passageiroViagemBean.setMatricColabPassageiroViagem(matricColab);
         passageiroViagemBean.setStatusPassageiroViagem(1L);
+        passageiroViagemBean.setTipoPassageiroViagem(tipo);
         passageiroViagemBean.insert();
     }
 

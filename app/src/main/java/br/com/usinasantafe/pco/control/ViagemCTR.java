@@ -105,10 +105,10 @@ public class ViagemCTR {
         EnvioDadosServ.getInstance().envioDados(activity);
     }
 
-    public void salvarPassageiro(Long matricColab, String activity){
+    public void salvarPassageiro(Long matricColab, Long tipo , String activity){
         PassageiroViagemDAO passageiroViagemDAO = new PassageiroViagemDAO();
         CabecViagemDAO cabecViagemDAO = new CabecViagemDAO();
-        passageiroViagemDAO.salvarPassageiro(cabecViagemDAO.getCabecViagemAberto().getIdCabecViagem(), matricColab);
+        passageiroViagemDAO.salvarPassageiro(cabecViagemDAO.getCabecViagemAberto().getIdCabecViagem(), matricColab, tipo);
         EnvioDadosServ.getInstance().envioDados(activity);
     }
 

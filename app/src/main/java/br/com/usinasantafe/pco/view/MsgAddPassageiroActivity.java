@@ -85,6 +85,7 @@ public class MsgAddPassageiroActivity extends ActivityGeneric {
     }
 
     public void msgPassageiro(){
+
         LogProcessoDAO.getInstance().insertLogProcesso("public void msgPassageiro(){\n" +
                 "        String msgBag = \"\";", getLocalClassName());
         String msgBag = "";
@@ -103,7 +104,7 @@ public class MsgAddPassageiroActivity extends ActivityGeneric {
                                 "                        ColabBean colabBean = pcoContext.getPassageiroCTR().getColab(Long.parseLong(pcoContext.getMatriculaPassageiro()));\n" +
                                 "                        msgBag = msgBag + Tempo.getInstance().dthr(Tempo.getInstance().dthr()) + \"\\n\" +\n" +
                                 "                                + colabBean.getMatricColab() + \" - \" + colabBean.getNomeColab();", getLocalClassName());
-                        pcoContext.getViagemCTR().salvarPassageiro(Long.parseLong(VerifDadosServ.getInstance().getMatricula()), getLocalClassName());
+                        pcoContext.getViagemCTR().salvarPassageiro(Long.parseLong(VerifDadosServ.getInstance().getMatricula()), 1L, getLocalClassName());
                         ColabBean colabBean = pcoContext.getViagemCTR().getColab(Long.parseLong(VerifDadosServ.getInstance().getMatricula()));
                         msgBag = msgBag + Tempo.getInstance().dthr(Tempo.getInstance().dthr()) + "\n" +
                                 + colabBean.getMatricColab() + " - " + colabBean.getNomeColab();
@@ -130,10 +131,6 @@ public class MsgAddPassageiroActivity extends ActivityGeneric {
                     pcoContext.getConfigCTR().setPosicaoTela(4L);
                     pcoContext.getViagemCTR().verColab(VerifDadosServ.getInstance().getMatricula(), MsgAddPassageiroActivity.this, MsgAddPassageiroActivity.class, progressBar);
                 }
-            } else {
-                LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                        "                msgBag = msgBag + \"FALHA NA CAPTURA DA MATRICULA!\";", getLocalClassName());
-                msgBag = msgBag + "FALHA NA CAPTURA DA MATRICULA!";
             }
         } else {
             LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +

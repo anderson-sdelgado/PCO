@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PCO</string>
+    <string name="app_name">PCO-QA</string>
     <string name="bookmark_picker_name">Bookmarks</string>
     <string name="button_add_calendar">Add to calendar</string>
     <string name="button_add_contact">Add contact</string>
@@ -141,7 +141,7 @@
     <string name="texto_virg">,</string>
     <string name="texto_padrao_ok">OK</string>
     <string name="texto_func_matric">19759</string>
-    <string name="texto_pega_matric">CAPTURAR MATRICULA</string>
+    <string name="texto_pega_matric">CAPTURAR MATRÍCULA</string>
     <string name="texto_padrao_cancelar">CANC.</string>
     <string name="texto_senha">SENHA:</string>
     <string name="texto_equip">EQUIPAMENTO:</string>
@@ -162,6 +162,7 @@
     <string name="texto_nro_aparelho">NRO APARELHO</string>
     <string name="texto_tipo_equip">TIPO EQUIP.</string>
     <string name="texto_titulo_trajeto">TRAJETOS</string>
+    <string name="texto_titulo_dig_trajeto">DIGITAR O TRAJETO:</string>
     <string name="texto_lotacao_max">LOTAÇÃO MÁXIMA</string>
     <string name="texto_padrao_nao">NÃO</string>
     <string name="texto_padrao_sim">SIM</string>
@@ -178,4 +179,7 @@
     <string name="texto_hist_impl_transb">TRANSBORDO: 1001</string>
     <string name="texto_horimetro">HORÍMETRO:</string>
     <string name="texto_log">LOG</string>
+    <string name="texto_matric_passag">MATRIC. PASSAGEIRO</string>
+    <string name="texto_dig_matric">DIGITAR MATRÍCULA</string>
+    <string name="texto_dig_trajeto">DIGITAR TRAJETO</string>
 </resources>

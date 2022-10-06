@@ -51,10 +51,10 @@ public class ListaPassageiroActivity extends ActivityGeneric {
         textViewMotorista = findViewById(R.id.textViewMotorista);
         textViewTurno = findViewById(R.id.textViewTurno);
         textViewLotacao = findViewById(R.id.textViewLotacao);
-        Button buttonInserirPassageiro = findViewById(R.id.buttonInserirPassageiro);
+        Button buttonInserirCapturarPassag = findViewById(R.id.buttonInserirCapturarPassag);
         Button buttonFecharViagem = findViewById(R.id.buttonFecharViagem);
         Button buttonAtualPadrao = findViewById(R.id.buttonAtualPadrao);
-        Button buttonLog = findViewById(R.id.buttonLog);
+        Button buttonInserirDigPassag = findViewById(R.id.buttonInserirDigPassag);
 
         LogProcessoDAO.getInstance().insertLogProcesso("customHandler.postDelayed(updateTimerThread, 0);\n" +
                 "        MotoristaBean motoristaBean = pcoContext.getViagemCTR().getMotorista(pcoContext.getViagemCTR().getCabecViagemAberto().getMatricMotoCabecViagem());\n" +
@@ -113,13 +113,13 @@ public class ListaPassageiroActivity extends ActivityGeneric {
         }
 
         adapterList = new AdapterListPassageiro(this, itens);
-        passageiroListView = (ListView) findViewById(R.id.passageiroListView);
+        passageiroListView = findViewById(R.id.passageiroListView);
         passageiroListView.setAdapter(adapterList);
 
-        buttonInserirPassageiro.setOnClickListener(new View.OnClickListener() {
+        buttonInserirCapturarPassag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonInserirPassageiro.setOnClickListener(new View.OnClickListener() {\n" +
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonInserirCapturarPassag.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @Override\n" +
                         "            public void onClick(View v) {\n" +
                         "                Intent it = new Intent(ListaPassageiroActivity.this, CaptureActivity.class);\n" +
@@ -148,11 +148,24 @@ public class ListaPassageiroActivity extends ActivityGeneric {
 
         });
 
-        buttonLog.setOnClickListener(new View.OnClickListener() {
+        buttonInserirDigPassag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonInserirDigPassag.setOnClickListener(new View.OnClickListener() {\n" +
+                        "            @Override\n" +
+                        "            public void onClick(View v) {\n" +
+                        "                Intent it = new Intent(ListaPassageiroActivity.this, DigMatricPassageiroActivity.class);", getLocalClassName());
+                Intent it = new Intent(ListaPassageiroActivity.this, DigMatricPassageiroActivity.class);
+                startActivity(it);
+                finish();
+            }
 
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonLog.setOnClickListener(new View.OnClickListener() {\n" +
+        });
+
+        textViewProcesso.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LogProcessoDAO.getInstance().insertLogProcesso("textViewProcesso.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @Override\n" +
                         "            public void onClick(View v) {\n" +
                         "                pcoContext.getConfigCTR().setPosicaoTela(9L);\n" +
@@ -162,7 +175,6 @@ public class ListaPassageiroActivity extends ActivityGeneric {
                 startActivity(it);
                 finish();
             }
-
         });
 
         buttonAtualPadrao.setOnClickListener(new View.OnClickListener() {

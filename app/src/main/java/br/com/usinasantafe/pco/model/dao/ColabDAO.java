@@ -59,16 +59,15 @@ public class ColabDAO {
                 colabBean.insert();
 
                 ViagemCTR viagemCTR = new ViagemCTR();
-                viagemCTR.salvarPassageiro(colabBean.getMatricColab(), activity);
+                viagemCTR.salvarPassageiro(colabBean.getMatricColab(), 1L, activity);
 
                 VerifDadosServ.getInstance().setMsgVerifColab(Tempo.getInstance().dthr() + "\n" +
                         + colabBean.getMatricColab() + " - " + colabBean.getNomeColab());
-                VerifDadosServ.getInstance().pulaTela();
 
             } else {
                 VerifDadosServ.getInstance().setMsgVerifColab("COLABORADOR INEXISTENTE NA BASE DE DADOS! FAVOR VERIFICA A NUMERAÇÃO.");
-                VerifDadosServ.getInstance().pulaTela();
             }
+            VerifDadosServ.getInstance().pulaTela();
 
         } catch (Exception e) {
             VerifDadosServ.getInstance().setMsgVerifColab("FALHA DE PESQUISA DE COLABORADOR! POR FAVOR, TENTAR NOVAMENTE COM UM SINAL MELHOR.");
