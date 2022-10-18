@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pco.model.bean.variaveis.CabecViagemBean;
-import br.com.usinasantafe.pco.model.bean.variaveis.PassageiroViagemBean;
 import br.com.usinasantafe.pco.model.pst.EspecificaPesquisa;
 import br.com.usinasantafe.pco.util.Tempo;
 
@@ -123,7 +122,7 @@ public class CabecViagemDAO {
 
         ArrayList<CabecViagemBean> cabecViagemArrayList = new ArrayList<>();
         for (CabecViagemBean cabecViagemBeanBD : cabecViagemList) {
-            if(cabecViagemBeanBD.getDthrLongCabecViagem() < Tempo.getInstance().dthrLongDiaMenos(3)) {
+            if(cabecViagemBeanBD.getDthrInicialLongCabecViagem() < Tempo.getInstance().dthrLongDiaMenos(3)) {
                 cabecViagemArrayList.add(cabecViagemBeanBD);
             }
         }
@@ -154,14 +153,17 @@ public class CabecViagemDAO {
 
     public void abrirCabec(CabecViagemBean cabecViagemBean){
         Long dthr = Tempo.getInstance().dthr();
-        cabecViagemBean.setDthrCabecViagem(Tempo.getInstance().dthr(dthr));
-        cabecViagemBean.setDthrLongCabecViagem(dthr);
+        cabecViagemBean.setDthrInicialCabecViagem(Tempo.getInstance().dthr(dthr));
+        cabecViagemBean.setDthrInicialLongCabecViagem(dthr);
         cabecViagemBean.setStatusCabecViagem(1L);
         cabecViagemBean.insert();
     }
 
     public void fecharCabec(Double horimetro){
+        Long dthr = Tempo.getInstance().dthr();
         CabecViagemBean cabecViagemBean = getCabecViagemAberto();
+        cabecViagemBean.setDthrFinalCabecViagem(Tempo.getInstance().dthr(dthr));
+        cabecViagemBean.setDthrFinalLongCabecViagem(dthr);
         cabecViagemBean.setHodometroFinalCabecViagem(horimetro);
         cabecViagemBean.setStatusCabecViagem(2L);
         cabecViagemBean.update();

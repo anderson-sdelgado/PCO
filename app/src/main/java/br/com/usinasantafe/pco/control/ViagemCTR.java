@@ -95,7 +95,7 @@ public class ViagemCTR {
     public void abrirCabecViagem(){
         CabecViagemDAO cabecViagemDAO = new CabecViagemDAO();
         ConfigCTR configCTR = new ConfigCTR();
-        cabecViagemBean.setIdEquipCabecViagem(configCTR.getConfig().getIdEquipConfig());
+        cabecViagemBean.setNroEquipCabecViagem(configCTR.getConfig().getNroEquipConfig());
         cabecViagemDAO.abrirCabec(cabecViagemBean);
     }
 

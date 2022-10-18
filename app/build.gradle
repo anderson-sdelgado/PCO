@@ -7,8 +7,8 @@ android {
         applicationId "br.com.usinasantafe.pco"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 3
-        versionName "2.02"
+        versionCode 4
+        versionName "2.03"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

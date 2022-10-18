@@ -30,10 +30,10 @@ public class EquipActivity extends ActivityGeneric {
         Button buttonAtualPadrao = findViewById(R.id.buttonAtualPadrao);
         EditText editText = findViewById(R.id.editTextPadrao);
 
-        if(pcoContext.getConfigCTR().getConfig().getIdEquipConfig() > 0L){
+        if(pcoContext.getConfigCTR().getConfig().getNroEquipConfig() > 0L){
             LogProcessoDAO.getInstance().insertLogProcesso("if(pcoContext.getConfigCTR().getConfig().getIdEquipConfig() > 0L){\n" +
                     "            editText.setText(String.valueOf(pcoContext.getConfigCTR().getEquip().getNroEquip()));", getLocalClassName());
-            editText.setText(String.valueOf(pcoContext.getConfigCTR().getEquip().getNroEquip()));
+            editText.setText(String.valueOf(pcoContext.getConfigCTR().getConfig().getNroEquipConfig()));
         } else {
             LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                     "            editText.setText(\"\");", getLocalClassName());
@@ -133,41 +133,14 @@ public class EquipActivity extends ActivityGeneric {
 
                 if (!editTextPadrao.getText().toString().equals("")) {
 
-                    LogProcessoDAO.getInstance().insertLogProcesso("if (!editTextPadrao.getText().toString().equals(\"\")) {", getLocalClassName());
+                    LogProcessoDAO.getInstance().insertLogProcesso("if (!editTextPadrao.getText().toString().equals(\"\")) {\n" +
+                            "                    pcoContext.getConfigCTR().setEquipConfig(Long.parseLong(editTextPadrao.getText().toString()));\n" +
+                            "                    Intent it = new Intent(EquipActivity.this, ListaTurnoActivity.class);", getLocalClassName());
+                    pcoContext.getConfigCTR().setEquipConfig(Long.parseLong(editTextPadrao.getText().toString()));
+                    Intent it = new Intent(EquipActivity.this, ListaTurnoActivity.class);
+                    startActivity(it);
+                    finish();
 
-                    if (pcoContext.getConfigCTR().verEquipNro(Long.parseLong(editTextPadrao.getText().toString()), 2L)) {
-
-                        LogProcessoDAO.getInstance().insertLogProcesso("if (pcoContext.getConfigCTR().verEquipNro(Long.parseLong(editTextPadrao.getText().toString()), 2L)) {\n" +
-                                "                        pcoContext.getConfigCTR().setEquipConfig(Long.parseLong(editTextPadrao.getText().toString()));\n" +
-                                "                        Intent it = new Intent(EquipActivity.this, ListaTurnoActivity.class);", getLocalClassName());
-
-                        pcoContext.getConfigCTR().setEquipConfig(Long.parseLong(editTextPadrao.getText().toString()));
-                        Intent it = new Intent(EquipActivity.this, ListaTurnoActivity.class);
-                        startActivity(it);
-                        finish();
-
-                    } else {
-
-                        LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                                "                        AlertDialog.Builder alerta = new AlertDialog.Builder(EquipActivity.this);\n" +
-                                "                        alerta.setTitle(\"ATENÇÃO\");\n" +
-                                "                        alerta.setMessage(\"NUMERAÇÃO DO EQUIPAMENTO INEXISTENTE! FAVOR VERIFICA A MESMA.\");", getLocalClassName());
-
-                        AlertDialog.Builder alerta = new AlertDialog.Builder(EquipActivity.this);
-                        alerta.setTitle("ATENÇÃO");
-                        alerta.setMessage("NUMERAÇÃO DO EQUIPAMENTO INEXISTENTE! FAVOR VERIFICA A MESMA.");
-                        alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
-                                        "                            @Override\n" +
-                                        "                            public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
-                            }
-                        });
-
-                        alerta.show();
-
-                    }
                 }
 
             }

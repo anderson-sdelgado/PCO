@@ -81,7 +81,7 @@ public class ConfigActivity extends ActivityGeneric {
                             "                    break;", getLocalClassName());
                     textViewTipoEquipConfig.setText("EQUIP. PRÓPRIO");
                     editTextEquipConfig.setEnabled(true);
-                    editTextEquipConfig.setText(String.valueOf(pcoContext.getConfigCTR().getEquip().getNroEquip()));
+                    editTextEquipConfig.setText(String.valueOf(pcoContext.getConfigCTR().getConfig().getNroEquipConfig()));
                     break;
                 case 2:
                     LogProcessoDAO.getInstance().insertLogProcesso("case 2:\n" +
@@ -183,9 +183,9 @@ public class ConfigActivity extends ActivityGeneric {
                                 "                            !editTextSenhaConfig.getText().toString().equals(\"\") &&\n" +
                                 "                            !editTextNroAparelhoConfig.getText().toString().equals(\"\")){", getLocalClassName());
 
-                        if(pcoContext.getConfigCTR().verEquipNro(Long.parseLong(editTextEquipConfig.getText().toString()), 1L)){
+                        if(pcoContext.getConfigCTR().verEquipNro(Long.parseLong(editTextEquipConfig.getText().toString()))){
 
-                            LogProcessoDAO.getInstance().insertLogProcesso("if(pcoContext.getConfigCTR().verEquipNro(Long.parseLong(editTextEquipConfig.getText().toString()), 1L)){\n" +
+                            LogProcessoDAO.getInstance().insertLogProcesso("if(pcoContext.getConfigCTR().verEquipNro(Long.parseLong(editTextEquipConfig.getText().toString()))){\n" +
                                     "                            pcoContext.getConfigCTR().salvarConfig(editTextSenhaConfig.getText().toString()\n" +
                                     "                                    , Long.parseLong(editTextNroAparelhoConfig.getText().toString())\n" +
                                     "                                    , Long.parseLong(editTextEquipConfig.getText().toString()));\n" +

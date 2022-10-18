@@ -24,7 +24,7 @@ import br.com.usinasantafe.pco.model.bean.variaveis.PassageiroViagemBean;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
 	public static final String FORCA_DB_NAME = "pco_db";
-	public static final int FORCA_BD_VERSION = 2;
+	public static final int FORCA_BD_VERSION = 4;
 
 	private static DatabaseHelper instance;
 	
@@ -74,9 +74,14 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			if(oldVersion == 1 && newVersion == 2){
 				dropTable(cs);
 				createTable(cs);
+			} else if(oldVersion == 2 && newVersion == 3){
+				dropTable(cs);
+				createTable(cs);
+			} else if(oldVersion == 3 && newVersion == 4){
+				dropTable(cs);
+				createTable(cs);
 			}
-			
-			
+
 		} catch (Exception e) {
 			Log.e(DatabaseHelper.class.getName(), "Erro atualizando banco de dados...", e);
 		}

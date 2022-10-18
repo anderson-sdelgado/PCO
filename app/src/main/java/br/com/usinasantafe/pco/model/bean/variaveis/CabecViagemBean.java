@@ -13,11 +13,15 @@ public class CabecViagemBean extends Entidade {
     @DatabaseField(generatedId=true)
     private Long idCabecViagem;
     @DatabaseField
-    private String dthrCabecViagem;
+    private String dthrInicialCabecViagem;
     @DatabaseField
-    private Long dthrLongCabecViagem;
+    private Long dthrInicialLongCabecViagem;
     @DatabaseField
-    private Long idEquipCabecViagem;
+    private String dthrFinalCabecViagem;
+    @DatabaseField
+    private Long dthrFinalLongCabecViagem;
+    @DatabaseField
+    private Long nroEquipCabecViagem;
     @DatabaseField
     private Long matricMotoCabecViagem;
     @DatabaseField
@@ -47,28 +51,44 @@ public class CabecViagemBean extends Entidade {
         this.idCabecViagem = idCabecViagem;
     }
 
-    public String getDthrCabecViagem() {
-        return dthrCabecViagem;
+    public String getDthrInicialCabecViagem() {
+        return dthrInicialCabecViagem;
     }
 
-    public void setDthrCabecViagem(String dthrCabecViagem) {
-        this.dthrCabecViagem = dthrCabecViagem;
+    public void setDthrInicialCabecViagem(String dthrInicialCabecViagem) {
+        this.dthrInicialCabecViagem = dthrInicialCabecViagem;
     }
 
-    public Long getDthrLongCabecViagem() {
-        return dthrLongCabecViagem;
+    public Long getDthrInicialLongCabecViagem() {
+        return dthrInicialLongCabecViagem;
     }
 
-    public void setDthrLongCabecViagem(Long dthrLongCabecViagem) {
-        this.dthrLongCabecViagem = dthrLongCabecViagem;
+    public void setDthrInicialLongCabecViagem(Long dthrInicialLongCabecViagem) {
+        this.dthrInicialLongCabecViagem = dthrInicialLongCabecViagem;
     }
 
-    public Long getIdEquipCabecViagem() {
-        return idEquipCabecViagem;
+    public String getDthrFinalCabecViagem() {
+        return dthrFinalCabecViagem;
     }
 
-    public void setIdEquipCabecViagem(Long idEquipCabecViagem) {
-        this.idEquipCabecViagem = idEquipCabecViagem;
+    public void setDthrFinalCabecViagem(String dthrFinalCabecViagem) {
+        this.dthrFinalCabecViagem = dthrFinalCabecViagem;
+    }
+
+    public Long getDthrFinalLongCabecViagem() {
+        return dthrFinalLongCabecViagem;
+    }
+
+    public void setDthrFinalLongCabecViagem(Long dthrFinalLongCabecViagem) {
+        this.dthrFinalLongCabecViagem = dthrFinalLongCabecViagem;
+    }
+
+    public Long getNroEquipCabecViagem() {
+        return nroEquipCabecViagem;
+    }
+
+    public void setNroEquipCabecViagem(Long nroEquipCabecViagem) {
+        this.nroEquipCabecViagem = nroEquipCabecViagem;
     }
 
     public Long getMatricMotoCabecViagem() {
@@ -95,12 +115,12 @@ public class CabecViagemBean extends Entidade {
         this.idTrajetoCabecViagem = idTrajetoCabecViagem;
     }
 
-    public Long getStatusCabecViagem() {
-        return statusCabecViagem;
+    public String getDescrTrajetoCabecViagem() {
+        return descrTrajetoCabecViagem;
     }
 
-    public void setStatusCabecViagem(Long statusCabecViagem) {
-        this.statusCabecViagem = statusCabecViagem;
+    public void setDescrTrajetoCabecViagem(String descrTrajetoCabecViagem) {
+        this.descrTrajetoCabecViagem = descrTrajetoCabecViagem;
     }
 
     public Double getHodometroInicialCabecViagem() {
@@ -119,11 +139,11 @@ public class CabecViagemBean extends Entidade {
         this.hodometroFinalCabecViagem = hodometroFinalCabecViagem;
     }
 
-    public String getDescrTrajetoCabecViagem() {
-        return descrTrajetoCabecViagem;
+    public Long getStatusCabecViagem() {
+        return statusCabecViagem;
     }
 
-    public void setDescrTrajetoCabecViagem(String descrTrajetoCabecViagem) {
-        this.descrTrajetoCabecViagem = descrTrajetoCabecViagem;
+    public void setStatusCabecViagem(Long statusCabecViagem) {
+        this.statusCabecViagem = statusCabecViagem;
     }
 }

@@ -47,19 +47,13 @@ public class ConfigCTR {
         return configDAO.getConfig(senha);
     }
 
-    public EquipBean getEquip(){
-        EquipDAO equipDAO = new EquipDAO();
-        return equipDAO.getEquipId(getConfig().getIdEquipConfig());
-    }
-
     public void atualTodasTabelas(Context tela, ProgressDialog progressDialog){
         AtualDadosServ.getInstance().atualTodasTabBD(tela, progressDialog);
     }
 
     public void salvarConfig(String senha, Long nroAparelho, Long nroEquip){
         ConfigDAO configDAO = new ConfigDAO();
-        EquipDAO equipDAO = new EquipDAO();
-        configDAO.salvarConfig(senha, nroAparelho, equipDAO.getEquipNro(nroEquip).getIdEquip(), 1L);
+        configDAO.salvarConfig(senha, nroAparelho, nroEquip, 1L);
     }
 
     public boolean verSenha(String senha){
@@ -72,20 +66,19 @@ public class ConfigCTR {
         configDAO.salvarConfig(senha, nroAparelho, 0L, 2L);
     }
 
-    public boolean verEquipNro(Long nroEquip, Long tipoEquip){
+    public boolean verEquipNro(Long nroEquip){
         EquipDAO equipDAO = new EquipDAO();
-        return equipDAO.verEquipNro(nroEquip, tipoEquip);
+        return equipDAO.verEquipNro(nroEquip);
     }
 
     public void setEquipConfig(Long nroEquip){
-        EquipDAO equipDAO = new EquipDAO();
         ConfigDAO configDAO = new ConfigDAO();
-        configDAO.setEquipConfig(equipDAO.getEquipNro(nroEquip).getIdEquip());
+        configDAO.setEquipConfig(nroEquip);
     }
 
     public List<TurnoBean> turnoList(){
         TurnoDAO turnoDAO = new TurnoDAO();
-        return turnoDAO.turnoList(getEquip().getIdJornada());
+        return turnoDAO.turnoList();
     }
 
     public void setLotacaoMaxConfig(Long lotacaoMax){

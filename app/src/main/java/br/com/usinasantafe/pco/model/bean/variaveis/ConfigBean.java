@@ -19,7 +19,7 @@ public class ConfigBean extends Entidade {
     @DatabaseField
     private String senhaConfig;
     @DatabaseField
-    private Long idEquipConfig;
+    private Long nroEquipConfig;
     @DatabaseField
     private String dthrServConfig;
     @DatabaseField
@@ -52,12 +52,12 @@ public class ConfigBean extends Entidade {
         this.idConfig = idConfig;
     }
 
-    public Long getIdEquipConfig() {
-        return idEquipConfig;
+    public Long getNroEquipConfig() {
+        return nroEquipConfig;
     }
 
-    public void setIdEquipConfig(Long idEquipConfig) {
-        this.idEquipConfig = idEquipConfig;
+    public void setNroEquipConfig(Long nroEquipConfig) {
+        this.nroEquipConfig = nroEquipConfig;
     }
 
     public String getSenhaConfig() {

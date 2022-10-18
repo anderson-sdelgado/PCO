@@ -9,9 +9,9 @@ public class TurnoDAO {
     public TurnoDAO() {
     }
 
-    public List<TurnoBean> turnoList(Long idJornada){
+    public List<TurnoBean> turnoList(){
         TurnoBean turnoBean = new TurnoBean();
-        return turnoBean.get("idJornada", idJornada);
+        return turnoBean.orderBy("nroTurno", true);
     }
 
 }

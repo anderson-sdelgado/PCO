@@ -10,10 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pco.model.bean.AtualAplicBean;
-import br.com.usinasantafe.pco.model.bean.estaticas.MotoristaBean;
-import br.com.usinasantafe.pco.model.bean.estaticas.TurnoBean;
 import br.com.usinasantafe.pco.model.bean.variaveis.ConfigBean;
-import br.com.usinasantafe.pco.util.Tempo;
 
 public class ConfigDAO {
 
@@ -57,11 +54,11 @@ public class ConfigDAO {
         return configBean.get("senhaConfig", senha);
     }
 
-    public void salvarConfig(String senha, Long nroAparelho, Long idEquip, Long tipoEquip){
+    public void salvarConfig(String senha, Long nroAparelho, Long nroEquip, Long tipoEquip){
         ConfigBean configBean = new ConfigBean();
         configBean.deleteAll();
         configBean.setTipoEquipConfig(tipoEquip);
-        configBean.setIdEquipConfig(idEquip);
+        configBean.setNroEquipConfig(nroEquip);
         configBean.setSenhaConfig(senha);
         configBean.setNroAparelhoConfig(nroAparelho);
         configBean.setDthrServConfig("");
@@ -71,9 +68,9 @@ public class ConfigDAO {
         configBean.commit();
     }
 
-    public void setEquipConfig(Long idEquip){
+    public void setEquipConfig(Long nroEquip){
         ConfigBean configBean = getConfig();
-        configBean.setIdEquipConfig(idEquip);
+        configBean.setNroEquipConfig(nroEquip);
         configBean.update();
     }
 

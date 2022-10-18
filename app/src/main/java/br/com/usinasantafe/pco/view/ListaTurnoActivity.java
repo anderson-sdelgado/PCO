@@ -47,7 +47,7 @@ public class ListaTurnoActivity extends ActivityGeneric {
         }
 
         AdapterList adapterList = new AdapterList(this, itens);
-        turnoListView = (ListView) findViewById(R.id.listaTurno);
+        turnoListView = findViewById(R.id.listaTurno);
         turnoListView.setAdapter(adapterList);
         turnoListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
