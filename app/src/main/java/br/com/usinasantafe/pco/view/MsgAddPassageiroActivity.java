@@ -87,8 +87,8 @@ public class MsgAddPassageiroActivity extends ActivityGeneric {
     public void msgPassageiro(){
 
         LogProcessoDAO.getInstance().insertLogProcesso("public void msgPassageiro(){\n" +
-                "        String msgBag = \"\";", getLocalClassName());
-        String msgBag = "";
+                "        String msgPassageiro = \"\";", getLocalClassName());
+        String msgPassageiro = "";
 
         if(VerifDadosServ.getInstance().getMsgVerifColab().equals("")){
             LogProcessoDAO.getInstance().insertLogProcesso("if(VerifDadosServ.getInstance().getMsgVerifColab().equals(\"\")){", getLocalClassName());
@@ -102,16 +102,16 @@ public class MsgAddPassageiroActivity extends ActivityGeneric {
                         LogProcessoDAO.getInstance().insertLogProcesso("if(pcoContext.getPassageiroCTR().verMatricColabViagem(Long.parseLong(pcoContext.getMatriculaPassageiro()))) {\n" +
                                 "                        pcoContext.getPassageiroCTR().salvarPassageiro(Long.parseLong(pcoContext.getMatriculaPassageiro()), getLocalClassName());\n" +
                                 "                        ColabBean colabBean = pcoContext.getPassageiroCTR().getColab(Long.parseLong(pcoContext.getMatriculaPassageiro()));\n" +
-                                "                        msgBag = msgBag + Tempo.getInstance().dthr(Tempo.getInstance().dthr()) + \"\\n\" +\n" +
+                                "                        msgPassageiro = msgPassageiro + Tempo.getInstance().dthr(Tempo.getInstance().dthr()) + \"\\n\" +\n" +
                                 "                                + colabBean.getMatricColab() + \" - \" + colabBean.getNomeColab();", getLocalClassName());
                         pcoContext.getViagemCTR().salvarPassageiro(Long.parseLong(VerifDadosServ.getInstance().getMatricula()), 1L, getLocalClassName());
                         ColabBean colabBean = pcoContext.getViagemCTR().getColab(Long.parseLong(VerifDadosServ.getInstance().getMatricula()));
-                        msgBag = msgBag + Tempo.getInstance().dthr(Tempo.getInstance().dthr()) + "\n" +
+                        msgPassageiro = msgPassageiro + Tempo.getInstance().dthrLongToString(Tempo.getInstance().dthrAtualLong()) + "\n" +
                                 + colabBean.getMatricColab() + " - " + colabBean.getNomeColab();
                     } else {
                         LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                                "                        msgBag = msgBag + \"FUNCIONÁRIO REPETIDO! POR FAVOR, INSIRA OUTRO FUNCIONÁRIO.\";", getLocalClassName());
-                        msgBag = msgBag + "FUNCIONÁRIO REPETIDO! POR FAVOR, INSIRA OUTRO FUNCIONÁRIO.";
+                                "                        msgPassageiro = msgPassageiro + \"FUNCIONÁRIO REPETIDO! POR FAVOR, INSIRA OUTRO FUNCIONÁRIO.\";", getLocalClassName());
+                        msgPassageiro = msgPassageiro + "FUNCIONÁRIO REPETIDO! POR FAVOR, INSIRA OUTRO FUNCIONÁRIO.";
                     }
                 } else {
 
@@ -134,28 +134,28 @@ public class MsgAddPassageiroActivity extends ActivityGeneric {
             }
         } else {
             LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                    "            msgBag = msgBag + VerifDadosServ.getInstance().getMsgVerifColab();", getLocalClassName());
-            msgBag = msgBag + VerifDadosServ.getInstance().getMsgVerifColab();
+                    "            msgPassageiro = msgPassageiro + VerifDadosServ.getInstance().getMsgVerifColab();", getLocalClassName());
+            msgPassageiro = msgPassageiro + VerifDadosServ.getInstance().getMsgVerifColab();
         }
 
         if(pcoContext.getViagemCTR().qtdePassageiroPorLotacao() == 0){
             LogProcessoDAO.getInstance().insertLogProcesso("if(pcoContext.getPassageiroCTR().qtdePassageiroPorLotacao() == 0){\n" +
-                    "            msgBag = msgBag + \"\\nÔNIBUS ESTA COM A LOTAÇÃO MÁXIMA!\";", getLocalClassName());
-            msgBag = msgBag + "\nÔNIBUS ESTA COM A LOTAÇÃO MÁXIMA!";
+                    "            msgPassageiro = msgPassageiro + \"\\nÔNIBUS ESTA COM A LOTAÇÃO MÁXIMA!\";", getLocalClassName());
+            msgPassageiro = msgPassageiro + "\nÔNIBUS ESTA COM A LOTAÇÃO MÁXIMA!";
         } else if(pcoContext.getViagemCTR().qtdePassageiroPorLotacao() > 0){
             LogProcessoDAO.getInstance().insertLogProcesso("} else if(pcoContext.getPassageiroCTR().qtdePassageiroPorLotacao() > 0){\n" +
-                    "            msgBag = msgBag + \"\\nFALTA \" + pcoContext.getPassageiroCTR().qtdePassageiroPorLotacao() + \" PASSAGEIRO(S) PARA LOTAÇÃO MÁXIMA!\";", getLocalClassName());
-            msgBag = msgBag + "\nFALTA " + pcoContext.getViagemCTR().qtdePassageiroPorLotacao() + " PASSAGEIRO(S) PARA LOTAÇÃO MÁXIMA!";
+                    "            msgPassageiro = msgPassageiro + \"\\nFALTA \" + pcoContext.getPassageiroCTR().qtdePassageiroPorLotacao() + \" PASSAGEIRO(S) PARA LOTAÇÃO MÁXIMA!\";", getLocalClassName());
+            msgPassageiro = msgPassageiro + "\nFALTA " + pcoContext.getViagemCTR().qtdePassageiroPorLotacao() + " PASSAGEIRO(S) PARA LOTAÇÃO MÁXIMA!";
         } else {
             LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                    "            msgBag = msgBag + \"\\nO ÔNIBUS ESTA COM \" + (pcoContext.getPassageiroCTR().qtdePassageiroPorLotacao() * -1) + \" PASSAGEIRO(S) ACIMA DA LOTAÇÃO MÁXIMA!\";", getLocalClassName());
-            msgBag = msgBag + "\nO ÔNIBUS ESTA COM " + (pcoContext.getViagemCTR().qtdePassageiroPorLotacao() * -1) + " PASSAGEIRO(S) ACIMA DA LOTAÇÃO MÁXIMA!";
+                    "            msgPassageiro = msgPassageiro + \"\\nO ÔNIBUS ESTA COM \" + (pcoContext.getPassageiroCTR().qtdePassageiroPorLotacao() * -1) + \" PASSAGEIRO(S) ACIMA DA LOTAÇÃO MÁXIMA!\";", getLocalClassName());
+            msgPassageiro = msgPassageiro + "\nO ÔNIBUS ESTA COM " + (pcoContext.getViagemCTR().qtdePassageiroPorLotacao() * -1) + " PASSAGEIRO(S) ACIMA DA LOTAÇÃO MÁXIMA!";
         }
 
         LogProcessoDAO.getInstance().insertLogProcesso("\nDESEJA INSERIR OUTRO PASSAGEIRO NA VIAGEM?", getLocalClassName());
-        msgBag = msgBag + "\nDESEJA INSERIR OUTRO PASSAGEIRO NA VIAGEM?";
+        msgPassageiro = msgPassageiro + "\nDESEJA INSERIR OUTRO PASSAGEIRO NA VIAGEM?";
 
-        textViewMsgPassageiro.setText(msgBag);
+        textViewMsgPassageiro.setText(msgPassageiro);
 
     }
 

@@ -182,4 +182,6 @@
     <string name="texto_matric_passag">MATRIC. PASSAGEIRO</string>
     <string name="texto_dig_matric">DIGITAR MATRÍCULA</string>
     <string name="texto_dig_trajeto">DIGITAR TRAJETO</string>
+    <string name="texto_msg_data_hora">POR FAVOR, DIGITE O DIA, MÊS, ANO, HORA E MINUTO ATUAL NAS PRÓXIMAS TELAS.</string>
+    <string name="texto_data_hora">DIA:</string>
 </resources>

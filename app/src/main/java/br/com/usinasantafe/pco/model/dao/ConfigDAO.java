@@ -92,6 +92,12 @@ public class ConfigDAO {
         configBean.update();
     }
 
+    public void setDifDthrConfig(Long difDthr){
+        ConfigBean configBean = getConfig();
+        configBean.setDifDthrConfig(difDthr);
+        configBean.update();
+    }
+
     public AtualAplicBean recAtual(JSONArray jsonArray) throws JSONException {
 
         JSONObject objeto = jsonArray.getJSONObject(0);

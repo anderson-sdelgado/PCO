@@ -70,11 +70,11 @@ public class PassageiroViagemDAO {
     }
 
     public void salvarPassageiro(Long idCabec, Long matricColab, Long tipo){
-        Long dthr = Tempo.getInstance().dthr();
+        Long dthrLong = Tempo.getInstance().dthrAtualLong();
         PassageiroViagemBean passageiroViagemBean = new PassageiroViagemBean();
         passageiroViagemBean.setIdCabecPassageiroViagem(idCabec);
-        passageiroViagemBean.setDthrLongPassageiroViagem(dthr);
-        passageiroViagemBean.setDthrPassageiroViagem(Tempo.getInstance().dthr(dthr));
+        passageiroViagemBean.setDthrLongPassageiroViagem(dthrLong);
+        passageiroViagemBean.setDthrPassageiroViagem(Tempo.getInstance().dthrLongToString(dthrLong));
         passageiroViagemBean.setMatricColabPassageiroViagem(matricColab);
         passageiroViagemBean.setStatusPassageiroViagem(1L);
         passageiroViagemBean.setTipoPassageiroViagem(tipo);

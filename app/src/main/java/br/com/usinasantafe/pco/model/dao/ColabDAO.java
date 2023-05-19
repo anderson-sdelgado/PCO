@@ -61,7 +61,7 @@ public class ColabDAO {
                 ViagemCTR viagemCTR = new ViagemCTR();
                 viagemCTR.salvarPassageiro(colabBean.getMatricColab(), 1L, activity);
 
-                VerifDadosServ.getInstance().setMsgVerifColab(Tempo.getInstance().dthr() + "\n" +
+                VerifDadosServ.getInstance().setMsgVerifColab(Tempo.getInstance().dthrAtualLong() + "\n" +
                         + colabBean.getMatricColab() + " - " + colabBean.getNomeColab());
 
             } else {

@@ -7,6 +7,7 @@ import android.content.Intent;
 import br.com.usinasantafe.pco.model.dao.LogProcessoDAO;
 import br.com.usinasantafe.pco.util.ConnectNetwork;
 import br.com.usinasantafe.pco.util.EnvioDadosServ;
+import br.com.usinasantafe.pco.util.Tempo;
 import br.com.usinasantafe.pco.util.VerifDadosServ;
 import br.com.usinasantafe.pco.view.ActivityGeneric;
 
@@ -17,6 +18,7 @@ public class NetworkChangeListerner extends BroadcastReceiver {
 
 		if(ConnectNetwork.isConnected(context)){
 			ActivityGeneric.connectNetwork = true;
+			Tempo.getInstance().zerarDifTempo();
 			LogProcessoDAO.getInstance().insertLogProcesso("if(ConnectNetwork.isConnected(context)){\n" +
 					"            ActivityGeneric.connectNetwork = true;\n" +
 					"Tempo.getInstance().zerarDifTempo()\n" +

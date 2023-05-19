@@ -152,18 +152,18 @@ public class CabecViagemDAO {
     }
 
     public void abrirCabec(CabecViagemBean cabecViagemBean){
-        Long dthr = Tempo.getInstance().dthr();
-        cabecViagemBean.setDthrInicialCabecViagem(Tempo.getInstance().dthr(dthr));
-        cabecViagemBean.setDthrInicialLongCabecViagem(dthr);
+        Long dthrLong = Tempo.getInstance().dthrAtualLong();
+        cabecViagemBean.setDthrInicialCabecViagem(Tempo.getInstance().dthrLongToString(dthrLong));
+        cabecViagemBean.setDthrInicialLongCabecViagem(dthrLong);
         cabecViagemBean.setStatusCabecViagem(1L);
         cabecViagemBean.insert();
     }
 
     public void fecharCabec(Double horimetro){
-        Long dthr = Tempo.getInstance().dthr();
+        Long dthrLong = Tempo.getInstance().dthrAtualLong();
         CabecViagemBean cabecViagemBean = getCabecViagemAberto();
-        cabecViagemBean.setDthrFinalCabecViagem(Tempo.getInstance().dthr(dthr));
-        cabecViagemBean.setDthrFinalLongCabecViagem(dthr);
+        cabecViagemBean.setDthrFinalCabecViagem(Tempo.getInstance().dthrLongToString(dthrLong));
+        cabecViagemBean.setDthrFinalLongCabecViagem(dthrLong);
         cabecViagemBean.setHodometroFinalCabecViagem(horimetro);
         cabecViagemBean.setStatusCabecViagem(2L);
         cabecViagemBean.update();

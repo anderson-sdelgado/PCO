@@ -1,5 +1,7 @@
 package br.com.usinasantafe.pco.util;
 
+import android.util.Log;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -106,6 +108,7 @@ public class EnvioDadosServ {
         String[] strings = {url, activity};
         Map<String, Object> parametrosPost = new HashMap<String, Object>();
         parametrosPost.put("dado", dados);
+        Log.i("PCO", "postCadGenerico.execute('" + url + "'); - Dados de Envio = " + dados);
         LogProcessoDAO.getInstance().insertLogProcesso("postCadGenerico.execute('" + url + "'); - Dados de Envio = " + dados, activity);
         PostCadGenerico postCadGenerico = new PostCadGenerico();
         postCadGenerico.setParametrosPost(parametrosPost);

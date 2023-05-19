@@ -68,13 +68,12 @@ public class SenhaActivity extends ActivityGeneric {
             }
         });
 
-        btCancSenha.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("btCancSenha.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {", getLocalClassName());
+        btCancSenha.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("btCancSenha.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {", getLocalClassName());
+            if(pcoContext.getConfigCTR().hasElemConfig()){
+                LogProcessoDAO.getInstance().insertLogProcesso("if(pcoContext.getConfigCTR().hasElemConfig()){", getLocalClassName());
                 if (pcoContext.getConfigCTR().getConfig().getPosicaoTela() == 7L) {
                     LogProcessoDAO.getInstance().insertLogProcesso("if (pcbContext.getConfigCTR().getConfig().getPosicaoTela() == 2L) {\n" +
                             "                    Intent it = new Intent(SenhaActivity.this, MenuInicialActivity.class);", getLocalClassName());
@@ -96,8 +95,13 @@ public class SenhaActivity extends ActivityGeneric {
                     startActivity(it);
                     finish();
                 }
+            } else {
+                LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                        "                    Intent it = new Intent(SenhaActivity.this, TelaInicialActivity.class);", getLocalClassName());
+                Intent it = new Intent(SenhaActivity.this, TelaInicialActivity.class);
+                startActivity(it);
+                finish();
             }
-
         });
 
     }

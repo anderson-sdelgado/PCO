@@ -77,14 +77,6 @@ public class VerifDadosServ {
             status = 1;
         }
     }
-
-    public String manipLocalClasse(String classe) {
-        if (classe.contains("TO")) {
-            classe = urlsConexaoHttp.localPSTEstatica + classe;
-        }
-        return classe;
-    }
-
     public void verDados(String dado, String tipo, Context telaAtual, Class telaProx, ProgressDialog progressDialog) {
 
         status = 2;
@@ -118,6 +110,7 @@ public class VerifDadosServ {
         Map<String, Object> parametrosPost = new HashMap<String, Object>();
         parametrosPost.put("dado", this.dados);
 
+        Log.i("PCO", "postVerGenerico.execute('" + urlsConexaoHttp.urlVerifica(tipo) + "'); - Dados de Envio = " + this.dados);
         LogProcessoDAO.getInstance().insertLogProcesso("postVerGenerico.execute('" + urlsConexaoHttp.urlVerifica(tipo) + "'); - Dados de Envio = " + this.dados, activity);
         postVerGenerico = new PostVerGenerico();
         postVerGenerico.setParametrosPost(parametrosPost);

@@ -257,7 +257,7 @@ public class ConfigActivity extends ActivityGeneric {
                         pcoContext.getConfigCTR().salvarConfig(editTextSenhaConfig.getText().toString()
                                 , Long.parseLong(editTextNroAparelhoConfig.getText().toString()));
 
-                        Intent it = new Intent(ConfigActivity.this, MenuInicialActivity.class);
+                        Intent it = new Intent(ConfigActivity.this, TelaInicialActivity.class);
                         startActivity(it);
                         finish();
 
