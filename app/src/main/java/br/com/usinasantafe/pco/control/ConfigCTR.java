@@ -59,14 +59,24 @@ public class ConfigCTR {
         AtualDadosServ.getInstance().atualTodasTabBD(tela, progressDialog);
     }
 
-    public void salvarConfig(String senha, Long nroAparelho, Long nroEquip){
+    public void salvarConfig(Long numLinha){
         ConfigDAO configDAO = new ConfigDAO();
-        configDAO.salvarConfig(senha, nroAparelho, nroEquip, 1L);
+        configDAO.salvarConfig(numLinha);
     }
 
     public boolean verSenha(String senha){
         ConfigDAO configDAO = new ConfigDAO();
         return configDAO.verSenha(senha);
+    }
+
+    public boolean verNroAparelho(Long nroAparelho){
+        ConfigDAO configDAO = new ConfigDAO();
+        return configDAO.verNroAparelho(nroAparelho);
+    }
+
+    public void salvarConfig(String senha, Long nroAparelho, Long nroEquip){
+        ConfigDAO configDAO = new ConfigDAO();
+        configDAO.salvarConfig(senha, nroAparelho, nroEquip, 1L);
     }
 
     public void salvarConfig(String senha, Long nroAparelho){
@@ -129,10 +139,46 @@ public class ConfigCTR {
         AtualAplicDAO atualAplicDAO = new AtualAplicDAO();
         LogProcessoDAO.getInstance().insertLogProcesso("VerifDadosServ.getInstance().verifAtualAplic(atualAplicDAO.dadosVerAtualAplicBean(equipBean.getNroEquip(), equipBean.getIdCheckList(), versaoAplic)\n" +
                 "                , telaInicialActivity, progressDialog);", activity);
-        VerifDadosServ.getInstance().verifAtualAplic(atualAplicDAO.dadosVerAtualAplicBean(getConfig().getNroAparelhoConfig(), versaoAplic)
+        VerifDadosServ.getInstance().verifAtualAplic(atualAplicDAO.dadosAplic(getConfig().getNroAparelhoConfig(), versaoAplic)
                 , telaInicialActivity, activity);
     }
 
+    public void salvarToken(String versao, Long nroAparelho, Context telaAtual, ProgressDialog progressDialog, String activity){
+        AtualAplicDAO atualAplicDAO = new AtualAplicDAO();
+        VerifDadosServ.getInstance().salvarToken(atualAplicDAO.dadosAplic(nroAparelho, versao), telaAtual, progressDialog, activity);
+    }
+
+    public void recToken(String result, Context telaAtual, ProgressDialog progressDialog, String activity) {
+
+        AtualAplicBean atualAplicBean = new AtualAplicBean();
+
+        try {
+
+            progressDialog.dismiss();
+
+            JSONObject jObj = new JSONObject(result);
+            JSONArray jsonArray = jObj.getJSONArray("dados");
+
+            if (jsonArray.length() > 0) {
+                ConfigDAO configDAO = new ConfigDAO();
+                atualAplicBean = configDAO.recAparelho(jsonArray);
+            }
+
+            salvarConfig(atualAplicBean.getNroAparelho());
+            progressDialog = new ProgressDialog(telaAtual);
+            progressDialog.setCancelable(true);
+            progressDialog.setMessage("ATUALIZANDO ...");
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressDialog.setProgress(0);
+            progressDialog.setMax(100);
+            progressDialog.show();
+
+            AtualDadosServ.getInstance().atualTodasTabBD(telaAtual, progressDialog);
+
+        } catch (Exception e) {
+            VerifDadosServ.status = 1;
+        }
+    }
 
     /////////////////////////////////////////// LOG ///////////////////////////////////////////////
 

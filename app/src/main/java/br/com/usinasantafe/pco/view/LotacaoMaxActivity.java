@@ -39,72 +39,56 @@ public class LotacaoMaxActivity extends ActivityGeneric {
             editText.setText("");
         }
 
-        buttonOkLotacao.setOnClickListener(new View.OnClickListener() {
+        buttonOkLotacao.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonOkLotacao.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {", getLocalClassName());
 
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonOkLotacao.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {", getLocalClassName());
+            if (!editTextPadrao.getText().toString().equals("")) {
 
-                if (!editTextPadrao.getText().toString().equals("")) {
+                LogProcessoDAO.getInstance().insertLogProcesso("if (!editTextPadrao.getText().toString().equals(\"\")) {", getLocalClassName());
 
-                    LogProcessoDAO.getInstance().insertLogProcesso("if (!editTextPadrao.getText().toString().equals(\"\")) {", getLocalClassName());
+                if(Long.parseLong(editTextPadrao.getText().toString()) < 100L){
 
-                    if(Long.parseLong(editTextPadrao.getText().toString()) < 100L){
+                    LogProcessoDAO.getInstance().insertLogProcesso("if(Long.parseLong(editTextPadrao.getText().toString()) < 100L){\n" +
+                            "                        pcoContext.getConfigCTR().setPosicaoTela(2L);\n" +
+                            "                        pcoContext.getConfigCTR().setLotacaoMaxConfig(Long.parseLong(editTextPadrao.getText().toString()));\n" +
+                            "                        Intent it = new Intent(LotacaoMaxActivity.this, ListaPassageiroActivity.class);", getLocalClassName());
 
-                        LogProcessoDAO.getInstance().insertLogProcesso("if(Long.parseLong(editTextPadrao.getText().toString()) < 100L){\n" +
-                                "                        pcoContext.getConfigCTR().setPosicaoTela(2L);\n" +
-                                "                        pcoContext.getConfigCTR().setLotacaoMaxConfig(Long.parseLong(editTextPadrao.getText().toString()));\n" +
-                                "                        Intent it = new Intent(LotacaoMaxActivity.this, ListaPassageiroActivity.class);", getLocalClassName());
+                    pcoContext.getConfigCTR().setLotacaoMaxConfig(Long.parseLong(editTextPadrao.getText().toString()));
+                    Intent it = new Intent(LotacaoMaxActivity.this, HorimetroActivity.class);
+                    startActivity(it);
+                    finish();
 
-                        pcoContext.getConfigCTR().setLotacaoMaxConfig(Long.parseLong(editTextPadrao.getText().toString()));
-                        Intent it = new Intent(LotacaoMaxActivity.this, HorimetroActivity.class);
-                        startActivity(it);
-                        finish();
+                } else {
 
-                    } else {
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                            "                        AlertDialog.Builder alerta = new AlertDialog.Builder(LotacaoMaxActivity.this);\n" +
+                            "                        alerta.setTitle(\"ATENÇÃO\");\n" +
+                            "                        alerta.setMessage(\"QUANTIDADE DE LOTAÇÃO INCOMPATÍVEL! POR FAVOR, VERIFICAR A NUMERAÇÃO DIGITADA.\");", getLocalClassName());
 
-                        LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                                "                        AlertDialog.Builder alerta = new AlertDialog.Builder(LotacaoMaxActivity.this);\n" +
-                                "                        alerta.setTitle(\"ATENÇÃO\");\n" +
-                                "                        alerta.setMessage(\"QUANTIDADE DE LOTAÇÃO INCOMPATÍVEL! POR FAVOR, VERIFICAR A NUMERAÇÃO DIGITADA.\");", getLocalClassName());
-
-                        AlertDialog.Builder alerta = new AlertDialog.Builder(LotacaoMaxActivity.this);
-                        alerta.setTitle("ATENÇÃO");
-                        alerta.setMessage("QUANTIDADE DE LOTAÇÃO INCOMPATÍVEL! POR FAVOR, VERIFICAR A NUMERAÇÃO DIGITADA.");
-                        alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
-                                        "                            @Override\n" +
-                                        "                            public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
-                            }
-                        });
-
-                        alerta.show();
-                    }
-
+                    AlertDialog.Builder alerta = new AlertDialog.Builder(LotacaoMaxActivity.this);
+                    alerta.setTitle("ATENÇÃO");
+                    alerta.setMessage("QUANTIDADE DE LOTAÇÃO INCOMPATÍVEL! POR FAVOR, VERIFICAR A NUMERAÇÃO DIGITADA.");
+                    alerta.setPositiveButton("OK", (dialog, which) -> LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
+                            "                            @Override\n" +
+                            "                            public void onClick(DialogInterface dialog, int which) {", getLocalClassName()));
+                    alerta.show();
                 }
-            }
 
+            }
         });
 
-        buttonCancLotacao.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonCancLotacao.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {", getLocalClassName());
-                if (editTextPadrao.getText().toString().length() > 0) {
-                    LogProcessoDAO.getInstance().insertLogProcesso("if (editTextPadrao.getText().toString().length() > 0) {\n" +
-                            "                    editTextPadrao.setText(editTextPadrao.getText().toString().substring(0, editTextPadrao.getText().toString().length() - 1));", getLocalClassName());
-                    editTextPadrao.setText(editTextPadrao.getText().toString().substring(0, editTextPadrao.getText().toString().length() - 1));
-                }
+        buttonCancLotacao.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonCancLotacao.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {", getLocalClassName());
+            if (editTextPadrao.getText().toString().length() > 0) {
+                LogProcessoDAO.getInstance().insertLogProcesso("if (editTextPadrao.getText().toString().length() > 0) {\n" +
+                        "                    editTextPadrao.setText(editTextPadrao.getText().toString().substring(0, editTextPadrao.getText().toString().length() - 1));", getLocalClassName());
+                editTextPadrao.setText(editTextPadrao.getText().toString().substring(0, editTextPadrao.getText().toString().length() - 1));
             }
-
         });
 
     }

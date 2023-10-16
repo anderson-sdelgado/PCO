@@ -36,82 +36,72 @@ public class ListaTrajetoActivity extends ActivityGeneric {
         Button buttonRetAtividade = findViewById(R.id.buttonRetTrajeto);
         Button buttonDigTrajeto = findViewById(R.id.buttonDigTrajeto);
 
-        buttonAtualAtividade.setOnClickListener(new View.OnClickListener() {
+        buttonAtualAtividade.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonAtualAtividade.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {", getLocalClassName());
 
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonAtualAtividade.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {", getLocalClassName());
+            if (connectNetwork) {
 
-                if (connectNetwork) {
+                LogProcessoDAO.getInstance().insertLogProcesso("if (connectNetwork) {\n" +
+                        "                    progressBar = new ProgressDialog(v.getContext());\n" +
+                        "                    progressBar.setCancelable(true);\n" +
+                        "                    progressBar.setMessage(\"ATUALIZANDO ATIVIDADES...\");\n" +
+                        "                    progressBar.show();\n" +
+                        "                    pcoContext.getPassageiroCTR().atualDados(ListaTrajetoActivity.this\n" +
+                        "                            , ListaTrajetoActivity.class, progressBar, \"Trajeto\");", getLocalClassName());
 
-                    LogProcessoDAO.getInstance().insertLogProcesso("if (connectNetwork) {\n" +
-                            "                    progressBar = new ProgressDialog(v.getContext());\n" +
-                            "                    progressBar.setCancelable(true);\n" +
-                            "                    progressBar.setMessage(\"ATUALIZANDO ATIVIDADES...\");\n" +
-                            "                    progressBar.show();\n" +
-                            "                    pcoContext.getPassageiroCTR().atualDados(ListaTrajetoActivity.this\n" +
-                            "                            , ListaTrajetoActivity.class, progressBar, \"Trajeto\");", getLocalClassName());
+                progressBar = new ProgressDialog(v.getContext());
+                progressBar.setCancelable(true);
+                progressBar.setMessage("ATUALIZANDO ATIVIDADES...");
+                progressBar.show();
 
-                    progressBar = new ProgressDialog(v.getContext());
-                    progressBar.setCancelable(true);
-                    progressBar.setMessage("ATUALIZANDO ATIVIDADES...");
-                    progressBar.show();
+                pcoContext.getViagemCTR().atualDados(ListaTrajetoActivity.this
+                        , ListaTrajetoActivity.class, progressBar, "Trajeto");
 
-                    pcoContext.getViagemCTR().atualDados(ListaTrajetoActivity.this
-                            , ListaTrajetoActivity.class, progressBar, "Trajeto");
+            } else {
 
-                } else {
+                LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                        "                    AlertDialog.Builder alerta = new AlertDialog.Builder( ListaTrajetoActivity.this);\n" +
+                        "                    alerta.setTitle(\"ATENÇÃO\");\n" +
+                        "                    alerta.setMessage(\"FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.\");", getLocalClassName());
+                AlertDialog.Builder alerta = new AlertDialog.Builder( ListaTrajetoActivity.this);
+                alerta.setTitle("ATENÇÃO");
+                alerta.setMessage("FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.");
+                alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
+                                "                        @Override\n" +
+                                "                        public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
+                    }
+                });
 
-                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                            "                    AlertDialog.Builder alerta = new AlertDialog.Builder( ListaTrajetoActivity.this);\n" +
-                            "                    alerta.setTitle(\"ATENÇÃO\");\n" +
-                            "                    alerta.setMessage(\"FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.\");", getLocalClassName());
-                    AlertDialog.Builder alerta = new AlertDialog.Builder( ListaTrajetoActivity.this);
-                    alerta.setTitle("ATENÇÃO");
-                    alerta.setMessage("FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.");
-                    alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
-                                    "                        @Override\n" +
-                                    "                        public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
-                        }
-                    });
-
-                    alerta.show();
-
-                }
+                alerta.show();
 
             }
+
         });
 
-        buttonRetAtividade.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonRetAtividade.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                Intent it = new Intent(ListaTrajetoActivity.this, ListaTurnoActivity.class);", getLocalClassName());
-                Intent it = new Intent(ListaTrajetoActivity.this, ListaTurnoActivity.class);
-                startActivity(it);
-                finish();
-            }
+        buttonRetAtividade.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonRetAtividade.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "                Intent it = new Intent(ListaTrajetoActivity.this, ListaTurnoActivity.class);", getLocalClassName());
+            Intent it = new Intent(ListaTrajetoActivity.this, ListaTurnoActivity.class);
+            startActivity(it);
+            finish();
         });
 
-        buttonDigTrajeto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonRetAtividade.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                Intent it = new Intent(ListaTrajetoActivity.this, DigTrajetoActivity.class);", getLocalClassName());
-                Intent it = new Intent(ListaTrajetoActivity.this, DigTrajetoActivity.class);
-                startActivity(it);
-                finish();
-            }
+        buttonDigTrajeto.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonRetAtividade.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "                Intent it = new Intent(ListaTrajetoActivity.this, DigTrajetoActivity.class);", getLocalClassName());
+            Intent it = new Intent(ListaTrajetoActivity.this, DigTrajetoActivity.class);
+            startActivity(it);
+            finish();
         });
 
         LogProcessoDAO.getInstance().insertLogProcesso("trajetoList = pcoContext.getPassageiroCTR().trajetoList();\n" +
@@ -135,27 +125,21 @@ public class ListaTrajetoActivity extends ActivityGeneric {
         AdapterList adapterList = new AdapterList(this, itens);
         trajetoListView = findViewById(R.id.trajetoList);
         trajetoListView.setAdapter(adapterList);
-        trajetoListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        trajetoListView.setOnItemClickListener((l, v, position, id) -> {
 
-            @Override
-            public void onItemClick(AdapterView<?> l, View v, int position,
-                                    long id) {
-
-                LogProcessoDAO.getInstance().insertLogProcesso("trajetoListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
-                        "                                    long id) {\n" +
-                        "                TrajetoBean trajetoBean = trajetoList.get(position);\n" +
-                        "                pcoContext.getConfigCTR().setTrajetoConfig(trajetoBean.getIdTrajeto());\n" +
-                        "                Intent it = new Intent(ListaTrajetoActivity.this, LotacaoMaxActivity.class);", getLocalClassName());
-                TrajetoBean trajetoBean = trajetoList.get(position);
-                pcoContext.getViagemCTR().getCabecViagemBean().setIdTrajetoCabecViagem(trajetoBean.getIdTrajeto());
-                pcoContext.getViagemCTR().getCabecViagemBean().setDescrTrajetoCabecViagem("null");
-                Intent it = new Intent(ListaTrajetoActivity.this, LotacaoMaxActivity.class);
-                startActivity(it);
-                finish();
-
-            }
+            LogProcessoDAO.getInstance().insertLogProcesso("trajetoListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
+                    "                                    long id) {\n" +
+                    "                TrajetoBean trajetoBean = trajetoList.get(position);\n" +
+                    "                pcoContext.getConfigCTR().setTrajetoConfig(trajetoBean.getIdTrajeto());\n" +
+                    "                Intent it = new Intent(ListaTrajetoActivity.this, LotacaoMaxActivity.class);", getLocalClassName());
+            TrajetoBean trajetoBean = trajetoList.get(position);
+            pcoContext.getViagemCTR().getCabecViagemBean().setIdTrajetoCabecViagem(trajetoBean.getIdTrajeto());
+            pcoContext.getViagemCTR().getCabecViagemBean().setDescrTrajetoCabecViagem("null");
+            Intent it = new Intent(ListaTrajetoActivity.this, LotacaoMaxActivity.class);
+            startActivity(it);
+            finish();
 
         });
 

@@ -2,11 +2,9 @@ package br.com.usinasantafe.pco.view;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -43,145 +41,112 @@ public class MotoristaActivity extends ActivityGeneric {
                 "        motoristaBean.setNomeMoto(\"\");\n" +
                 "        txtRetPassageiro.setText(\"POR FAVOR, REALIZE A LEITURA DO CRACHÁ DO MOTORISTA.\");", getLocalClassName());
 
-        VerifDadosServ.getInstance().setMatricula("");
+        VerifDadosServ.getInstance().setNroMatricula("");
         txtRetPassageiro.setText("POR FAVOR, REALIZE A LEITURA DO CRACHÁ DO MOTORISTA.");
 
-        buttonOkPassageiro.setOnClickListener(new View.OnClickListener() {
+        buttonOkPassageiro.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonOkPassageiro.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {", getLocalClassName());
+            if(!VerifDadosServ.getInstance().getNroMatricula().equals("")){
 
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonOkPassageiro.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {", getLocalClassName());
-                if(!VerifDadosServ.getInstance().getMatricula().equals("")){
+                LogProcessoDAO.getInstance().insertLogProcesso("if(motoristaBean.getMatricMoto() > 0){\n" +
+                        "                    pcoContext.getViagemCTR().setCabecViagemBean();\n" +
+                        "                    pcoContext.getViagemCTR().getCabecViagemBean().setMatricMotoCabecViagem(motoristaBean.getMatricMoto());", getLocalClassName());
 
-                    LogProcessoDAO.getInstance().insertLogProcesso("if(motoristaBean.getMatricMoto() > 0){\n" +
-                            "                    pcoContext.getViagemCTR().setCabecViagemBean();\n" +
-                            "                    pcoContext.getViagemCTR().getCabecViagemBean().setMatricMotoCabecViagem(motoristaBean.getMatricMoto());", getLocalClassName());
+                pcoContext.getViagemCTR().setCabecViagemBean();
+                pcoContext.getViagemCTR().getCabecViagemBean().setMatricMotoCabecViagem(Long.valueOf(VerifDadosServ.getInstance().getNroMatricula()));
 
-                    pcoContext.getViagemCTR().setCabecViagemBean();
-                    pcoContext.getViagemCTR().getCabecViagemBean().setMatricMotoCabecViagem(Long.valueOf(VerifDadosServ.getInstance().getMatricula()));
-
-                    if(pcoContext.getConfigCTR().getConfig().getTipoEquipConfig() == 1L){
-                        LogProcessoDAO.getInstance().insertLogProcesso("if(pcoContext.getConfigCTR().getConfig().getTipoEquipConfig() == 1L){\n" +
-                                "                        Intent it = new Intent(MotoristaActivity.this, ListaTurnoActivity.class);", getLocalClassName());
-                        Intent it = new Intent(MotoristaActivity.this, ListaTurnoActivity.class);
-                        startActivity(it);
-                        finish();
-                    } else {
-                        LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                                "                        Intent it = new Intent(MotoristaActivity.this, EquipActivity.class);", getLocalClassName());
-                        Intent it = new Intent(MotoristaActivity.this, EquipActivity.class);
-                        startActivity(it);
-                        finish();
-                    }
+                if(pcoContext.getConfigCTR().getConfig().getTipoEquipConfig() == 1L){
+                    LogProcessoDAO.getInstance().insertLogProcesso("if(pcoContext.getConfigCTR().getConfig().getTipoEquipConfig() == 1L){\n" +
+                            "                        Intent it = new Intent(MotoristaActivity.this, ListaTurnoActivity.class);", getLocalClassName());
+                    Intent it = new Intent(MotoristaActivity.this, ListaTurnoActivity.class);
+                    startActivity(it);
+                    finish();
+                } else {
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                            "                        Intent it = new Intent(MotoristaActivity.this, EquipActivity.class);", getLocalClassName());
+                    Intent it = new Intent(MotoristaActivity.this, EquipActivity.class);
+                    startActivity(it);
+                    finish();
                 }
             }
         });
 
-        buttonCancPassageiro.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonCancPassageiro.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                Intent it = new Intent(MotoristaActivity.this, MenuInicialActivity.class);", getLocalClassName());
-                Intent it = new Intent(MotoristaActivity.this, MenuInicialActivity.class);
-                startActivity(it);
-                finish();
-            }
-
+        buttonCancPassageiro.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonCancPassageiro.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "                Intent it = new Intent(MotoristaActivity.this, MenuInicialActivity.class);", getLocalClassName());
+            Intent it = new Intent(MotoristaActivity.this, MenuInicialActivity.class);
+            startActivity(it);
+            finish();
         });
 
-        buttonAcionarCamera.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonAcionarCamera.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                Intent it = new Intent(MotoristaActivity.this, CaptureActivity.class);\n" +
-                        "                startActivityForResult(it, REQUEST_CODE);", getLocalClassName());
-                Intent it = new Intent(MotoristaActivity.this, CaptureActivity.class);
-                startActivityForResult(it, REQUEST_CODE);
-            }
-
+        buttonAcionarCamera.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonAcionarCamera.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "                Intent it = new Intent(MotoristaActivity.this, CaptureActivity.class);\n" +
+                    "                startActivityForResult(it, REQUEST_CODE);", getLocalClassName());
+            Intent it = new Intent(MotoristaActivity.this, CaptureActivity.class);
+            startActivityForResult(it, REQUEST_CODE);
         });
 
-        buttonAtualPadrao.setOnClickListener(new View.OnClickListener() {
+        buttonAtualPadrao.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonAtualPadrao.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "                AlertDialog.Builder alerta = new AlertDialog.Builder(MotoristaActivity.this);\n" +
+                    "                alerta.setTitle(\"ATENÇÃO\");\n" +
+                    "                alerta.setMessage(\"DESEJA REALMENTE ATUALIZAR BASE DE DADOS?\");", getLocalClassName());
+            AlertDialog.Builder alerta = new AlertDialog.Builder(MotoristaActivity.this);
+            alerta.setTitle("ATENÇÃO");
+            alerta.setMessage("DESEJA REALMENTE ATUALIZAR BASE DE DADOS?");
+            alerta.setNegativeButton("SIM", (dialog, which) -> {
+                LogProcessoDAO.getInstance().insertLogProcesso("alerta.setNegativeButton(\"SIM\", new DialogInterface.OnClickListener() {\n" +
+                        "                    @Override\n" +
+                        "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
+                if (connectNetwork) {
 
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonAtualPadrao.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                AlertDialog.Builder alerta = new AlertDialog.Builder(MotoristaActivity.this);\n" +
-                        "                alerta.setTitle(\"ATENÇÃO\");\n" +
-                        "                alerta.setMessage(\"DESEJA REALMENTE ATUALIZAR BASE DE DADOS?\");", getLocalClassName());
-                AlertDialog.Builder alerta = new AlertDialog.Builder(MotoristaActivity.this);
-                alerta.setTitle("ATENÇÃO");
-                alerta.setMessage("DESEJA REALMENTE ATUALIZAR BASE DE DADOS?");
-                alerta.setNegativeButton("SIM", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        LogProcessoDAO.getInstance().insertLogProcesso("alerta.setNegativeButton(\"SIM\", new DialogInterface.OnClickListener() {\n" +
-                                "                    @Override\n" +
-                                "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
-                        if (connectNetwork) {
+                    LogProcessoDAO.getInstance().insertLogProcesso("if (connectNetwork) {\n" +
+                            "                            progressBar = new ProgressDialog(MotoristaActivity.this);\n" +
+                            "                            progressBar.setCancelable(true);\n" +
+                            "                            progressBar.setMessage(\"ATUALIZANDO MOTORISTA...\");\n" +
+                            "                            progressBar.show();\n" +
+                            "                            pcoContext.getPassageiroCTR().atualDados(MotoristaActivity.this\n" +
+                            "                                    , MotoristaActivity.class, progressBar, \"Motorista\");", getLocalClassName());
 
-                            LogProcessoDAO.getInstance().insertLogProcesso("if (connectNetwork) {\n" +
-                                    "                            progressBar = new ProgressDialog(MotoristaActivity.this);\n" +
-                                    "                            progressBar.setCancelable(true);\n" +
-                                    "                            progressBar.setMessage(\"ATUALIZANDO MOTORISTA...\");\n" +
-                                    "                            progressBar.show();\n" +
-                                    "                            pcoContext.getPassageiroCTR().atualDados(MotoristaActivity.this\n" +
-                                    "                                    , MotoristaActivity.class, progressBar, \"Motorista\");", getLocalClassName());
+                    progressBar = new ProgressDialog(MotoristaActivity.this);
+                    progressBar.setCancelable(true);
+                    progressBar.setMessage("ATUALIZANDO MOTORISTA...");
+                    progressBar.show();
 
-                            progressBar = new ProgressDialog(MotoristaActivity.this);
-                            progressBar.setCancelable(true);
-                            progressBar.setMessage("ATUALIZANDO MOTORISTA...");
-                            progressBar.show();
+                    pcoContext.getViagemCTR().atualDados(MotoristaActivity.this
+                            , MotoristaActivity.class, progressBar, "Motorista");
 
-                            pcoContext.getViagemCTR().atualDados(MotoristaActivity.this
-                                    , MotoristaActivity.class, progressBar, "Motorista");
+                } else {
 
-                        } else {
+                    AlertDialog.Builder alerta1 = new AlertDialog.Builder(MotoristaActivity.this);
+                    alerta1.setTitle("ATENÇÃO");
+                    alerta1.setMessage("FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.");
+                    alerta1.setPositiveButton("OK", (dialog1, which1) -> LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                            "                            AlertDialog.Builder alerta = new AlertDialog.Builder(MotoristaActivity.this);\n" +
+                            "                            alerta.setTitle(\"ATENÇÃO\");\n" +
+                            "                            alerta.setMessage(\"FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.\");\n" +
+                            "                            alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
+                            "                                @Override\n" +
+                            "                                public void onClick(DialogInterface dialog, int which) {", getLocalClassName()));
 
-                            AlertDialog.Builder alerta = new AlertDialog.Builder(MotoristaActivity.this);
-                            alerta.setTitle("ATENÇÃO");
-                            alerta.setMessage("FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.");
-                            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                                            "                            AlertDialog.Builder alerta = new AlertDialog.Builder(MotoristaActivity.this);\n" +
-                                            "                            alerta.setTitle(\"ATENÇÃO\");\n" +
-                                            "                            alerta.setMessage(\"FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.\");\n" +
-                                            "                            alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
-                                            "                                @Override\n" +
-                                            "                                public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
-                                }
-                            });
+                    alerta1.show();
 
-                            alerta.show();
+                }
+            });
 
-                        }
-                    }
-                });
-
-                alerta.setPositiveButton("NÃO", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"NÃO\", new DialogInterface.OnClickListener() {\n" +
-                                "                    @Override\n" +
-                                "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
-                    }
-                });
-
-                alerta.show();
-
-            }
+            alerta.setPositiveButton("NÃO", (dialog, which) -> LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"NÃO\", new DialogInterface.OnClickListener() {\n" +
+                    "                    @Override\n" +
+                    "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName()));
+            alerta.show();
 
         });
 
@@ -202,14 +167,14 @@ public class MotoristaActivity extends ActivityGeneric {
 
                 LogProcessoDAO.getInstance().insertLogProcesso("if(matricula.length() == 8){\n" +
                         "                matricula = matricula.substring(0, 7);", getLocalClassName());
-                VerifDadosServ.getInstance().setMatricula(matric.substring(0, 7));
+                VerifDadosServ.getInstance().setNroMatricula(matric.substring(0, 7));
 
-                if (pcoContext.getViagemCTR().verMotorista(Long.parseLong(VerifDadosServ.getInstance().getMatricula()))) {
+                if (pcoContext.getViagemCTR().verMotorista(Long.parseLong(VerifDadosServ.getInstance().getNroMatricula()))) {
 
                     LogProcessoDAO.getInstance().insertLogProcesso("if (pcoContext.getPassageiroCTR().verMotorista(Long.parseLong(matricula))) {\n" +
                             "                    motoristaBean = pcoContext.getPassageiroCTR().getMotorista(Long.parseLong(matricula));\n" +
                             "                    txtRetPassageiro.setText(motoristaBean.getMatricMoto() + \"\\n\" + motoristaBean.getNomeMoto());", getLocalClassName());
-                    MotoristaBean motoristaBean = pcoContext.getViagemCTR().getMotorista(Long.parseLong(VerifDadosServ.getInstance().getMatricula()));
+                    MotoristaBean motoristaBean = pcoContext.getViagemCTR().getMotorista(Long.parseLong(VerifDadosServ.getInstance().getNroMatricula()));
                     txtRetPassageiro.setText(motoristaBean.getMatricMoto() + "\n" + motoristaBean.getNomeMoto());
 
                 } else {
@@ -228,7 +193,7 @@ public class MotoristaActivity extends ActivityGeneric {
                     progressBar.show();
 
                     customHandler.postDelayed(updateTimerThread, 10000);
-                    pcoContext.getViagemCTR().verMotorista(VerifDadosServ.getInstance().getMatricula(), MotoristaActivity.this, MotoristaActivity.class, progressBar);
+                    pcoContext.getViagemCTR().verMotorista(Long.parseLong(VerifDadosServ.getInstance().getNroMatricula()), MotoristaActivity.this, MotoristaActivity.class, progressBar);
 
                 }
             }
@@ -260,15 +225,9 @@ public class MotoristaActivity extends ActivityGeneric {
                 AlertDialog.Builder alerta = new AlertDialog.Builder(MotoristaActivity.this);
                 alerta.setTitle("ATENÇÃO");
                 alerta.setMessage("FALHA DE PESQUISA DE MOTORISTA! POR FAVOR, TENTAR NOVAMENTE COM UM SINAL MELHOR.");
-                alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
-                                "                    @Override\n" +
-                                "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
-                    }
-                });
-
+                alerta.setPositiveButton("OK", (dialog, which) -> LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
+                        "                    @Override\n" +
+                        "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName()));
                 alerta.show();
 
             }

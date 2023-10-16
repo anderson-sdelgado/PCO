@@ -125,14 +125,14 @@ public class PostCadGenerico extends AsyncTask<String, Void, String> {
 		this.parametrosPost = parametrosPost;
 	}
 
-	private String getQueryString(Map<String, Object> params) throws Exception {
+	private String getQueryString(Map<String, Object> params) {
 		if (params == null || params.size() == 0) {
 			return null;
 		}
 		String urlParams = null;
-		Iterator<String> e = (Iterator<String>) params.keySet().iterator();
+		Iterator<String> e = params.keySet().iterator();
 		while (e.hasNext()) {
-			String chave = (String) e.next();
+			String chave = e.next();
 			Object objValor = params.get(chave);
 			String valor = objValor.toString();
 			urlParams = urlParams == null ? "" : urlParams + "&";
@@ -148,12 +148,8 @@ public class PostCadGenerico extends AsyncTask<String, Void, String> {
 					{
 						return null;
 					}
-					public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType)
-					{
-					}
-					public void checkServerTrusted(java.security.cert.X509Certificate[] certs, String authType)
-					{
-					}
+					public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType) {}
+					public void checkServerTrusted(java.security.cert.X509Certificate[] certs, String authType) {}
 				}
 		};
 	}

@@ -49,48 +49,38 @@ public class ListaTurnoActivity extends ActivityGeneric {
         AdapterList adapterList = new AdapterList(this, itens);
         turnoListView = findViewById(R.id.listaTurno);
         turnoListView.setAdapter(adapterList);
-        turnoListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        turnoListView.setOnItemClickListener((l, v, position, id) -> {
 
-            @Override
-            public void onItemClick(AdapterView<?> l, View v, int position,
-                                    long id) {
-
-                LogProcessoDAO.getInstance().insertLogProcesso("turnoListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
-                        "                                    long id) {\n" +
-                        "                pcoContext.getViagemCTR().getCabecViagemBean().setIdTurnoCabecViagem(turnoBeanList.get(position).getIdTurno());\n" +
-                        "                Intent it = new Intent(ListaTurnoActivity.this, ListaTrajetoActivity.class);", getLocalClassName());
-                pcoContext.getViagemCTR().getCabecViagemBean().setIdTurnoCabecViagem(turnoBeanList.get(position).getIdTurno());
-                Intent it = new Intent(ListaTurnoActivity.this, ListaTrajetoActivity.class);
-                startActivity(it);
-                finish();
-
-            }
+            LogProcessoDAO.getInstance().insertLogProcesso("turnoListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
+                    "                                    long id) {\n" +
+                    "                pcoContext.getViagemCTR().getCabecViagemBean().setIdTurnoCabecViagem(turnoBeanList.get(position).getIdTurno());\n" +
+                    "                Intent it = new Intent(ListaTurnoActivity.this, ListaTrajetoActivity.class);", getLocalClassName());
+            pcoContext.getViagemCTR().getCabecViagemBean().setIdTurnoCabecViagem(turnoBeanList.get(position).getIdTurno());
+            Intent it = new Intent(ListaTurnoActivity.this, ListaTrajetoActivity.class);
+            startActivity(it);
+            finish();
 
         });
 
-        buttonRetTurno.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(pcoContext.getConfigCTR().getConfig().getTipoEquipConfig() == 1L){
-                    LogProcessoDAO.getInstance().insertLogProcesso("buttonRetTurno.setOnClickListener(new View.OnClickListener() {\n" +
-                            "            @Override\n" +
-                            "            public void onClick(View v) {\n" +
-                            "                if(pcoContext.getConfigCTR().getConfig().getTipoEquipConfig() == 1L){\n" +
-                            "                    Intent it = new Intent(ListaTurnoActivity.this, MotoristaActivity.class);", getLocalClassName());
-                    Intent it = new Intent(ListaTurnoActivity.this, MotoristaActivity.class);
-                    startActivity(it);
-                    finish();
-                } else {
-                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                            "                    Intent it = new Intent(ListaTurnoActivity.this, EquipActivity.class);", getLocalClassName());
-                    Intent it = new Intent(ListaTurnoActivity.this, EquipActivity.class);
-                    startActivity(it);
-                    finish();
-                }
-
+        buttonRetTurno.setOnClickListener(v -> {
+            if(pcoContext.getConfigCTR().getConfig().getTipoEquipConfig() == 1L){
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonRetTurno.setOnClickListener(new View.OnClickListener() {\n" +
+                        "            @Override\n" +
+                        "            public void onClick(View v) {\n" +
+                        "                if(pcoContext.getConfigCTR().getConfig().getTipoEquipConfig() == 1L){\n" +
+                        "                    Intent it = new Intent(ListaTurnoActivity.this, MotoristaActivity.class);", getLocalClassName());
+                Intent it = new Intent(ListaTurnoActivity.this, MotoristaActivity.class);
+                startActivity(it);
+            } else {
+                LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                        "                    Intent it = new Intent(ListaTurnoActivity.this, EquipActivity.class);", getLocalClassName());
+                Intent it = new Intent(ListaTurnoActivity.this, EquipActivity.class);
+                startActivity(it);
             }
+            finish();
+
         });
 
     }

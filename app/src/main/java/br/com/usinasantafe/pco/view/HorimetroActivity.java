@@ -33,71 +33,62 @@ public class HorimetroActivity extends ActivityGeneric {
             textViewHorimetro.setText("MEDIÇÃO FINAL");
         }
 
-        buttonOkHorimetro.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        buttonOkHorimetro.setOnClickListener(v -> {
 
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonOkHorimetro.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {", getLocalClassName());
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonOkHorimetro.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {", getLocalClassName());
 
-                if (!editTextPadrao.getText().toString().equals("")) {
+            if (!editTextPadrao.getText().toString().equals("")) {
 
-                    LogProcessoDAO.getInstance().insertLogProcesso("if (!editTextPadrao.getText().toString().equals(\"\")) {\n" +
-                            "                    \n" +
-                            "                    String horimetro = editTextPadrao.getText().toString();\n" +
-                            "                    horimetroNum = Double.valueOf(horimetro.replace(\",\", \".\"));", getLocalClassName());
-                    String horimetro = editTextPadrao.getText().toString();
-                    horimetroNum = Double.valueOf(horimetro.replace(",", "."));
+                LogProcessoDAO.getInstance().insertLogProcesso("if (!editTextPadrao.getText().toString().equals(\"\")) {\n" +
+                        "                    \n" +
+                        "                    String horimetro = editTextPadrao.getText().toString();\n" +
+                        "                    horimetroNum = Double.valueOf(horimetro.replace(\",\", \".\"));", getLocalClassName());
+                String horimetro = editTextPadrao.getText().toString();
+                horimetroNum = Double.valueOf(horimetro.replace(",", "."));
 
-                    if(pcoContext.getConfigCTR().getConfig().getPosicaoTela() == 1){
+                if(pcoContext.getConfigCTR().getConfig().getPosicaoTela() == 1){
 
-                        LogProcessoDAO.getInstance().insertLogProcesso("if(pcoContext.getConfigCTR().getConfig().getPosicaoTela() == 1){\n" +
-                                "                        pcoContext.getConfigCTR().setHodometroInicialConfig(horimetroNum);\n" +
-                                "                        pcoContext.getViagemCTR().getCabecViagemBean().setHodometroInicialConfig(horimetroNum);\n" +
-                                "                        pcoContext.getViagemCTR().salvarCabecViagem();\n" +
-                                "                        Intent it = new Intent(HorimetroActivity.this, ListaPassageiroActivity.class);", getLocalClassName());
+                    LogProcessoDAO.getInstance().insertLogProcesso("if(pcoContext.getConfigCTR().getConfig().getPosicaoTela() == 1){\n" +
+                            "                        pcoContext.getConfigCTR().setHodometroInicialConfig(horimetroNum);\n" +
+                            "                        pcoContext.getViagemCTR().getCabecViagemBean().setHodometroInicialConfig(horimetroNum);\n" +
+                            "                        pcoContext.getViagemCTR().salvarCabecViagem();\n" +
+                            "                        Intent it = new Intent(HorimetroActivity.this, ListaPassageiroActivity.class);", getLocalClassName());
 
-                        pcoContext.getConfigCTR().setHodometroInicialConfig(horimetroNum);
-                        pcoContext.getViagemCTR().getCabecViagemBean().setHodometroInicialCabecViagem(horimetroNum);
-                        pcoContext.getViagemCTR().abrirCabecViagem();
-                        Intent it = new Intent(HorimetroActivity.this, ListaPassageiroActivity.class);
-                        startActivity(it);
-                        finish();
+                    pcoContext.getConfigCTR().setHodometroInicialConfig(horimetroNum);
+                    pcoContext.getViagemCTR().getCabecViagemBean().setHodometroInicialCabecViagem(horimetroNum);
+                    pcoContext.getViagemCTR().abrirCabecViagem();
+                    Intent it = new Intent(HorimetroActivity.this, ListaPassageiroActivity.class);
+                    startActivity(it);
 
-                    }
-                    else{
+                } else {
 
-                        LogProcessoDAO.getInstance().insertLogProcesso("else{\n" +
-                                "                        pcoContext.getConfigCTR().setHodometroInicialConfig(horimetroNum);\n" +
-                                "                        pcoContext.getViagemCTR().fecharCabec(horimetroNum, getLocalClassName());\n" +
-                                "                        Intent it = new Intent(HorimetroActivity.this, MenuInicialActivity.class);", getLocalClassName());
-                        pcoContext.getConfigCTR().setHodometroInicialConfig(horimetroNum);
-                        pcoContext.getViagemCTR().fecharCabec(horimetroNum, getLocalClassName());
-                        Intent it = new Intent(HorimetroActivity.this, MenuInicialActivity.class);
-                        startActivity(it);
-                        finish();
-
-                    }
+                    LogProcessoDAO.getInstance().insertLogProcesso("else{\n" +
+                            "                        pcoContext.getConfigCTR().setHodometroInicialConfig(horimetroNum);\n" +
+                            "                        pcoContext.getViagemCTR().fecharCabec(horimetroNum, getLocalClassName());\n" +
+                            "                        Intent it = new Intent(HorimetroActivity.this, MenuInicialActivity.class);", getLocalClassName());
+                    pcoContext.getConfigCTR().setHodometroInicialConfig(horimetroNum);
+                    pcoContext.getViagemCTR().fecharCabec(horimetroNum, getLocalClassName());
+                    Intent it = new Intent(HorimetroActivity.this, MenuInicialActivity.class);
+                    startActivity(it);
 
                 }
+                finish();
 
             }
+
         });
 
-        buttonCancHorimetro.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonCancHorimetro.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                if (editTextPadrao.getText().toString().length() > 0) {\n" +
-                        "                    editTextPadrao.setText(editTextPadrao.getText().toString().substring(0, editTextPadrao.getText().toString().length() - 1));\n" +
-                        "                }", getLocalClassName());
-                if (editTextPadrao.getText().toString().length() > 0) {
-                    editTextPadrao.setText(editTextPadrao.getText().toString().substring(0, editTextPadrao.getText().toString().length() - 1));
-                }
+        buttonCancHorimetro.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonCancHorimetro.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "                if (editTextPadrao.getText().toString().length() > 0) {\n" +
+                    "                    editTextPadrao.setText(editTextPadrao.getText().toString().substring(0, editTextPadrao.getText().toString().length() - 1));\n" +
+                    "                }", getLocalClassName());
+            if (editTextPadrao.getText().toString().length() > 0) {
+                editTextPadrao.setText(editTextPadrao.getText().toString().substring(0, editTextPadrao.getText().toString().length() - 1));
             }
         });
 
@@ -110,14 +101,13 @@ public class HorimetroActivity extends ActivityGeneric {
                     "            Intent it = new Intent(HorimetroActivity.this, LotacaoMaxActivity.class);", getLocalClassName());
             Intent it = new Intent(HorimetroActivity.this, LotacaoMaxActivity.class);
             startActivity(it);
-            finish();
         } else {
             LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                     "            Intent it = new Intent(HorimetroActivity.this, ListaPassageiroActivity.class);", getLocalClassName());
             Intent it = new Intent(HorimetroActivity.this, ListaPassageiroActivity.class);
             startActivity(it);
-            finish();
         }
+        finish();
     }
 
 }

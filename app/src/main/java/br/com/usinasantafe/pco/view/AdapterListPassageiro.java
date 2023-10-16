@@ -39,11 +39,6 @@ public class AdapterListPassageiro extends BaseAdapter {
         return position;
     }
 
-    public void addItem(String text) {
-        this.itens.add(0, text);
-        notifyDataSetChanged();
-    }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         convertView = layoutInflater.inflate(R.layout.activity_item_lista, null);

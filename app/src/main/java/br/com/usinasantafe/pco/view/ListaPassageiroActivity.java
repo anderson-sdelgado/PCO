@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -116,141 +115,112 @@ public class ListaPassageiroActivity extends ActivityGeneric {
         passageiroListView = findViewById(R.id.passageiroListView);
         passageiroListView.setAdapter(adapterList);
 
-        buttonInserirCapturarPassag.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonInserirCapturarPassag.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                Intent it = new Intent(ListaPassageiroActivity.this, CaptureActivity.class);\n" +
-                        "                startActivityForResult(it, REQUEST_CODE);", getLocalClassName());
-                Intent it = new Intent(ListaPassageiroActivity.this, CaptureActivity.class);
-                startActivityForResult(it, REQUEST_CODE);
-            }
-
+        buttonInserirCapturarPassag.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonInserirCapturarPassag.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "                Intent it = new Intent(ListaPassageiroActivity.this, CaptureActivity.class);\n" +
+                    "                startActivityForResult(it, REQUEST_CODE);", getLocalClassName());
+            Intent it = new Intent(ListaPassageiroActivity.this, CaptureActivity.class);
+            startActivityForResult(it, REQUEST_CODE);
         });
 
-        buttonFecharViagem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        buttonFecharViagem.setOnClickListener(v -> {
 
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonFecharViagem.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                pcoContext.getConfigCTR().setPosicaoTela(10L);\n" +
-                        "                Intent it = new Intent(ListaPassageiroActivity.this, HorimetroActivity.class);", getLocalClassName());
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonFecharViagem.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "                pcoContext.getConfigCTR().setPosicaoTela(10L);\n" +
+                    "                Intent it = new Intent(ListaPassageiroActivity.this, HorimetroActivity.class);", getLocalClassName());
 
-                pcoContext.getConfigCTR().setPosicaoTela(10L);
-                Intent it = new Intent(ListaPassageiroActivity.this, HorimetroActivity.class);
-                startActivity(it);
-                finish();
-            }
-
+            pcoContext.getConfigCTR().setPosicaoTela(10L);
+            Intent it = new Intent(ListaPassageiroActivity.this, HorimetroActivity.class);
+            startActivity(it);
+            finish();
         });
 
-        buttonInserirDigPassag.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonInserirDigPassag.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                Intent it = new Intent(ListaPassageiroActivity.this, DigMatricPassageiroActivity.class);", getLocalClassName());
-                Intent it = new Intent(ListaPassageiroActivity.this, DigMatricPassageiroActivity.class);
-                startActivity(it);
-                finish();
-            }
-
+        buttonInserirDigPassag.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonInserirDigPassag.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "                Intent it = new Intent(ListaPassageiroActivity.this, DigMatricPassageiroActivity.class);", getLocalClassName());
+            Intent it = new Intent(ListaPassageiroActivity.this, DigMatricPassageiroActivity.class);
+            startActivity(it);
+            finish();
         });
 
-        textViewProcesso.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("textViewProcesso.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                pcoContext.getConfigCTR().setPosicaoTela(9L);\n" +
-                        "                Intent it = new Intent(ListaPassageiroActivity.this, SenhaActivity.class);", getLocalClassName());
-                pcoContext.getConfigCTR().setPosicaoTela(9L);
-                Intent it = new Intent(ListaPassageiroActivity.this, SenhaActivity.class);
-                startActivity(it);
-                finish();
-            }
+        textViewProcesso.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("textViewProcesso.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "                pcoContext.getConfigCTR().setPosicaoTela(9L);\n" +
+                    "                Intent it = new Intent(ListaPassageiroActivity.this, SenhaActivity.class);", getLocalClassName());
+            pcoContext.getConfigCTR().setPosicaoTela(9L);
+            Intent it = new Intent(ListaPassageiroActivity.this, SenhaActivity.class);
+            startActivity(it);
+            finish();
         });
 
-        buttonAtualPadrao.setOnClickListener(new View.OnClickListener() {
+        buttonAtualPadrao.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonAtualPadrao.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "                AlertDialog.Builder alerta = new AlertDialog.Builder(ListaPassageiroActivity.this);\n" +
+                    "                alerta.setTitle(\"ATENÇÃO\");\n" +
+                    "                alerta.setMessage(\"DESEJA REALMENTE ATUALIZAR BASE DE DADOS?\");", getLocalClassName());
+            AlertDialog.Builder alerta = new AlertDialog.Builder(ListaPassageiroActivity.this);
+            alerta.setTitle("ATENÇÃO");
+            alerta.setMessage("DESEJA REALMENTE ATUALIZAR BASE DE DADOS?");
+            alerta.setNegativeButton("SIM", (dialog, which) -> {
+                LogProcessoDAO.getInstance().insertLogProcesso("alerta.setNegativeButton(\"SIM\", new DialogInterface.OnClickListener() {\n" +
+                        "                    @Override\n" +
+                        "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
+                if (connectNetwork) {
 
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonAtualPadrao.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                AlertDialog.Builder alerta = new AlertDialog.Builder(ListaPassageiroActivity.this);\n" +
-                        "                alerta.setTitle(\"ATENÇÃO\");\n" +
-                        "                alerta.setMessage(\"DESEJA REALMENTE ATUALIZAR BASE DE DADOS?\");", getLocalClassName());
-                AlertDialog.Builder alerta = new AlertDialog.Builder(ListaPassageiroActivity.this);
-                alerta.setTitle("ATENÇÃO");
-                alerta.setMessage("DESEJA REALMENTE ATUALIZAR BASE DE DADOS?");
-                alerta.setNegativeButton("SIM", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        LogProcessoDAO.getInstance().insertLogProcesso("alerta.setNegativeButton(\"SIM\", new DialogInterface.OnClickListener() {\n" +
-                                "                    @Override\n" +
-                                "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
-                        if (connectNetwork) {
+                    LogProcessoDAO.getInstance().insertLogProcesso("if (connectNetwork) {\n" +
+                            "                            progressBar = new ProgressDialog(ListaPassageiroActivity.this);\n" +
+                            "                            progressBar.setCancelable(true);\n" +
+                            "                            progressBar.setMessage(\"ATUALIZANDO MOTORISTA...\");\n" +
+                            "                            progressBar.show();\n" +
+                            "                            pcoContext.getPassageiroCTR().atualDados(ListaPassageiroActivity.this\n" +
+                            "                                    , ListaPassageiroActivity.class, progressBar, \"Colab\");", getLocalClassName());
 
-                            LogProcessoDAO.getInstance().insertLogProcesso("if (connectNetwork) {\n" +
-                                    "                            progressBar = new ProgressDialog(ListaPassageiroActivity.this);\n" +
-                                    "                            progressBar.setCancelable(true);\n" +
-                                    "                            progressBar.setMessage(\"ATUALIZANDO MOTORISTA...\");\n" +
-                                    "                            progressBar.show();\n" +
-                                    "                            pcoContext.getPassageiroCTR().atualDados(ListaPassageiroActivity.this\n" +
-                                    "                                    , ListaPassageiroActivity.class, progressBar, \"Colab\");", getLocalClassName());
+                    progressBar = new ProgressDialog(ListaPassageiroActivity.this);
+                    progressBar.setCancelable(true);
+                    progressBar.setMessage("ATUALIZANDO MOTORISTA...");
+                    progressBar.show();
 
-                            progressBar = new ProgressDialog(ListaPassageiroActivity.this);
-                            progressBar.setCancelable(true);
-                            progressBar.setMessage("ATUALIZANDO MOTORISTA...");
-                            progressBar.show();
+                    pcoContext.getViagemCTR().atualDados(ListaPassageiroActivity.this
+                            , ListaPassageiroActivity.class, progressBar, "Colab");
 
-                            pcoContext.getViagemCTR().atualDados(ListaPassageiroActivity.this
-                                    , ListaPassageiroActivity.class, progressBar, "Colab");
+                } else {
 
-                        } else {
-
-                            LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                                    "\n" +
-                                    "                            AlertDialog.Builder alerta = new AlertDialog.Builder(ListaPassageiroActivity.this);\n" +
-                                    "                            alerta.setTitle(\"ATENÇÃO\");\n" +
-                                    "                            alerta.setMessage(\"FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.\");", getLocalClassName());
-                            AlertDialog.Builder alerta = new AlertDialog.Builder(ListaPassageiroActivity.this);
-                            alerta.setTitle("ATENÇÃO");
-                            alerta.setMessage("FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.");
-                            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
-                                            "                                @Override\n" +
-                                            "                                public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
-                                }
-                            });
-
-                            alerta.show();
-
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                            "\n" +
+                            "                            AlertDialog.Builder alerta = new AlertDialog.Builder(ListaPassageiroActivity.this);\n" +
+                            "                            alerta.setTitle(\"ATENÇÃO\");\n" +
+                            "                            alerta.setMessage(\"FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.\");", getLocalClassName());
+                    AlertDialog.Builder alerta1 = new AlertDialog.Builder(ListaPassageiroActivity.this);
+                    alerta1.setTitle("ATENÇÃO");
+                    alerta1.setMessage("FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.");
+                    alerta1.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
+                                    "                                @Override\n" +
+                                    "                                public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
                         }
-                    }
-                });
+                    });
 
-                alerta.setPositiveButton("NÃO", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"NÃO\", new DialogInterface.OnClickListener() {\n" +
-                                "                    @Override\n" +
-                                "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
-                    }
-                });
+                    alerta1.show();
 
-                alerta.show();
-            }
+                }
+            });
 
+            alerta.setPositiveButton("NÃO", (dialog, which) -> LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"NÃO\", new DialogInterface.OnClickListener() {\n" +
+                    "                    @Override\n" +
+                    "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName()));
+            alerta.show();
         });
 
     }
@@ -266,7 +236,7 @@ public class ListaPassageiroActivity extends ActivityGeneric {
                         "                VerifDadosServ.getInstance().setMsgVerifColab(\"\");\n" +
                         "                Intent it = new Intent(ListaPassageiroActivity.this, MsgAddPassageiroActivity.class);", getLocalClassName());
                 String matriculaPassageiro = data.getStringExtra("SCAN_RESULT");
-                VerifDadosServ.getInstance().setMatricula(matriculaPassageiro);
+                VerifDadosServ.getInstance().setNroMatricula(matriculaPassageiro);
                 VerifDadosServ.getInstance().setMsgVerifColab("");
                 Intent it = new Intent(ListaPassageiroActivity.this, MsgAddPassageiroActivity.class);
                 startActivity(it);

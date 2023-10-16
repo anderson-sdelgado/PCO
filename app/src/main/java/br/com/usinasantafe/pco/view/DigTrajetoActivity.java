@@ -27,56 +27,44 @@ public class DigTrajetoActivity extends ActivityGeneric {
         Button buttonOkTrajeto = findViewById(R.id.buttonOkTrajeto);
         EditText editTextTrajeto = findViewById(R.id.editTextTrajeto);
 
-        buttonRetTrajeto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonRetTrajeto.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                Intent it = new Intent(DigTrajetoActivity.this, ListaTrajetoActivity.class);", getLocalClassName());
-                Intent it = new Intent(DigTrajetoActivity.this, ListaTrajetoActivity.class);
-                startActivity(it);
-                finish();
-            }
+        buttonRetTrajeto.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonRetTrajeto.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "                Intent it = new Intent(DigTrajetoActivity.this, ListaTrajetoActivity.class);", getLocalClassName());
+            Intent it = new Intent(DigTrajetoActivity.this, ListaTrajetoActivity.class);
+            startActivity(it);
+            finish();
         });
 
-        buttonOkTrajeto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonOkTrajeto.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {", getLocalClassName());
-                if (!editTextTrajeto.getText().toString().equals("")) {
+        buttonOkTrajeto.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonOkTrajeto.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {", getLocalClassName());
+            if (!editTextTrajeto.getText().toString().equals("")) {
 
-                    LogProcessoDAO.getInstance().insertLogProcesso("if (!editTextTrajeto.getText().toString().equals(\"\")) {\n" +
-                            "                    pcoContext.getViagemCTR().getCabecViagemBean().setIdTrajetoCabecViagem(0L);\n" +
-                            "                    pcoContext.getViagemCTR().getCabecViagemBean().setDescrTrajetoCabecViagem(editTextTrajeto.getText().toString());\n" +
-                            "                    Intent it = new Intent(DigTrajetoActivity.this, LotacaoMaxActivity.class);", getLocalClassName());
-                    pcoContext.getViagemCTR().getCabecViagemBean().setIdTrajetoCabecViagem(0L);
-                    pcoContext.getViagemCTR().getCabecViagemBean().setDescrTrajetoCabecViagem(editTextTrajeto.getText().toString());
-                    Intent it = new Intent(DigTrajetoActivity.this, LotacaoMaxActivity.class);
-                    startActivity(it);
-                    finish();
+                LogProcessoDAO.getInstance().insertLogProcesso("if (!editTextTrajeto.getText().toString().equals(\"\")) {\n" +
+                        "                    pcoContext.getViagemCTR().getCabecViagemBean().setIdTrajetoCabecViagem(0L);\n" +
+                        "                    pcoContext.getViagemCTR().getCabecViagemBean().setDescrTrajetoCabecViagem(editTextTrajeto.getText().toString());\n" +
+                        "                    Intent it = new Intent(DigTrajetoActivity.this, LotacaoMaxActivity.class);", getLocalClassName());
+                pcoContext.getViagemCTR().getCabecViagemBean().setIdTrajetoCabecViagem(0L);
+                pcoContext.getViagemCTR().getCabecViagemBean().setDescrTrajetoCabecViagem(editTextTrajeto.getText().toString());
+                Intent it = new Intent(DigTrajetoActivity.this, LotacaoMaxActivity.class);
+                startActivity(it);
+                finish();
 
-                } else {
-                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                            "                    AlertDialog.Builder alerta = new AlertDialog.Builder( ComentarioActivity.this);\n" +
-                            "                    alerta.setTitle(\"ATENÇÃO\");\n" +
-                            "                    alerta.setMessage(\"POR FAVOR! DIGITE OS TRAJETO DA VIAGEM.\");", getLocalClassName());
-                    AlertDialog.Builder alerta = new AlertDialog.Builder( DigTrajetoActivity.this);
-                    alerta.setTitle("ATENÇÃO");
-                    alerta.setMessage("POR FAVOR! DIGITE OS TRAJETO DA VIAGEM.");
-                    alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
-                                    "                        @Override\n" +
-                                    "                        public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
-                        }
-                    });
-                    alerta.show();
-                }
-
+            } else {
+                LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                        "                    AlertDialog.Builder alerta = new AlertDialog.Builder( ComentarioActivity.this);\n" +
+                        "                    alerta.setTitle(\"ATENÇÃO\");\n" +
+                        "                    alerta.setMessage(\"POR FAVOR! DIGITE OS TRAJETO DA VIAGEM.\");", getLocalClassName());
+                AlertDialog.Builder alerta = new AlertDialog.Builder( DigTrajetoActivity.this);
+                alerta.setTitle("ATENÇÃO");
+                alerta.setMessage("POR FAVOR! DIGITE OS TRAJETO DA VIAGEM.");
+                alerta.setPositiveButton("OK", (dialog, which) -> LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
+                        "                        @Override\n" +
+                        "                        public void onClick(DialogInterface dialog, int which) {", getLocalClassName()));
+                alerta.show();
             }
 
         });

@@ -6,13 +6,13 @@ import android.content.Context;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
 
-import br.com.usinasantafe.pco.control.ViagemCTR;
+import br.com.usinasantafe.pco.model.bean.AtualAplicBean;
 import br.com.usinasantafe.pco.model.bean.estaticas.ColabBean;
-import br.com.usinasantafe.pco.util.Tempo;
 import br.com.usinasantafe.pco.util.VerifDadosServ;
 
 public class ColabDAO {
@@ -40,39 +40,19 @@ public class ColabDAO {
     }
 
     public void verColab(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog){
-
         VerifDadosServ.getInstance().verDados(dado, "Colab", telaAtual, telaProx, progressDialog);
     }
 
-    public void recDadosColab(String result, String activity){
 
-        try {
+    public ColabBean recColab(JSONArray jsonArray) throws JSONException {
 
-            JSONObject jObj = new JSONObject(result);
-            JSONArray jsonArray = jObj.getJSONArray("dados");
+        JSONObject objeto = jsonArray.getJSONObject(0);
+        Gson gson = new Gson();
+        ColabBean colabBean = gson.fromJson(objeto.toString(), ColabBean.class);
+        colabBean.insert();
 
-            if (jsonArray.length() > 0) {
-
-                JSONObject objeto = jsonArray.getJSONObject(0);
-                Gson gson = new Gson();
-                ColabBean colabBean = gson.fromJson(objeto.toString(), ColabBean.class);
-                colabBean.insert();
-
-                ViagemCTR viagemCTR = new ViagemCTR();
-                viagemCTR.salvarPassageiro(colabBean.getMatricColab(), 1L, activity);
-
-                VerifDadosServ.getInstance().setMsgVerifColab(Tempo.getInstance().dthrAtualLong() + "\n" +
-                        + colabBean.getMatricColab() + " - " + colabBean.getNomeColab());
-
-            } else {
-                VerifDadosServ.getInstance().setMsgVerifColab("COLABORADOR INEXISTENTE NA BASE DE DADOS! FAVOR VERIFICA A NUMERAÇÃO.");
-            }
-            VerifDadosServ.getInstance().pulaTela();
-
-        } catch (Exception e) {
-            VerifDadosServ.getInstance().setMsgVerifColab("FALHA DE PESQUISA DE COLABORADOR! POR FAVOR, TENTAR NOVAMENTE COM UM SINAL MELHOR.");
-            VerifDadosServ.getInstance().pulaTela();
-        }
+        return colabBean;
     }
+
 
 }

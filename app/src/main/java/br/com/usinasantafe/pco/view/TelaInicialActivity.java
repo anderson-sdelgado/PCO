@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import br.com.usinasantafe.pco.BuildConfig;
 import br.com.usinasantafe.pco.PCOContext;
 import br.com.usinasantafe.pco.R;
 import br.com.usinasantafe.pco.model.dao.LogProcessoDAO;
@@ -79,7 +80,7 @@ public class TelaInicialActivity extends ActivityGeneric {
 
     public void atualizarAplic(){
         LogProcessoDAO.getInstance().insertLogProcesso("public void atualizarAplic(){", getLocalClassName());
-        if(ConnectNetwork.isConnected(this)){
+        if(ConnectNetwork.isConnected(this)) {
             LogProcessoDAO.getInstance().insertLogProcesso("if(ConnectNetwork.isConnected(this)){\n" +
                     "            connectNetwork = true;", getLocalClassName());
             connectNetwork = true;
@@ -97,7 +98,7 @@ public class TelaInicialActivity extends ActivityGeneric {
                             "                customHandler.postDelayed(updateTimerThread, 10000);\n" +
                             "pmmContext.getConfigCTR().verAtualAplic(pmmContext.versaoAplic, this, getLocalClassName());", getLocalClassName());
                     customHandler.postDelayed(encerraAtualThread, 10000);
-                    pcoContext.getConfigCTR().verAtualAplic(pcoContext.versaoWS, this, getLocalClassName());
+                    pcoContext.getConfigCTR().verAtualAplic(BuildConfig.VERSION_NAME, this, getLocalClassName());
                 }
                 else{
                     LogProcessoDAO.getInstance().insertLogProcesso("else{\n" +
@@ -149,20 +150,18 @@ public class TelaInicialActivity extends ActivityGeneric {
         LogProcessoDAO.getInstance().insertLogProcesso("clearBD();", getLocalClassName());
         clearBD();
 
-        if(EnvioDadosServ.getInstance().verifDadosEnvio()){
+        if(EnvioDadosServ.getInstance().verifDadosEnvio()) {
             LogProcessoDAO.getInstance().insertLogProcesso("EnvioDadosServ.getInstance().verifDadosEnvio()", getLocalClassName());
             if(connectNetwork){
                 LogProcessoDAO.getInstance().insertLogProcesso("if(connectNetwork){\n" +
                         "EnvioDadosServ.getInstance().envioDados()", getLocalClassName());
                 EnvioDadosServ.getInstance().envioDados(getLocalClassName());
-            }
-            else{
+            } else {
                 LogProcessoDAO.getInstance().insertLogProcesso("else{\n" +
                         "                EnvioDadosServ.status = 1;", getLocalClassName());
                 EnvioDadosServ.status = 1;
             }
-        }
-        else{
+        } else {
             LogProcessoDAO.getInstance().insertLogProcesso("else{\n" +
                     "            EnvioDadosServ.status = 3;", getLocalClassName());
             EnvioDadosServ.status = 3;

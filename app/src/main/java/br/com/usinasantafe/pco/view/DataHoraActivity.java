@@ -96,9 +96,9 @@ public class DataHoraActivity extends ActivityGeneric {
                         "                    switch (" + pcoContext.getConfigCTR().getContDataHora() + ") {", getLocalClassName());
                 Intent it;
                 switch (pcoContext.getConfigCTR().getContDataHora()) {
-                    case 1:
+                    case 1: {
                         LogProcessoDAO.getInstance().insertLogProcesso("case 1:", getLocalClassName());
-                        if((valor <= 31)){
+                        if ((valor <= 31)) {
                             LogProcessoDAO.getInstance().insertLogProcesso("if((valor <= 31)){\n" +
                                     "                                pcoContext.getConfigCTR().setDia(" + valor + ");\n" +
                                     "                                pcoContext.getConfigCTR().setContDataHora(pcoContext.getConfigCTR().getContDataHora() + 1);\n" +
@@ -108,8 +108,7 @@ public class DataHoraActivity extends ActivityGeneric {
                             it = new Intent(DataHoraActivity.this, DataHoraActivity.class);
                             startActivity(it);
                             finish();
-                        }
-                        else{
+                        } else {
                             LogProcessoDAO.getInstance().insertLogProcesso("AlertDialog.Builder alerta = new AlertDialog.Builder( DataHoraActivity.this);\n" +
                                     "                                alerta.setTitle(\"ATENÇÃO\");\n" +
                                     "                                alerta.setMessage(\"DIA INCORRETO! FAVOR VERIFICAR.\");\n" +
@@ -119,20 +118,18 @@ public class DataHoraActivity extends ActivityGeneric {
                                     "                                    }\n" +
                                     "                                });\n" +
                                     "                                alerta.show();", getLocalClassName());
-                            AlertDialog.Builder alerta = new AlertDialog.Builder( DataHoraActivity.this);
+                            AlertDialog.Builder alerta = new AlertDialog.Builder(DataHoraActivity.this);
                             alerta.setTitle("ATENÇÃO");
                             alerta.setMessage("DIA INCORRETO! FAVOR VERIFICAR.");
-                            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                }
+                            alerta.setPositiveButton("OK", (dialog, which) -> {
                             });
                             alerta.show();
                         }
                         break;
-                    case 2:
+                    }
+                    case 2: {
                         LogProcessoDAO.getInstance().insertLogProcesso("case 2:", getLocalClassName());
-                        if((valor <= 12)){
+                        if ((valor <= 12)) {
                             LogProcessoDAO.getInstance().insertLogProcesso("if((valor <= 12)){\n" +
                                     "                                pcoContext.getConfigCTR().setMes(" + valor + ");\n" +
                                     "                                pcoContext.getConfigCTR().setContDataHora(pcoContext.getConfigCTR().getContDataHora() + 1);\n" +
@@ -142,8 +139,7 @@ public class DataHoraActivity extends ActivityGeneric {
                             it = new Intent(DataHoraActivity.this, DataHoraActivity.class);
                             startActivity(it);
                             finish();
-                        }
-                        else{
+                        } else {
                             LogProcessoDAO.getInstance().insertLogProcesso("AlertDialog.Builder alerta = new AlertDialog.Builder( DataHoraActivity.this);\n" +
                                     "                                alerta.setTitle(\"ATENÇÃO\");\n" +
                                     "                                alerta.setMessage(\"MÊS INCORRETO! FAVOR VERIFICAR.\");\n" +
@@ -153,20 +149,18 @@ public class DataHoraActivity extends ActivityGeneric {
                                     "                                    }\n" +
                                     "                                });\n" +
                                     "                                alerta.show();", getLocalClassName());
-                            AlertDialog.Builder alerta = new AlertDialog.Builder( DataHoraActivity.this);
+                            AlertDialog.Builder alerta = new AlertDialog.Builder(DataHoraActivity.this);
                             alerta.setTitle("ATENÇÃO");
                             alerta.setMessage("MÊS INCORRETO! FAVOR VERIFICAR.");
-                            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                }
+                            alerta.setPositiveButton("OK", (dialog, which) -> {
                             });
                             alerta.show();
                         }
                         break;
-                    case 3:
+                    }
+                    case 3: {
                         LogProcessoDAO.getInstance().insertLogProcesso("case 3:", getLocalClassName());
-                        if((valor >= 2020) && (valor <= 3000)){
+                        if ((valor >= 2020) && (valor <= 3000)) {
                             LogProcessoDAO.getInstance().insertLogProcesso("if((valor >= 2020) && (valor <= 3000)){\n" +
                                     "                                pcoContext.getConfigCTR().setAno(" + valor + ");\n" +
                                     "                                pcoContext.getConfigCTR().setContDataHora(pcoContext.getConfigCTR().getContDataHora() + 1);\n" +
@@ -176,8 +170,7 @@ public class DataHoraActivity extends ActivityGeneric {
                             it = new Intent(DataHoraActivity.this, DataHoraActivity.class);
                             startActivity(it);
                             finish();
-                        }
-                        else{
+                        } else {
                             LogProcessoDAO.getInstance().insertLogProcesso("AlertDialog.Builder alerta = new AlertDialog.Builder( DataHoraActivity.this);\n" +
                                     "                                alerta.setTitle(\"ATENÇÃO\");\n" +
                                     "                                alerta.setMessage(\"ANO INCORRETO! FAVOR VERIFICAR.\");\n" +
@@ -187,20 +180,18 @@ public class DataHoraActivity extends ActivityGeneric {
                                     "                                    }\n" +
                                     "                                });\n" +
                                     "                                alerta.show();", getLocalClassName());
-                            AlertDialog.Builder alerta = new AlertDialog.Builder( DataHoraActivity.this);
+                            AlertDialog.Builder alerta = new AlertDialog.Builder(DataHoraActivity.this);
                             alerta.setTitle("ATENÇÃO");
                             alerta.setMessage("ANO INCORRETO! FAVOR VERIFICAR.");
-                            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                }
+                            alerta.setPositiveButton("OK", (dialog, which) -> {
                             });
                             alerta.show();
                         }
                         break;
-                    case 4:
+                    }
+                    case 4: {
                         LogProcessoDAO.getInstance().insertLogProcesso("case 4:", getLocalClassName());
-                        if(valor <= 23){
+                        if (valor <= 23) {
                             LogProcessoDAO.getInstance().insertLogProcesso("if(valor <= 23){\n" +
                                     "                                pcoContext.getConfigCTR().setHora(" + valor + ");\n" +
                                     "                                pcoContext.getConfigCTR().setContDataHora(pcoContext.getConfigCTR().getContDataHora() + 1);\n" +
@@ -210,8 +201,7 @@ public class DataHoraActivity extends ActivityGeneric {
                             it = new Intent(DataHoraActivity.this, DataHoraActivity.class);
                             startActivity(it);
                             finish();
-                        }
-                        else{
+                        } else {
                             LogProcessoDAO.getInstance().insertLogProcesso("AlertDialog.Builder alerta = new AlertDialog.Builder( DataHoraActivity.this);\n" +
                                     "                                alerta.setTitle(\"ATENÇÃO\");\n" +
                                     "                                alerta.setMessage(\"HORA INCORRETA! FAVOR VERIFICAR.\");\n" +
@@ -221,21 +211,18 @@ public class DataHoraActivity extends ActivityGeneric {
                                     "                                    }\n" +
                                     "                                });\n" +
                                     "                                alerta.show();", getLocalClassName());
-                            AlertDialog.Builder alerta = new AlertDialog.Builder( DataHoraActivity.this);
+                            AlertDialog.Builder alerta = new AlertDialog.Builder(DataHoraActivity.this);
                             alerta.setTitle("ATENÇÃO");
                             alerta.setMessage("HORA INCORRETA! FAVOR VERIFICAR.");
-                            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                }
+                            alerta.setPositiveButton("OK", (dialog, which) -> {
                             });
                             alerta.show();
                         }
-
                         break;
-                    case 5:
+                    }
+                    case 5: {
                         LogProcessoDAO.getInstance().insertLogProcesso("case 5:", getLocalClassName());
-                        if(valor <= 59){
+                        if (valor <= 59) {
                             LogProcessoDAO.getInstance().insertLogProcesso("if(valor <= 59){\n" +
                                     " pcoContext.getConfigCTR().setMinuto(valor);\n" +
                                     " pcoContext.getConfigCTR().setDifDthrConfig(Tempo.getInstance().difDthr(" + pcoContext.getConfigCTR().getDia() + ", " + pcoContext.getConfigCTR().getMes() + ", " + pcoContext.getConfigCTR().getAno() + "\n" +
@@ -243,7 +230,7 @@ public class DataHoraActivity extends ActivityGeneric {
                             pcoContext.getConfigCTR().setMinuto(valor);
                             pcoContext.getConfigCTR().setDifDthrConfig(Tempo.getInstance().difDthr(pcoContext.getConfigCTR().getDia(), pcoContext.getConfigCTR().getMes(), pcoContext.getConfigCTR().getAno()
                                     , pcoContext.getConfigCTR().getHora(), pcoContext.getConfigCTR().getMinuto()));
-                            if(pcoContext.getViagemCTR().verCabecViagemAberto()){
+                            if (pcoContext.getViagemCTR().verCabecViagemAberto()) {
                                 LogProcessoDAO.getInstance().insertLogProcesso("if(pcbContext.getViagemCTR().verCabecViagemAberto()){" +
                                         "            Intent it = new Intent(DataHoraActivity.this, ListaPassageiroActivity.class);", getLocalClassName());
                                 it = new Intent(DataHoraActivity.this, ListaPassageiroActivity.class);
@@ -254,8 +241,7 @@ public class DataHoraActivity extends ActivityGeneric {
                             }
                             startActivity(it);
                             finish();
-                        }
-                        else{
+                        } else {
                             LogProcessoDAO.getInstance().insertLogProcesso("AlertDialog.Builder alerta = new AlertDialog.Builder( DataHoraActivity.this);\n" +
                                     "                                alerta.setTitle(\"ATENÇÃO\");\n" +
                                     "                                alerta.setMessage(\"MINUTO INCORRETO! FAVOR VERIFICAR.\");\n" +
@@ -265,21 +251,17 @@ public class DataHoraActivity extends ActivityGeneric {
                                     "                                    }\n" +
                                     "                                });\n" +
                                     "                                alerta.show();", getLocalClassName());
-                            AlertDialog.Builder alerta = new AlertDialog.Builder( DataHoraActivity.this);
+                            AlertDialog.Builder alerta = new AlertDialog.Builder(DataHoraActivity.this);
                             alerta.setTitle("ATENÇÃO");
                             alerta.setMessage("MINUTO INCORRETO! FAVOR VERIFICAR.");
-                            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                }
+                            alerta.setPositiveButton("OK", (dialog, which) -> {
                             });
                             alerta.show();
                         }
                         break;
+                    }
                 }
-
             }
-
         });
 
         buttonCancDataHora.setOnClickListener(v -> {

@@ -44,6 +44,14 @@ public class ConfigDAO {
         return ret;
     }
 
+    public boolean verNroAparelho(Long nroAparelho){
+        ConfigBean configBean = new ConfigBean();
+        List<ConfigBean> configList = configBean.get("nroAparelhoConfig", nroAparelho);
+        boolean ret = configList.size() > 0;
+        configList.clear();
+        return ret;
+    }
+
     private List<ConfigBean> configList(){
         ConfigBean configBean = new ConfigBean();
         return configBean.all();
@@ -54,10 +62,24 @@ public class ConfigDAO {
         return configBean.get("senhaConfig", senha);
     }
 
-    public void salvarConfig(String senha, Long nroAparelho, Long nroEquip, Long tipoEquip){
+    public void salvarConfig(Long nroAparelho){
         ConfigBean configBean = new ConfigBean();
         configBean.deleteAll();
-        configBean.setTipoEquipConfig(tipoEquip);
+        configBean.setTipoEquipConfig(0L);
+        configBean.setNroEquipConfig(0L);
+        configBean.setSenhaConfig("");
+        configBean.setNroAparelhoConfig(nroAparelho);
+        configBean.setDthrServConfig("");
+        configBean.setDifDthrConfig(0L);
+        configBean.setLotacaoMaxConfig(0L);
+        configBean.insert();
+        configBean.commit();
+    }
+
+    public void salvarConfig(String senha, Long nroAparelho, Long nroEquip, Long tipo){
+        ConfigBean configBean = new ConfigBean();
+        configBean.deleteAll();
+        configBean.setTipoEquipConfig(tipo);
         configBean.setNroEquipConfig(nroEquip);
         configBean.setSenhaConfig(senha);
         configBean.setNroAparelhoConfig(nroAparelho);
@@ -121,6 +143,17 @@ public class ConfigDAO {
     private String dadosConfig(ConfigBean configBean){
         Gson gsonCabec = new Gson();
         return gsonCabec.toJsonTree(configBean, configBean.getClass()).toString();
+    }
+
+
+    public AtualAplicBean recAparelho(JSONArray jsonArray) throws JSONException {
+
+        JSONObject objeto = jsonArray.getJSONObject(0);
+        Gson gson = new Gson();
+        AtualAplicBean atualAplicBean = gson.fromJson(objeto.toString(), AtualAplicBean.class);
+
+        return atualAplicBean;
+
     }
 
 }

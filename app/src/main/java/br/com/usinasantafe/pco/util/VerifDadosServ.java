@@ -3,25 +3,16 @@ package br.com.usinasantafe.pco.util;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
 import java.util.HashMap;
 import java.util.Map;
 
+import br.com.usinasantafe.pco.control.ViagemCTR;
 import br.com.usinasantafe.pco.model.dao.LogProcessoDAO;
-import br.com.usinasantafe.pco.view.MenuInicialActivity;
 import br.com.usinasantafe.pco.control.ConfigCTR;
-import br.com.usinasantafe.pco.model.bean.AtualAplicBean;
-import br.com.usinasantafe.pco.model.dao.ColabDAO;
-import br.com.usinasantafe.pco.model.dao.MotoristaDAO;
-import br.com.usinasantafe.pco.model.pst.GenericRecordable;
 import br.com.usinasantafe.pco.util.connHttp.PostVerGenerico;
 import br.com.usinasantafe.pco.util.connHttp.UrlsConexaoHttp;
 import br.com.usinasantafe.pco.view.TelaInicialActivity;
@@ -35,13 +26,12 @@ public class VerifDadosServ {
     private UrlsConexaoHttp urlsConexaoHttp;
     private Context telaAtual;
     private Class telaProx;
-    private String variavel;
     private ProgressDialog progressDialog;
     private String dados;
-    private String tipo;
+    private String classe;
     private PostVerGenerico postVerGenerico;
     private String msgVerifColab;
-    private String matricula;
+    private String nroMatricula;
     public static int status; //1 - Existe Dados para Enviar; 2 - Enviando; 3 - Todos os Dados Foram Enviados;
     private TelaInicialActivity telaInicialActivity;
 
@@ -54,8 +44,9 @@ public class VerifDadosServ {
     public void manipularDadosHttp(String result, String activity) {
 
         ConfigCTR configCTR = new ConfigCTR();
+        ViagemCTR viagemCTR = new ViagemCTR();
         LogProcessoDAO.getInstance().insertLogProcesso("public void manipularDadosHttp(String result) {", activity);
-        if (this.tipo.equals("Atualiza")) {
+        if (this.classe.equals("Atualiza")) {
             LogProcessoDAO.getInstance().insertLogProcesso("} else if (this.tipo.equals(\"Atualiza\")) {\n" +
                     "            configCTR.recAtual(result.trim());\n" +
                     "            status = 3;", activity);
@@ -63,14 +54,12 @@ public class VerifDadosServ {
             status = 3;
             LogProcessoDAO.getInstance().insertLogProcesso("this.menuInicialActivity.encerrarBarra();", activity);
             this.telaInicialActivity.goMenuInicial();
-        }
-        else if (this.tipo.equals("Moto")) {
-            MotoristaDAO motoristaDAO = new MotoristaDAO();
-            motoristaDAO.recDadosMotorista(result);
-        }
-        else if (this.tipo.equals("Colab")) {
-            ColabDAO colabDAO = new ColabDAO();
-            colabDAO.recDadosColab(result, activity);
+        } else if (this.classe.equals("Moto")) {
+            viagemCTR.recDadosMotorista(result);
+        } else if (this.classe.equals("Colab")) {
+            viagemCTR.recDadosColab(result, activity);
+        } else if(this.classe.equals("Token")) {
+            configCTR.recToken(result.trim(), this.telaAtual, this.progressDialog, activity);
         } else {
             LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                     "            status = 1;", activity);
@@ -85,7 +74,7 @@ public class VerifDadosServ {
         this.telaProx = telaProx;
         this.progressDialog = progressDialog;
         this.dados = dado;
-        this.tipo = tipo;
+        this.classe = tipo;
 
         envioVerif(telaAtual.getPackageName());
 
@@ -94,7 +83,7 @@ public class VerifDadosServ {
     public void verifAtualAplic(String dados, TelaInicialActivity telaInicialActivity, String activity) {
 
         urlsConexaoHttp = new UrlsConexaoHttp();
-        this.tipo = "Atualiza";
+        this.classe = "Atualiza";
         this.dados = dados;
         this.telaInicialActivity = telaInicialActivity;
 
@@ -102,16 +91,30 @@ public class VerifDadosServ {
 
     }
 
+
+    public void salvarToken(String dados, Context telaAtual, ProgressDialog progressDialog, String activity) {
+
+        urlsConexaoHttp = new UrlsConexaoHttp();
+        this.classe = "Token";
+        this.telaAtual = telaAtual;
+        this.progressDialog = progressDialog;
+        this.dados = dados;
+
+        envioVerif(activity);
+
+    }
+
+
     public void envioVerif(String activity) {
 
         status = 2;
         this.urlsConexaoHttp = new UrlsConexaoHttp();
-        String[] url = {urlsConexaoHttp.urlVerifica(tipo), activity};
+        String[] url = {urlsConexaoHttp.urlVerifica(classe), activity};
         Map<String, Object> parametrosPost = new HashMap<String, Object>();
         parametrosPost.put("dado", this.dados);
 
-        Log.i("PCO", "postVerGenerico.execute('" + urlsConexaoHttp.urlVerifica(tipo) + "'); - Dados de Envio = " + this.dados);
-        LogProcessoDAO.getInstance().insertLogProcesso("postVerGenerico.execute('" + urlsConexaoHttp.urlVerifica(tipo) + "'); - Dados de Envio = " + this.dados, activity);
+        Log.i("PCO", "postVerGenerico.execute('" + urlsConexaoHttp.urlVerifica(classe) + "'); - Dados de Envio = " + this.dados);
+        LogProcessoDAO.getInstance().insertLogProcesso("postVerGenerico.execute('" + urlsConexaoHttp.urlVerifica(classe) + "'); - Dados de Envio = " + this.dados, activity);
         postVerGenerico = new PostVerGenerico();
         postVerGenerico.setParametrosPost(parametrosPost);
         postVerGenerico.execute(url);
@@ -139,10 +142,7 @@ public class VerifDadosServ {
         AlertDialog.Builder alerta = new AlertDialog.Builder(telaAtual);
         alerta.setTitle("ATENÇÃO");
         alerta.setMessage(texto);
-        alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
+        alerta.setPositiveButton("OK", (dialog, which) -> {
         });
         alerta.show();
     }
@@ -162,11 +162,11 @@ public class VerifDadosServ {
         this.msgVerifColab = msgVerifColab;
     }
 
-    public String getMatricula() {
-        return matricula;
+    public String getNroMatricula() {
+        return nroMatricula;
     }
 
-    public void setMatricula(String matricula) {
-        this.matricula = matricula;
+    public void setNroMatricula(String nroMatricula) {
+        this.nroMatricula = nroMatricula;
     }
 }

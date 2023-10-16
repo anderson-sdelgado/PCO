@@ -47,35 +47,4 @@ public class MotoristaDAO {
         VerifDadosServ.getInstance().verDados(dado, "Moto", telaAtual, telaProx, progressDialog);
     }
 
-    public void recDadosMotorista(String result){
-
-        try {
-
-            JSONObject jObj = new JSONObject(result);
-            JSONArray jsonArray = jObj.getJSONArray("dados");
-
-            if (jsonArray.length() > 0) {
-
-                JSONObject objeto = jsonArray.getJSONObject(0);
-                Gson gson = new Gson();
-                MotoristaBean motoristaBean = gson.fromJson(objeto.toString(), MotoristaBean.class);
-                motoristaBean.insert();
-
-                VerifDadosServ.getInstance().pulaTela();
-
-            } else {
-
-                VerifDadosServ.getInstance().setMatricula("");
-                VerifDadosServ.getInstance().msgSemTerm("MOTORISTA INEXISTENTE NA BASE DE DADOS! FAVOR VERIFICA A NUMERAÇÃO.");
-
-            }
-
-        } catch (Exception e) {
-
-            VerifDadosServ.getInstance().setMatricula("");
-            VerifDadosServ.getInstance().msgSemTerm("FALHA DE PESQUISA DE MOTORISTA! POR FAVOR, TENTAR NOVAMENTE COM UM SINAL MELHOR.");
-
-        }
-    }
-
 }

@@ -47,12 +47,12 @@ public class MenuInicialActivity extends ActivityGeneric {
 
         if (!checkPermission(Manifest.permission.CAMERA)) {
             String[] PERMISSIONS = {Manifest.permission.CAMERA};
-            ActivityCompat.requestPermissions((Activity) this, PERMISSIONS, 112);
+            ActivityCompat.requestPermissions(this, PERMISSIONS, 112);
         }
 
         if (!checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             String[] PERMISSIONS = {android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
-            ActivityCompat.requestPermissions((Activity) this, PERMISSIONS, 112);
+            ActivityCompat.requestPermissions(this, PERMISSIONS, 112);
         }
 
         LogProcessoDAO.getInstance().insertLogProcesso("        if (!checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {\n" +
@@ -86,74 +86,68 @@ public class MenuInicialActivity extends ActivityGeneric {
                 "        menuInicialListView = (ListView) findViewById(R.id.listaMenuInicial);\n" +
                 "        menuInicialListView.setAdapter(adapterList);", getLocalClassName());
         AdapterList adapterList = new AdapterList(this, itens);
-        menuInicialListView = (ListView) findViewById(R.id.listaMenuInicial);
+        menuInicialListView = findViewById(R.id.listaMenuInicial);
         menuInicialListView.setAdapter(adapterList);
 
-        menuInicialListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        menuInicialListView.setOnItemClickListener((l, v, position, id) -> {
 
-            @Override
-            public void onItemClick(AdapterView<?> l, View v, int position,
-                                    long id) {
+            LogProcessoDAO.getInstance().insertLogProcesso("menuInicialListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
+                    "                                    long id) {\n" +
+                    "                TextView textView = v.findViewById(R.id.textViewItemList);\n" +
+                    "                String text = textView.getText().toString();", getLocalClassName());
 
-                LogProcessoDAO.getInstance().insertLogProcesso("menuInicialListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
-                        "                                    long id) {\n" +
-                        "                TextView textView = v.findViewById(R.id.textViewItemList);\n" +
-                        "                String text = textView.getText().toString();", getLocalClassName());
+            TextView textView = v.findViewById(R.id.textViewItemList);
+            String text = textView.getText().toString();
 
-                TextView textView = v.findViewById(R.id.textViewItemList);
-                String text = textView.getText().toString();
+            if (text.equals("INICIAR VIAGEM")) {
+                LogProcessoDAO.getInstance().insertLogProcesso("if (text.equals(\"INICIAR VIAGEM\")) {", getLocalClassName());
+                if (pcoContext.getViagemCTR().hasElementsMotorista()
+                        && pcoContext.getConfigCTR().hasElemConfig()) {
 
-                if (text.equals("INICIAR VIAGEM")) {
-                    LogProcessoDAO.getInstance().insertLogProcesso("if (text.equals(\"INICIAR VIAGEM\")) {", getLocalClassName());
-                    if (pcoContext.getViagemCTR().hasElementsMotorista()
-                            && pcoContext.getConfigCTR().hasElemConfig()) {
+                    LogProcessoDAO.getInstance().insertLogProcesso("if (pcoContext.getPassageiroCTR().hasElementsMotorista()\n" +
+                            "                            && pcoContext.getConfigCTR().hasElemConfig()) {\n" +
+                            "                        pcoContext.setVerTela(1);\n" +
+                            "                        Intent it = new Intent(MenuInicialActivity.this, MotoristaActivity.class);", getLocalClassName());
+                    pcoContext.getConfigCTR().setPosicaoTela(1L);
+                    Intent it = new Intent(MenuInicialActivity.this, MotoristaActivity.class);
+                    startActivity(it);
+                    finish();
 
-                        LogProcessoDAO.getInstance().insertLogProcesso("if (pcoContext.getPassageiroCTR().hasElementsMotorista()\n" +
-                                "                            && pcoContext.getConfigCTR().hasElemConfig()) {\n" +
-                                "                        pcoContext.setVerTela(1);\n" +
-                                "                        Intent it = new Intent(MenuInicialActivity.this, MotoristaActivity.class);", getLocalClassName());
-                        pcoContext.getConfigCTR().setPosicaoTela(1L);
-                        Intent it = new Intent(MenuInicialActivity.this, MotoristaActivity.class);
-                        startActivity(it);
-                        finish();
+                }
 
-                    }
-
-                } else if (text.equals("CONFIGURAÇÃO")) {
-                    LogProcessoDAO.getInstance().insertLogProcesso("} else if (text.equals(\"CONFIGURAÇÃO\")) {\n" +
-                            "                    pcoContext.setVerTela(7);\n" +
-                            "                    Intent it = new Intent(MenuInicialActivity.this, SenhaActivity.class);", getLocalClassName());
-                    if(pcoContext.getConfigCTR().hasElemConfig()){
-                        pcoContext.getConfigCTR().setPosicaoTela(7L);
-                    }
+            } else if (text.equals("CONFIGURAÇÃO")) {
+                LogProcessoDAO.getInstance().insertLogProcesso("} else if (text.equals(\"CONFIGURAÇÃO\")) {\n" +
+                        "                    pcoContext.setVerTela(7);\n" +
+                        "                    Intent it = new Intent(MenuInicialActivity.this, SenhaActivity.class);", getLocalClassName());
+                if(pcoContext.getConfigCTR().hasElemConfig()){
+                    pcoContext.getConfigCTR().setPosicaoTela(7L);
+                }
+                Intent it = new Intent(MenuInicialActivity.this, SenhaActivity.class);
+                startActivity(it);
+                finish();
+            } else if (text.equals("SAIR")) {
+                LogProcessoDAO.getInstance().insertLogProcesso("} else if (text.equals(\"SAIR\")) {\n" +
+                        "                    Intent intent = new Intent(Intent.ACTION_MAIN);\n" +
+                        "                    intent.addCategory(Intent.CATEGORY_HOME);\n" +
+                        "                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);\n" +
+                        "                    startActivity(intent);", getLocalClassName());
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            } else if (text.equals("LOG")) {
+                LogProcessoDAO.getInstance().insertLogProcesso("else if (text.equals(\"LOG\")) {", getLocalClassName());
+                if(pcoContext.getConfigCTR().hasElemConfig()) {
+                    LogProcessoDAO.getInstance().insertLogProcesso("if(pmmContext.getConfigCTR().hasElemConfig()) {\n" +
+                            "                        pmmContext.getConfigCTR().setPosicaoTela(12L);\n" +
+                            "                        Intent it = new Intent(MenuInicialActivity.this, SenhaActivity.class);", getLocalClassName());
+                    pcoContext.getConfigCTR().setPosicaoTela(8L);
                     Intent it = new Intent(MenuInicialActivity.this, SenhaActivity.class);
                     startActivity(it);
                     finish();
-                } else if (text.equals("SAIR")) {
-                    LogProcessoDAO.getInstance().insertLogProcesso("} else if (text.equals(\"SAIR\")) {\n" +
-                            "                    Intent intent = new Intent(Intent.ACTION_MAIN);\n" +
-                            "                    intent.addCategory(Intent.CATEGORY_HOME);\n" +
-                            "                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);\n" +
-                            "                    startActivity(intent);", getLocalClassName());
-                    Intent intent = new Intent(Intent.ACTION_MAIN);
-                    intent.addCategory(Intent.CATEGORY_HOME);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                } else if (text.equals("LOG")) {
-                    LogProcessoDAO.getInstance().insertLogProcesso("else if (text.equals(\"LOG\")) {", getLocalClassName());
-                    if(pcoContext.getConfigCTR().hasElemConfig()) {
-                        LogProcessoDAO.getInstance().insertLogProcesso("if(pmmContext.getConfigCTR().hasElemConfig()) {\n" +
-                                "                        pmmContext.getConfigCTR().setPosicaoTela(12L);\n" +
-                                "                        Intent it = new Intent(MenuInicialActivity.this, SenhaActivity.class);", getLocalClassName());
-                        pcoContext.getConfigCTR().setPosicaoTela(8L);
-                        Intent it = new Intent(MenuInicialActivity.this, SenhaActivity.class);
-                        startActivity(it);
-                        finish();
-                    }
                 }
-
             }
 
         });

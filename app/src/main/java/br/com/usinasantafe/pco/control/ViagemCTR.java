@@ -3,6 +3,11 @@ package br.com.usinasantafe.pco.control;
 import android.app.ProgressDialog;
 import android.content.Context;
 
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +16,7 @@ import br.com.usinasantafe.pco.model.bean.estaticas.MotoristaBean;
 import br.com.usinasantafe.pco.model.bean.estaticas.TrajetoBean;
 import br.com.usinasantafe.pco.model.bean.variaveis.CabecViagemBean;
 import br.com.usinasantafe.pco.model.bean.variaveis.PassageiroViagemBean;
+import br.com.usinasantafe.pco.model.dao.AtualAplicDAO;
 import br.com.usinasantafe.pco.model.dao.CabecViagemDAO;
 import br.com.usinasantafe.pco.model.dao.ColabDAO;
 import br.com.usinasantafe.pco.model.dao.LogErroDAO;
@@ -19,6 +25,8 @@ import br.com.usinasantafe.pco.model.dao.PassageiroViagemDAO;
 import br.com.usinasantafe.pco.model.dao.TrajetoDAO;
 import br.com.usinasantafe.pco.util.AtualDadosServ;
 import br.com.usinasantafe.pco.util.EnvioDadosServ;
+import br.com.usinasantafe.pco.util.Tempo;
+import br.com.usinasantafe.pco.util.VerifDadosServ;
 
 public class ViagemCTR {
 
@@ -221,14 +229,16 @@ public class ViagemCTR {
         AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, classeArrayList);
     }
 
-    public void verMotorista(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog){
+    public void verMotorista(Long nroMatricula, Context telaAtual, Class telaProx, ProgressDialog progressDialog){
         MotoristaDAO motoristaDAO = new MotoristaDAO();
-        motoristaDAO.verMotorista(dado, telaAtual, telaProx, progressDialog);
+        AtualAplicDAO atualAplicDAO = new AtualAplicDAO();
+        motoristaDAO.verMotorista(atualAplicDAO.getPesqNroMatricula(nroMatricula), telaAtual, telaProx, progressDialog);
     }
 
-    public void verColab(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog){
+    public void verColab(Long nroMatricula, Context telaAtual, Class telaProx, ProgressDialog progressDialog){
         ColabDAO colabDAO = new ColabDAO();
-        colabDAO.verColab(dado, telaAtual, telaProx, progressDialog);
+        AtualAplicDAO atualAplicDAO = new AtualAplicDAO();
+        colabDAO.verColab(atualAplicDAO.getPesqNroMatricula(nroMatricula), telaAtual, telaProx, progressDialog);
     }
 
     public List<TrajetoBean> trajetoList(){
@@ -243,4 +253,63 @@ public class ViagemCTR {
         return ret;
     }
 
+    public void recDadosMotorista(String result){
+
+        try {
+
+            JSONObject jObj = new JSONObject(result);
+            JSONArray jsonArray = jObj.getJSONArray("dados");
+
+            if (jsonArray.length() > 0) {
+
+                JSONObject objeto = jsonArray.getJSONObject(0);
+                Gson gson = new Gson();
+                MotoristaBean motoristaBean = gson.fromJson(objeto.toString(), MotoristaBean.class);
+                motoristaBean.insert();
+
+                VerifDadosServ.getInstance().pulaTela();
+
+            } else {
+
+                VerifDadosServ.getInstance().setNroMatricula("");
+                VerifDadosServ.getInstance().msgSemTerm("MOTORISTA INEXISTENTE NA BASE DE DADOS! FAVOR VERIFICA A NUMERAÇÃO.");
+
+            }
+
+        } catch (Exception e) {
+
+            VerifDadosServ.getInstance().setNroMatricula("");
+            VerifDadosServ.getInstance().msgSemTerm("FALHA DE PESQUISA DE MOTORISTA! POR FAVOR, TENTAR NOVAMENTE COM UM SINAL MELHOR.");
+
+        }
+    }
+
+
+    public void recDadosColab(String result, String activity){
+
+        try {
+
+            JSONObject jObj = new JSONObject(result);
+            JSONArray jsonArray = jObj.getJSONArray("dados");
+
+            if (jsonArray.length() > 0) {
+
+                ColabDAO colabDAO = new ColabDAO();
+                ColabBean colabBean = colabDAO.recColab(jsonArray);
+
+                salvarPassageiro(colabBean.getMatricColab(), 1L, activity);
+
+                VerifDadosServ.getInstance().setMsgVerifColab(Tempo.getInstance().dthrAtualLong() + "\n" +
+                        + colabBean.getMatricColab() + " - " + colabBean.getNomeColab());
+
+            } else {
+                VerifDadosServ.getInstance().setMsgVerifColab("COLABORADOR INEXISTENTE NA BASE DE DADOS! FAVOR VERIFICA A NUMERAÇÃO.");
+            }
+            VerifDadosServ.getInstance().pulaTela();
+
+        } catch (Exception e) {
+            VerifDadosServ.getInstance().setMsgVerifColab("FALHA DE PESQUISA DE COLABORADOR! POR FAVOR, TENTAR NOVAMENTE COM UM SINAL MELHOR.");
+            VerifDadosServ.getInstance().pulaTela();
+        }
+    }
 }
