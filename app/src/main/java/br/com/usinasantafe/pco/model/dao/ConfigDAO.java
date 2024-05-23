@@ -145,15 +145,4 @@ public class ConfigDAO {
         return gsonCabec.toJsonTree(configBean, configBean.getClass()).toString();
     }
 
-
-    public AtualAplicBean recAparelho(JSONArray jsonArray) throws JSONException {
-
-        JSONObject objeto = jsonArray.getJSONObject(0);
-        Gson gson = new Gson();
-        AtualAplicBean atualAplicBean = gson.fromJson(objeto.toString(), AtualAplicBean.class);
-
-        return atualAplicBean;
-
-    }
-
 }

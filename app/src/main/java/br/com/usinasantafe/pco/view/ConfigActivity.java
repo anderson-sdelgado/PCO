@@ -199,7 +199,7 @@ public class ConfigActivity extends ActivityGeneric {
 
                         progressBar = new ProgressDialog(v.getContext());
                         progressBar.setCancelable(true);
-                        progressBar.setMessage("Pequisando o Equipamento...");
+                        progressBar.setMessage("Salvando Configurações Inicial...");
                         progressBar.show();
                         pcoContext.getConfigCTR().salvarToken(BuildConfig.VERSION_NAME, Long.valueOf(editTextNroAparelhoConfig.getText().toString()), ConfigActivity.this, progressBar, getLocalClassName());
 

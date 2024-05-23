@@ -6,9 +6,9 @@ public class UrlsConexaoHttp {
 
     public static String versao = "versao_" + PCOContext.versaoWS.replace(".", "_");
 
-    public static String url = "https://www.usinasantafe.com.br/pcodev/view/";
+//    public static String url = "https://www.usinasantafe.com.br/pcodev/view/";
 //    public static String url = "https://www.usinasantafe.com.br/pcoqa/view/";
-//    public static String url = "https://www.usinasantafe.com.br/pcoprod/" + versao + "/view/";
+    public static String url = "https://www.usinasantafe.com.br/pcoprod/" + versao + "/view/";
 
     public static String localPSTEstatica = "br.com.usinasantafe.pco.model.bean.estaticas.";
     public static String localUrl = "br.com.usinasantafe.pco.util.connHttp.UrlsConexaoHttp";

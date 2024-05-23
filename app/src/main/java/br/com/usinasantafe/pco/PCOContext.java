@@ -7,7 +7,7 @@ import br.com.usinasantafe.pco.control.ViagemCTR;
 
 public class PCOContext extends Application {
 
-    public static String versaoWS = "2.01";
+    public static String versaoWS = "2.02";
     private ViagemCTR viagemCTR;
     private ConfigCTR configCTR;
 

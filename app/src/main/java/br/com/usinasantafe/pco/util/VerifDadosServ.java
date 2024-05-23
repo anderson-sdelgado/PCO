@@ -66,6 +66,7 @@ public class VerifDadosServ {
             status = 1;
         }
     }
+
     public void verDados(String dado, String tipo, Context telaAtual, Class telaProx, ProgressDialog progressDialog) {
 
         status = 2;
@@ -91,7 +92,6 @@ public class VerifDadosServ {
 
     }
 
-
     public void salvarToken(String dados, Context telaAtual, ProgressDialog progressDialog, String activity) {
 
         urlsConexaoHttp = new UrlsConexaoHttp();
@@ -103,7 +103,6 @@ public class VerifDadosServ {
         envioVerif(activity);
 
     }
-
 
     public void envioVerif(String activity) {
 
